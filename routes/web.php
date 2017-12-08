@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/customerList', 'CustomerController@customerList');
+Route::get('/getAddCustomer', 'CustomerController@getAddCustomer');
+Route::get('/addCustomer', 'CustomerController@getAddCustomer');
+Route::get('/editCustomer', 'CustomerController@editCustomer');
