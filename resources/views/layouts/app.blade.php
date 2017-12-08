@@ -9,8 +9,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>ERP</title>
+
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+
+
    @yield('css')
 </head>
 <body class="theme-red">
@@ -349,12 +353,14 @@
                         <a href="{{url('/getAccountHeads')}}">
                             <i class="material-icons">text_fields</i>
                             <span>Account Heads</span>
+
                         </a>
                     </li>
                     <li>
                         <a href="{{url('/customerList')}}">
                             <i class="material-icons">text_fields</i>
                             <span>Customers</span>
+
                         </a>
                     </li>
                 </ul>

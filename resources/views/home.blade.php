@@ -2,7 +2,7 @@
 
 @section('css')
      <!-- Styles -->
-    
+
 
     <!-- Bootstrap Core Css -->
     <link href="{{ asset('public/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
