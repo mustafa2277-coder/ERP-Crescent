@@ -47,10 +47,10 @@
                             <div class="header">
                            
                                 <h2>
-                                     Chart of Accounts
+                                     Journals
                                 </h2>
                          
-                           <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addAccountHead')}}"> 
+                           <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournal')}}"> 
                             <i class="material-icons">add</i>
                            </a>       
                         </div>
@@ -60,27 +60,22 @@
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>
-                                            <th>Code</th>
                                             <th>Name</th>
-                                            <th>Type</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Code</th>
                                             <th>Name</th>
-                                            <th>Type</th>
                                             <th>Action</th>
+                                           
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($accountHeads as $accountHead)
+                                        @foreach ($journals as $journal)
                                         <tr>
-                                            <td>{{$accountHead->code}} </td>
-                                            <td>{{$accountHead->name}} </td>
-                                            <td>{{$accountHead->type}} </td>
-                                            <td> <a href="{{url('/editAccountHead')}}/{{$accountHead->id}}">Edit</a></td>
+                                            <td>{{$journal->name}} </td>
+                                            <td> <a href="{{url('/editJournal')}}/{{$journal->id}}">Edit</a></td>
                                         </tr>
 
                                         @endforeach  

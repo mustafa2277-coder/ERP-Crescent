@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+/*----------------------------------Customer---------------------------------------*/
+
 Route::get('/customerList', 'CustomerController@customerList');
 Route::get('/getAddCustomer', 'CustomerController@getAddCustomer');
 Route::get('/addCustomer', 'CustomerController@getAddCustomer');
@@ -28,4 +30,19 @@ Route::get('/editCustomer', 'CustomerController@editCustomer');
 
 /*----------------------------------Account Heads---------------------------------------*/
 Route::get('/getAccountHeads','AccountHeadController@GetAccountHeads');
+Route::get('/addAccountHead' ,'AccountHeadController@GetAccountHeadForm');
+Route::get('/editAccountHead/{id}','AccountHeadController@GetAccountHeadById');
+Route::post('/insertAccountHead','AccountHeadController@InsertAccountHead');
+Route::post('/updateAccountHead','AccountHeadController@UpdateAccountHead');
+
+/*----------------------------------Journal---------------------------------------*/
+Route::get('/getJournals','JournalController@GetJournals');
+Route::get('/addJournal' ,'JournalController@GetJournalForm');
+Route::get('/editJournal/{id}','JournalController@GetJournalById');
+Route::post('/insertJournal','JournalController@InsertJournal');
+Route::post('/updateJournal','JournalController@UpdateJournal');
+
+/*----------------------------------Journal Entry---------------------------------------*/
+Route::get('/getJournalEntries','JournalController@GetJournalEntries');
+Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm');
 

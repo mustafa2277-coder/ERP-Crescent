@@ -4,17 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AccountHead extends Model
+class JournalEntries extends Model
 {
     protected $connection = 'mysql';
     protected $primaryKey = 'id';
-    protected $table = 'accounthead';
+    protected $table = 'journalentries';
     protected $fillable = array(
         'id',
-        'name',
-        'parentId',
-        'accHeadTypeId',
-        'code',
-        'isTransactional',
+        'journalId',
+        'projectId',
+        'description',
+        'date_post',
         );
 }

@@ -16,6 +16,8 @@
 
     <!-- Animation Css -->
     <link href="{{asset('public/plugins/animate-css/animate.css')}}" rel="stylesheet" />
+    <!-- Bootstrap Select Css -->
+    <link href="{{asset('public/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
 
     <!-- JQuery DataTable Css -->
     <link href="{{asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet" />
@@ -47,47 +49,64 @@
                             <div class="header">
                            
                                 <h2>
-                                     Chart of Accounts
+                                     Journal Entries
                                 </h2>
                          
-                           <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addAccountHead')}}"> 
-                            <i class="material-icons">add</i>
-                           </a>       
+                              
                         </div>
                         <div class="body">
+                            <form id="form_validation" name = "form" action = "{{ url('/updateAccountHead') }}" method="POST">
+                             <div class="row clearfix">
+                                <div class="col-sm-6">
+                                    <select  id="type_id" name="type_id" class="form-control show-tick" data-live-search="true" required>
+                                         <option value="" selected="" disabled="">Select Journal</option>
+                                        @foreach ($journals as $journal)    
+                                        <option value="{{$journal->id}}">{{$journal->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" class="datepicker form-control" placeholder="Please choose a date...">
+                                    </div>
+                            </div>
                             <div class="table-responsive">
 
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
-                                    <thead>
+                                <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                   <thead>
                                         <tr>
-                                            <th>Code</th>
                                             <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Action</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Code</th>
                                             <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Action</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($accountHeads as $accountHead)
                                         <tr>
-                                            <td>{{$accountHead->code}} </td>
-                                            <td>{{$accountHead->name}} </td>
-                                            <td>{{$accountHead->type}} </td>
-                                            <td> <a href="{{url('/editAccountHead')}}/{{$accountHead->id}}">Edit</a></td>
+                                            <td>Tiger Nixon</td>
+                                            <td>System Architect</td>
+                                            <td>Edinburgh</td>
+                                            <td>61</td>
+                                            <td>2011/04/25</td>
+                                            <td>$320,800</td>
                                         </tr>
-
-                                        @endforeach  
-                                        
+                                      
                                     </tbody>
                                 </table>
                             </div>
+                            <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -98,6 +117,7 @@
 @endsection
 
 @section('js')
+
     <!-- Jquery Core Js -->
     <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>
 
@@ -126,8 +146,52 @@
 
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
-    <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script>
+<!--     <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script> -->
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
+
+
+
+    <script>
+$(document).ready(function() {
+     editor = new $.fn.dataTable.Editor( {
+        //ajax: "../php/staff.php",
+        table: "#example",
+        fields: [ {
+                label: "Name:",
+                name: "name"
+            }, {
+                label: "Position name:",
+                name: "pos"
+            }, {
+                label: "Office:",
+                name: "offcie"
+            }, {
+                label: "Age:",
+                name: "age"
+            }, 
+             {
+                label: "Start date:",
+                name: "start_date",
+                type: "datetime"
+            }, {
+                label: "Salary:",
+                name: "salary"
+            }
+        ]
+    } );
+     $('#example').DataTable( {
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "searching": false,
+         buttons: [
+            { extend: "create", editor: editor },
+            { extend: "edit",   editor: editor },
+            { extend: "remove", editor: editor }
+        ]
+    } );
+} );
+</script>
 @endsection

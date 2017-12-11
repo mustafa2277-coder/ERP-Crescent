@@ -357,6 +357,29 @@
                         </a>
                     </li>
                     <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">view_list</i>
+                            <span>Accounting Entries</span>
+
+                        </a>
+
+                        <ul class="ml-menu">
+
+                            <li>
+                                <a href="{{url('/getJournals')}}">Journals</a>
+                            </li>
+                            <li>
+                                <a href="{{url('/getJournalItems')}}">Journal Iems</a>
+                            </li>
+                            <li>
+                                <a href="{{url('/getJournalEntries')}}">Journal Entries</a>
+                            </li>
+                            
+                        </ul>
+
+
+                    </li>
+                    <li>
                         <a href="{{url('/customerList')}}">
                             <i class="material-icons">text_fields</i>
                             <span>Customers</span>
