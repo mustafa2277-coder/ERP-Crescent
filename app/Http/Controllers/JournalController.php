@@ -83,7 +83,7 @@ class JournalController extends Controller
 
     // for getting all journal entries
 
-    public function GetJournalEntries(Request $request){
+    public function GetJournalEntries(){
         
             
         $journalentries = DB::select( DB::raw("SELECT distinct je.date_post entryDate,je.id id,jed.amount amount,pj.title project,j.name journal from journalentries je

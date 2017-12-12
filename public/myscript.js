@@ -73,7 +73,7 @@
             dataType: "json",
            
             success: function(data) {
-            console.log(data);
+             window.location = "http://localhost/ERP/erp1/getJournalEntries";
            
 
             }
