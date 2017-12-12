@@ -52,8 +52,8 @@
                      
                             
                                  <button type="button" class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float">
-                                        <i class="material-icons">extension</i>
-                                    </button>
+                                        <i class="material-icons">add</i>
+                                </button>
                                   
                         </div>
                         <div class="body">

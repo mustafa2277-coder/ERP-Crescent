@@ -10,4 +10,9 @@ class CustomerController extends Controller
     {
         return view('customer/customer_list');
     }
+    
+    public function getAddCustomer()
+    {
+        return view('customer/customerForm');
+    }
 }

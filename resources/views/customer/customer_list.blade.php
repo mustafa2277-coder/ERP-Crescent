@@ -11,7 +11,7 @@
     <link href="{{ asset('public/plugins/animate-css/animate.css') }}" rel="stylesheet" />
 
      <!--WaitMe Css-->
-    <link href="{{asset('public/plugins/waitme/waitMe.cs')}}s" rel="stylesheet" />
+    <link href="{{asset('public/plugins/waitme/waitMe.css')}}" rel="stylesheet" />
 
     <!-- Custom Css -->
     <link href="{{asset('public/css/style.css')}}" rel="stylesheet">
@@ -24,8 +24,11 @@
      <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>COLORED CARDS</h2>
+
+                <a href="{{ url('/getAddCustomer') }}" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float"><i class="material-icons">add</i></a>
+                     
             </div>
+            
             <!-- Basic Example -->
             <div class="row clearfix">
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
