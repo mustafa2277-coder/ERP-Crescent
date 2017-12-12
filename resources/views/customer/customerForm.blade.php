@@ -36,39 +36,65 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>BASIC VALIDATION</h2>
+                            <h2>Add Customers</h2>
                         </div>
                         <div class="body">
-                            <form id="form_validation" method="POST">
+                            {{--  Edit Form  --}}
+                            @if(isset($customer))
+                            <form id="form_validation" action = "{{ url('/editCustomer') }}" method = "POST">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="id" value="{{$customer[0]->custId}}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="name" required>
+                                        <input type="text" class="form-control" name="name" value="{{$customer[0]->name}}" required>
                                         <label class="form-label">Name</label>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="email" required>
+                                        <input type="text" class="form-control" name="address1" value="{{$customer[0]->address1}}" required >
                                         <label class="form-label">Address1</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="email" required>
+                                        <input type="text" class="form-control" name="address2" value="{{$customer[0]->address2}}">
                                         <label class="form-label">Address2</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="email" required>
+                                        <input type="text" class="form-control" name="phone" value="{{$customer[0]->phone}}">
                                         <label class="form-label">Phone</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="email" required>
+                                        <input type="text" class="form-control" name="mobile" value="{{$customer[0]->mobile}}" required>
                                         <label class="form-label">Mobile</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Receiveable Account Head</label>
+                                        <select  id="type_id" name="debit" class="form-control show-tick" data-live-search="true" required>
+
+                                        @foreach ($accountHeads as $accountHead)    
+                                            <option value="{{$accountHead->id}}" {{ $accountHead->id == $customer[0]->debitAccHeadId ? "selected":"" }}>{{$accountHead->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Payable Account Head</label>
+                                        <select  id="type_id" name="credit" class="form-control show-tick" data-live-search="true" required>
+                                           
+                                        @foreach ($accountHeads as $accountHead)    
+                                            <option value="{{$accountHead->id}}" {{ $accountHead->id == $customer[0]->creditAccHeadId ? "selected":"" }}>{{$accountHead->name}}</option>
+                                        @endforeach
+                                    </select>
                                     </div>
                                 </div>
                                 {{--  <div class="form-group form-float">
@@ -90,6 +116,85 @@
                                 --}}
                                 <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
                             </form>
+                            @else
+                            {{--  ADD Form  --}}
+                            <form id="form_validation" action = "{{ url('/addCustomer') }}" method = "POST">
+                                {{ csrf_field() }}
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="name" required>
+                                        <label class="form-label">Name</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="address1" required >
+                                        <label class="form-label">Address1</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="address2" >
+                                        <label class="form-label">Address2</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="phone" >
+                                        <label class="form-label">Phone</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="mobile" required>
+                                        <label class="form-label">Mobile</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Receiveable Account Head</label>
+                                        <select  id="type_id" name="debit" class="form-control show-tick" data-live-search="true" required>
+
+                                        @foreach ($accountHeads as $accountHead)    
+                                            <option value="{{$accountHead->id}}" {{ $accountHead->name == "Account Receivable" ? "selected":"" }}>{{$accountHead->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Payable Account Head</label>
+                                        <select  id="type_id" name="credit" class="form-control show-tick" data-live-search="true" required>
+                                           
+                                        @foreach ($accountHeads as $accountHead)    
+                                            <option value="{{$accountHead->id}}" {{ $accountHead->name == "Account Receivable" ? "selected":"" }}>{{$accountHead->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                {{--  <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <textarea name="description" cols="30" rows="5" class="form-control no-resize" required></textarea>
+                                        <label class="form-label">Description</label>
+                                    </div>
+                                </div>  
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="password" class="form-control" name="password" required>
+                                        <label class="form-label">Password</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="checkbox" id="checkbox" name="checkbox">
+                                    <label for="checkbox">I have read and accept the terms</label>
+                                </div>
+                                --}}
+                                <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
+                            </form>
+
+                            @endif
+                            
                         </div>
                     </div>
                 </div>

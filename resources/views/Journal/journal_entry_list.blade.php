@@ -47,40 +47,41 @@
                             <div class="header">
                            
                                 <h2>
-                                     Chart of Accounts
+                                     Journal Entries
                                 </h2>
                          
-                           <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addAccountHead')}}"> 
+                           <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournalEntry')}}"> 
                             <i class="material-icons">add</i>
                            </a>       
                         </div>
                         <div class="body">
                             <div class="table-responsive">
 
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>
-                                            <th>Code</th>
-                                            <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Action</th>
+                                            <th>Date</th>
+                                            <th>Number</th>
+                                            <th>Project</th>
+                                            <th>Journal</th>
+                                            <th>Amount</th>
+                                        
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                        <tr>
-                                            <th>Code</th>
-                                            <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Action</th>
-                                        </tr>
+                                      <tr>
+                                        <th colspan="4" style="text-align:center">Total:</th>
+                                        <th></th>
+                                      </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($accountHeads as $accountHead)
+                                        @foreach ($journalentries as $journalentry)
                                         <tr>
-                                            <td>{{$accountHead->code}} </td>
-                                            <td>{{$accountHead->name}} </td>
-                                            <td>{{$accountHead->type}} </td>
-                                            <td> <a href="{{url('/editAccountHead')}}/{{$accountHead->id}}">Edit</a></td>
+                                            <td>{{$journalentry->entryDate}} </td>
+                                            <td>Entry/{{$journalentry->id}} </td>
+                                            <td>{{$journalentry->project}} </td>
+                                            <td>{{$journalentry->journal}} </td>
+                                            <td>{{$journalentry->amount}} </td>
                                         </tr>
 
                                         @endforeach  
@@ -98,6 +99,7 @@
 @endsection
 
 @section('js')
+
     <!-- Jquery Core Js -->
     <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>
 
@@ -126,8 +128,49 @@
 
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
-    <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script>
+<!--     <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script> -->
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
+
+
+
+    <script>
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+ 
+            // Remove the formatting to get integer data for summation
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+ 
+            // Total over all pages
+            total = api
+                .column( 4 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Total over this page
+            pageTotal = api
+                .column( 4, { page: 'current'} )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+ 
+            // Update footer
+            $( api.column( 4 ).footer() ).html(
+                'Rs.'+pageTotal +' ( Rs.'+ total +' total)'
+            );
+        }
+    } );
+} );
+</script>
 @endsection
