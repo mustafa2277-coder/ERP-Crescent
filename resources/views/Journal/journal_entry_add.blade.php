@@ -4,9 +4,6 @@
 @section('css')
 
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css" />
 
     <!-- Bootstrap Core Css -->
     <link href="{{asset('public/plugins/bootstrap/css/bootstrap.css')}}" rel="stylesheet" />
@@ -19,6 +16,12 @@
 
     <!-- Sweetalert Css -->
     <link href="{{asset('public/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
+
+     <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="{{asset('public/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css')}}" rel="stylesheet" />
+
+    <!-- Wait Me Css -->
+    <link href="{{asset('public/plugins/waitme/waitMe.css')}}" rel="stylesheet" />
 
     <!-- Bootstrap Select Css -->
     <link href="{{asset('public/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
@@ -70,7 +73,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" id="date_post"; class="datepicker form-control" placeholder="Please choose a date...">
+                                    <input type="text" id="date_post" class="datepicker form-control" placeholder="Please choose a date...">
                                     </div>
                             </div>
                             <div class="table-responsive">
@@ -213,11 +216,20 @@
     <!-- SweetAlert Plugin Js -->
     <script src="{{asset('public/plugins/sweetalert/sweetalert.min.js')}}" ></script>
 
+    <!-- Autosize Plugin Js -->
+    <script src="{{asset('public/plugins/autosize/autosize.js')}}"></script>
+
+    <!-- Moment Plugin Js -->
+    <script src="{{asset('public/plugins/momentjs/moment.js')}}"></script>
+
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script src="{{asset('public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
+
 
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
 <!--     <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script> -->
-
+    <script src="{{asset('public/js/pages/forms/basic-form-elements.js')}}"></script>
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
 
