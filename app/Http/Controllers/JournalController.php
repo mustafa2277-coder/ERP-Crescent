@@ -8,6 +8,7 @@ use App\User;
 use App\Journal;
 use App\JournalEntries;
 use App\JournalEntryDetail;
+use Response;
 
 class JournalController extends Controller
 {
@@ -103,6 +104,49 @@ class JournalController extends Controller
         
         return view('/Journal/journal_entry_add', compact('journals'));
         
+    }
+
+    public function InsertJournalEntry(Request $request){
+
+       // return sizeof($request->entryDetail);
+        $journalEntry = new JournalEntries;
+       // $journalEntryDetail=new JournalEntryDetail;
+
+        $journalEntry->journalId = $request->journalId;
+        $journalEntry->date_post = $request->datePost;
+        $journalEntry->save();
+
+         for ($i=0; $i <sizeof($request->entryDetail) ; $i++) { 
+            if($request->entryDetail[$i]['debit'] == 0){
+               $isDebit = false;
+               $amount = $request->entryDetail[$i]['credit'];
+            }
+            else{
+               $isDebit = true;
+               $amount = $request->entryDetail[$i]['debit'];
+               
+            }
+                
+            $dataSet[$i] = [
+                            'amount'         => $amount,
+                            'partnerId'      => $request->entryDetail[$i]['partnerId'],
+                            'journalEntryid' => $journalEntry->id,
+
+                            'accHeadId'      => $request->entryDetail[$i]['accountId'],
+                            'isDebit'        => $isDebit
+                        ];
+            
+           
+
+            
+            }
+        
+            JournalEntryDetail::insert($dataSet);
+
+
+        return Response::json(['message'=>'inserted'],201);
+       
+
     }
 
 

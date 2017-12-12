@@ -45,4 +45,5 @@ Route::post('/updateJournal','JournalController@UpdateJournal');
 /*----------------------------------Journal Entry---------------------------------------*/
 Route::get('/getJournalEntries','JournalController@GetJournalEntries');
 Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm');
+Route::post('/insertJournalEntry','JournalController@InsertJournalEntry');
 
