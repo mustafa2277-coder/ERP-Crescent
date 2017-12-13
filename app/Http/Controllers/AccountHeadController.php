@@ -55,6 +55,7 @@ class AccountHeadController extends Controller
         $insert->name=$request->acchead_name;
         $insert->code=$request->acchead_code;
         $insert->accHeadTypeId=$request->type_id;
+        $insert->isTransactional=$request->is_tran;
       	$insert->save();
 
         return redirect('getAccountHeads');   // redirect to MAIN list
@@ -76,7 +77,8 @@ class AccountHeadController extends Controller
         $record= AccountHead::where('id','=',$request->acchead_id)->update([
         'name'         => $request->acchead_name,
         'code'         => $request->acchead_code,
-        'accHeadTypeId'=> $request->type_id
+        'accHeadTypeId'=> $request->type_id,
+        'isTransactional'=> $request->is_tran
      
         ]);
 

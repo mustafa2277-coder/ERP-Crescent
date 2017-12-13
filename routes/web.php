@@ -48,3 +48,6 @@ Route::get('/getJournalEntries','JournalController@GetJournalEntries')->middlewa
 Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm')->middleware('auth');
 Route::post('/insertJournalEntry','JournalController@InsertJournalEntry')->middleware('auth');
 
+/*----------------------------------Journal Item----------------------------*/
+Route::get('/getJournalItems','JournalController@GetJournalItems');
+

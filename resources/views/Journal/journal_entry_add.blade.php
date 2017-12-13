@@ -66,7 +66,7 @@
                              <div class="row clearfix">
                                 <div class="col-sm-6">
                                     <select  id="journal_id" name="journal_id" class="form-control show-tick" data-live-search="true" required>
-                                         <option value="0" selected="selected" disabled="">Select Journal</option>
+                                         <option value="0" selected="selected" disabled="disabled"><strong>Select Journal</strong></option>
                                         @foreach ($journals as $journal)    
                                         <option value="{{$journal->id}}">{{$journal->name}}</option>
                                         @endforeach
@@ -131,9 +131,9 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                     <select  id="acc_id" name="acc_id" class="form-control show-tick" data-live-search="true" required>
-                                         <option value="0" selected="selected" disabled="">Select Account</option>
-                                        @foreach ($journals as $journal)    
-                                        <option value="{{$journal->id}}">{{$journal->name}}</option>
+                                         <option value="0" selected="selected" disabled="disabled">Select Account</option>
+                                        @foreach ($accounts as $account)    
+                                        <option value="{{$account->id}}">{{$account->name}}</option>
                                         @endforeach
                                     </select>
                                          </div>
@@ -143,9 +143,9 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                     <select  id="partner_id" name="partner_id" class="form-control show-tick" data-live-search="true" required>
-                                         <option value="0" selected="selected" disabled="">Select Partner</option>
-                                        @foreach ($journals as $journal)    
-                                        <option value="{{$journal->id}}">{{$journal->name}}</option>
+                                         <option value="0" selected="selected" disabled="disabled">Select Partner</option>
+                                        @foreach ($partners as $partner)    
+                                        <option value="{{$partner->id}}">{{$partner->name}}</option>
                                         @endforeach
                                     </select>
                                          </div>
