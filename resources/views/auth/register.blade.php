@@ -17,7 +17,7 @@
     <link href="{{ asset('public/css/style.css') }}" rel="stylesheet">
 @endsection
 @section('content')
-{{--  <div class="container">
+<div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -89,8 +89,8 @@
             </div>
         </div>
     </div>
-</div>  --}}
-<body class="signup-page">
+</div>
+{{--  <body class="signup-page">
     <div class="signup-box">
         <div class="logo">
             <a href="javascript:void(0);">Admin<b>BSB</b></a>
@@ -164,4 +164,4 @@
     <!-- Custom Js -->
     <script src="{{ asset('public/js/admin.js')}}"></script>
     <script src="{{ asset('public/js/pages/examples/sign-up.js')}}"></script>
-@endsection
+@endsection  --}}
