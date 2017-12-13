@@ -43,8 +43,11 @@ Route::get('/editJournal/{id}','JournalController@GetJournalById');
 Route::post('/insertJournal','JournalController@InsertJournal');
 Route::post('/updateJournal','JournalController@UpdateJournal');
 
-/*----------------------------------Journal Entry---------------------------------------*/
+/*----------------------------------Journal Entry----------------------------*/
 Route::get('/getJournalEntries','JournalController@GetJournalEntries');
 Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm');
 Route::post('/insertJournalEntry','JournalController@InsertJournalEntry');
+
+/*----------------------------------Journal Item----------------------------*/
+Route::get('/getJournalItems','JournalController@GetJournalItems');
 

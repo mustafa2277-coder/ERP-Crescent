@@ -1,8 +1,9 @@
     
     var rowi=1; // commont for row index
     var tableData = [];
-
+    $('#date_post').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
     $(document).ready(function() {
+     
      
 
     $(document).on('click', '#icon-toggle-delete2', function () {
@@ -27,6 +28,12 @@
            
         if($('#journal_id').find(":selected").val() == 0) {
             swal("Please select Journal!");
+            e.preventDefault(); //prevent the default action
+            return false;
+        }
+
+        if($('#date_post').val() == "") {
+            swal("Please select Date!");
             e.preventDefault(); //prevent the default action
             return false;
         }
@@ -58,7 +65,7 @@
         var submitEntry = {};
         submitEntry.entryDetail = tableData;
         submitEntry.journalId =  $('#journal_id').find(":selected").val();
-        submitEntry.datePost =  $('#date_post').text();
+        submitEntry.datePost =  $('#date_post').val();
 
         //console.log(tableData);
           e.preventDefault();

@@ -17,7 +17,7 @@
     <link href="{{asset('public/plugins/animate-css/animate.css')}}" rel="stylesheet" />
 
     <!-- Sweet Alert Css -->
-    <link href="{{asset('public/plugins/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
+    <link href="{{asset('public/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
     
 
     <!-- Bootstrap Select Css -->
@@ -72,6 +72,13 @@
                                         <label class="form-label">Name</label>
                                     </div>
                                 </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                    <input type="checkbox" id="is_tran" name="is_tran">
+                                    <label for="is_tran">Is Transactional</label>
+                                    </div>
+                                </div>
+                               
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <select  id="type_id" name="type_id" class="form-control show-tick" data-live-search="true" required>
@@ -134,6 +141,12 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
+                                    <input type="checkbox" id="is_tran" name="is_tran">
+                                    <label for="is_tran">Is Transactional</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
                                         <select  id="type_id" name="type_id" class="form-control show-tick" data-live-search="true">
                                         <option value="" selected="" disabled="">Select Types</option>
                                         @foreach ($types as $type)    
@@ -183,7 +196,6 @@
 
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
-    <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script>
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>

@@ -79,7 +79,7 @@ class JournalController extends Controller
 
     }
 
-/*----------------------------------Journal Entry---------------------------------------*/
+/*----------------------------------Journal Entry-------------------------------*/
 
     // for getting all journal entries
 
@@ -101,17 +101,17 @@ class JournalController extends Controller
     public function GetJournalEntryForm(){
 
         $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
+        $accounts = DB::select( DB::raw("SELECT * from accounthead Order By name") );
+        $partners = DB::select( DB::raw("SELECT * from partner Order By name") );
         
-        return view('/Journal/journal_entry_add', compact('journals'));
+        return view('/Journal/journal_entry_add', compact('journals','accounts','partners'));
         
     }
 
     public function InsertJournalEntry(Request $request){
 
-       // return sizeof($request->entryDetail);
         $journalEntry = new JournalEntries;
-       // $journalEntryDetail=new JournalEntryDetail;
-
+       
         $journalEntry->journalId = $request->journalId;
         $journalEntry->date_post = $request->datePost;
         $journalEntry->save();
@@ -135,10 +135,6 @@ class JournalController extends Controller
                             'accHeadId'      => $request->entryDetail[$i]['accountId'],
                             'isDebit'        => $isDebit
                         ];
-            
-           
-
-            
             }
         
             JournalEntryDetail::insert($dataSet);
@@ -146,7 +142,25 @@ class JournalController extends Controller
 
         return Response::json(['message'=>'inserted'],201);
        
+    }
 
+    /*----------------------------------Journal Item-------------------------------*/
+
+    // for getting all journal items
+
+    public function GetJournalItems(){
+        
+            
+        $journalItems = DB::select( DB::raw("SELECT  je.date_post entryDate,je.id id,jed.amount amount,pj.title project,j.name journal,ac.name account,pt.name partner,jed.isDebit isDebit  from journalentries je
+                    join journalentrydetail jed on jed.journalEntryId = je.id 
+                    left join project pj on pj.id = je.projectId
+                    join journal j on j.id = je.journalId
+                    join accounthead ac on ac.id= jed.accHeadId
+                    left join partner pt on pt.id = jed.partnerId
+                    "));
+
+        return view('/Journal/journal_item_list')->with('journalItems',$journalItems);
+         // return $journalItems;
     }
 
 
