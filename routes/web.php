@@ -11,42 +11,42 @@
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-});
+}); */
 
 Auth::routes();
-
+Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 /*----------------------------------Customer---------------------------------------*/
 
-Route::get('/customerList', 'CustomerController@customerList');
-Route::get('/getAddCustomer', 'CustomerController@getAddCustomer');
-Route::get('/getEditCustomer/{id}', 'CustomerController@getEditCustomer');
-Route::post('/addCustomer', 'CustomerController@addCustomer');
-Route::post('/editCustomer', 'CustomerController@editCustomer');
+Route::get('/customerList', 'CustomerController@customerList')->middleware('auth');
+Route::get('/getAddCustomer', 'CustomerController@getAddCustomer')->middleware('auth');
+Route::get('/getEditCustomer/{id}', 'CustomerController@getEditCustomer')->middleware('auth');
+Route::post('/addCustomer', 'CustomerController@addCustomer')->middleware('auth');
+Route::post('/editCustomer', 'CustomerController@editCustomer')->middleware('auth');
 
 
 
 /*----------------------------------Account Heads---------------------------------------*/
-Route::get('/getAccountHeads','AccountHeadController@GetAccountHeads');
-Route::get('/addAccountHead' ,'AccountHeadController@GetAccountHeadForm');
-Route::get('/editAccountHead/{id}','AccountHeadController@GetAccountHeadById');
-Route::post('/insertAccountHead','AccountHeadController@InsertAccountHead');
-Route::post('/updateAccountHead','AccountHeadController@UpdateAccountHead');
+Route::get('/getAccountHeads','AccountHeadController@GetAccountHeads')->middleware('auth');
+Route::get('/addAccountHead' ,'AccountHeadController@GetAccountHeadForm')->middleware('auth');
+Route::get('/editAccountHead/{id}','AccountHeadController@GetAccountHeadById')->middleware('auth');
+Route::post('/insertAccountHead','AccountHeadController@InsertAccountHead')->middleware('auth');
+Route::post('/updateAccountHead','AccountHeadController@UpdateAccountHead')->middleware('auth');
 
 /*----------------------------------Journal---------------------------------------*/
-Route::get('/getJournals','JournalController@GetJournals');
-Route::get('/addJournal' ,'JournalController@GetJournalForm');
-Route::get('/editJournal/{id}','JournalController@GetJournalById');
-Route::post('/insertJournal','JournalController@InsertJournal');
-Route::post('/updateJournal','JournalController@UpdateJournal');
+Route::get('/getJournals','JournalController@GetJournals')->middleware('auth');
+Route::get('/addJournal' ,'JournalController@GetJournalForm')->middleware('auth');
+Route::get('/editJournal/{id}','JournalController@GetJournalById')->middleware('auth');
+Route::post('/insertJournal','JournalController@InsertJournal')->middleware('auth');
+Route::post('/updateJournal','JournalController@UpdateJournal')->middleware('auth');
 
-/*----------------------------------Journal Entry----------------------------*/
-Route::get('/getJournalEntries','JournalController@GetJournalEntries');
-Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm');
-Route::post('/insertJournalEntry','JournalController@InsertJournalEntry');
+/*----------------------------------Journal Entry---------------------------------------*/
+Route::get('/getJournalEntries','JournalController@GetJournalEntries')->middleware('auth');
+Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm')->middleware('auth');
+Route::post('/insertJournalEntry','JournalController@InsertJournalEntry')->middleware('auth');
 
 /*----------------------------------Journal Item----------------------------*/
 Route::get('/getJournalItems','JournalController@GetJournalItems');

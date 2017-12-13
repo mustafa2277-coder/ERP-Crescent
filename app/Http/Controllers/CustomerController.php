@@ -19,7 +19,7 @@ class CustomerController extends Controller
         
         ->select( 'cat1.*','cat1.id as custId','cat2.*')
         
-        ->get();
+        ->paginate(1);
         return view('customer/customer_list')->with('customerList',$customerList);
     }
     
