@@ -52,7 +52,7 @@
                             <div class="header">
                            
                                 <h2>
-                                     Journal Entries
+                                   New Journal Entries
                                 </h2>
                          
                               
