@@ -25,7 +25,10 @@
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="{{asset('public/css/themes/all-themes.css')}}" rel="stylesheet" />
-    
+
+     <!-- JQuery Nestable Css -->
+    <link href="{{asset('public/plugins/nestable/jquery-nestable.css')}}" rel="stylesheet" />
+   
 @endsection
 
 @section('content')
@@ -88,6 +91,76 @@
                                     </tbody>
                                 </table>
                             </div>
+                             <div class="clearfix m-b-20">
+                                <div class="dd">
+                                    <ol class="dd-list">
+
+                                     @foreach ($accountHeads2 as $accountHead2)
+                                     <li class="dd-item" data-id="1">
+                                            <div class="dd-handle">{{$accountHead2->parent}}</div>
+                                            
+                                            @foreach ($accountHeads3 as $accountHead3)
+                                            @if($accountHead3->parentid==$accountHead2->parentid)
+                                
+                                            <ol class="dd-list">
+                                                <li class="dd-item" data-id="3">
+                                                    <div class="dd-handle">{{$accountHead3->child}}</div>
+                                                </li>
+                                            </ol>
+                                       
+                                            @endif
+                                             @endforeach
+                                    </li>
+                                     @endforeach 
+
+
+                                        <li class="dd-item" data-id="1">
+                                            <div class="dd-handle">Item 1</div>
+                                        </li>
+                                        <li class="dd-item" data-id="2">
+                                            <div class="dd-handle">Item 2</div>
+                                            <ol class="dd-list">
+                                                <li class="dd-item" data-id="3">
+                                                    <div class="dd-handle">Item 3</div>
+                                                </li>
+                                                <li class="dd-item" data-id="4">
+                                                    <div class="dd-handle">Item 4</div>
+                                                </li>
+                                                <li class="dd-item" data-id="5">
+                                                    <div class="dd-handle">Item 5</div>
+                                                    <ol class="dd-list">
+                                                        <li class="dd-item" data-id="6">
+                                                            <div class="dd-handle">Item 6</div>
+                                                        </li>
+                                                        <li class="dd-item" data-id="7">
+                                                            <div class="dd-handle">Item 7</div>
+                                                        </li>
+                                                        <li class="dd-item" data-id="8">
+                                                            <div class="dd-handle">Item 8</div>
+                                                        </li>
+                                                    </ol>
+                                                </li>
+                                                <li class="dd-item" data-id="9">
+                                                    <div class="dd-handle">Item 9</div>
+                                                </li>
+                                                <li class="dd-item" data-id="10">
+                                                    <div class="dd-handle">Item 10</div>
+                                                </li>
+                                            </ol>
+                                        </li>
+                                        <li class="dd-item" data-id="11">
+                                            <div class="dd-handle">Item 11</div>
+                                        </li>
+                                        <li class="dd-item" data-id="12">
+                                            <div class="dd-handle">Item 12</div>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+
+
+
+
                         </div>
                     </div>
                 </div>
@@ -124,10 +197,16 @@
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script>
 
+    <!-- Jquery Nestable -->
+    <script src="{{asset('public/plugins/nestable/jquery.nestable.js')}}"></script>
+
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
     <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script>
+    <script src="{{asset('public/js/pages/ui/sortable-nestable.js')}}"></script>
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
+
+
 @endsection
