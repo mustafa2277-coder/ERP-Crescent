@@ -19,7 +19,7 @@
     <link href="{{asset('public/plugins/animate-css/animate.css')}}" rel="stylesheet" />
 
     <!-- JQuery DataTable Css -->
-    <link href="{{asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet" />
+    <!-- <link href="{{asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet" /> -->
 
     <!-- Custom Css -->
     <link href="{{asset('public/css/style.css')}}" rel="stylesheet" />
@@ -57,20 +57,23 @@
                                 <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
+                                            <th style="text-align:center">Date</th>
                                             <th>Number</th>
-                                            <th>Partner</th>
                                             <th>Project</th>
                                             <th>Journal</th>
                                             <th>Account</th>
-                                            <th>Debit</th>
-                                            <th>Credit</th>
+                                            <th style="text-align:center">Debit</th>
+                                            <th style="text-align:center">Credit</th>
                                         
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                      <tr>
-                                        <th colspan="6" style="text-align:center">Total:</th>
+                                      <tr id="total">
+                                        <th colspan="5" style="text-align:center">Total:</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                       </tr>
@@ -78,19 +81,18 @@
                                     <tbody>
                                         @foreach ($journalItems as $journalItem)
                                         <tr>
-                                            <td>{{$journalItem->entryDate}} </td>
+                                            <td style="text-align:center"> {{date('d/m/Y', strtotime($journalItem->entryDate))}}</td>
                                             <td>Entry/{{$journalItem->id}} </td>
-                                            <td>{{$journalItem->partner}} </td>
                                             <td>{{$journalItem->project}} </td>
                                             <td>{{$journalItem->journal}} </td>
                                             <td>{{$journalItem->account}} </td>
 
                                         @if (isset($journalItem->isDebit) && $journalItem->isDebit==1 )    
-                                            <td>{{$journalItem->amount}}</td>
-                                            <td>0</td>
+                                            <td style="text-align:center">{{$journalItem->amount}}</td>
+                                            <td style="text-align:center">0</td>
                                         @else
-                                            <td>0</td>
-                                            <td>{{$journalItem->amount}}</td>
+                                            <td style="text-align:center">0</td>
+                                            <td style="text-align:center">{{$journalItem->amount}}</td>
                                         @endif    
                                         
                                         </tr>
@@ -127,7 +129,7 @@
     <script src="{{asset('public/plugins/node-waves/waves.js')}}"></script>
 
     <!-- Jquery DataTable Plugin Js -->
-    <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
+<!--     <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js')}}"></script>
@@ -135,7 +137,7 @@
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/pdfmake.min.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/vfs_fonts.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script> -->
 
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
@@ -146,7 +148,7 @@
 
 
 
-    <script>
+   <!--  <script>
 $(document).ready(function() {
     $('#example').DataTable( {
         "footerCallback": function ( row, data, start, end, display ) {
@@ -162,13 +164,13 @@ $(document).ready(function() {
  
             // Total over all pages
             total = api
-                .column( 6 )
+                .column( 5 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
             total2 = api
-                .column( 7 )
+                .column( 6 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
@@ -176,30 +178,64 @@ $(document).ready(function() {
  
             // Total over this page
             pageTotal = api
-                .column( 6, { page: 'current'} )
+                .column( 5, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
                // Total over this page
             pageTotal2 = api
-                .column( 7, { page: 'current'} )
+                .column( 6, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );    
  
             // Update footer Debit
-            $( api.column( 6 ).footer() ).html(
+            $( api.column( 5 ).footer() ).html(
                 'Rs.'+pageTotal +' ( Rs.'+ total +' total)'
             );
 
             // Update footer Credit
-            $( api.column( 7 ).footer() ).html(
+            $( api.column( 6).footer() ).html(
                 'Rs.'+pageTotal2 +' ( Rs.'+ total2 +' total)'
             ); 
         }
     } );
 } );
+</script> -->
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+    
+     var debitAmt = 0;
+     var creditAmt = 0;
+
+
+            var table = $("table tbody");
+            var rowCount = $('#example tbody tr').length;
+            //console.log(rowCount);
+            table.find('tr').each(function (i) {
+                if(i<rowCount){
+                  
+                   var $tds = $(this).find('td'),
+                    
+                    debit = $tds.eq(5).text();
+                    debitAmt = parseFloat(debit) + debitAmt;
+
+                    credit = $tds.eq(6).text();
+                    creditAmt = parseFloat(credit) + creditAmt;
+
+                }
+            });
+            $('#total').closest('tr').remove();
+            var tbody = $("#example tfoot");
+            var row = "<tr id='total'><th colspan='5' style='text-align:center'>    Total</th><th style='text-align:center'>" + debitAmt +"</th><th style='text-align:center'>" + creditAmt +"</tr>";
+                tbody.append(row);
+
+        });        
+
+
 </script>
 @endsection

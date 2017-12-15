@@ -33,6 +33,9 @@
 
     <section class="content">
         <div class="container-fluid">
+            <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournal')}}"> 
+                            <i class="material-icons" title="Add New Journal">add</i>
+                           </a> 
           <!--   <div class="block-header">
                 <h2>
                     JQUERY DATATABLES
@@ -41,7 +44,7 @@
             </div> -->
             <!-- #END# Basic Examples -->
             <!-- Exportable Table -->
-            <div class="row clearfix">
+            <div class="row clearfix" style="margin-top: 10px;">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                             <div class="header">
@@ -49,9 +52,6 @@
                                 <h2>
                                      Journals
                                 </h2>
-                         
-                           <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournal')}}"> 
-                            <i class="material-icons">add</i>
                            </a>       
                         </div>
                         <div class="body">
@@ -61,13 +61,15 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Action</th>
+                                            <th style="text-align: center;">Voucher Prefix</th>
+                                            <th style="text-align: center;">Action</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Action</th>
+                                            <th style="text-align: center;">Voucher Prefix</th>
+                                            <th style="text-align: center;">Action</th>
                                            
                                         </tr>
                                     </tfoot>
@@ -75,7 +77,8 @@
                                         @foreach ($journals as $journal)
                                         <tr>
                                             <td>{{$journal->name}} </td>
-                                            <td> <a href="{{url('/editJournal')}}/{{$journal->id}}">Edit</a></td>
+                                            <td style="text-align: center;">{{$journal->voucherPrefix}} </td>
+                                            <td style="text-align: center;"> <a href="{{url('/editJournal')}}/{{$journal->id}}"><i class="material-icons" title="Edit Journal">mode_edit</i></a></td>
                                         </tr>
 
                                         @endforeach  

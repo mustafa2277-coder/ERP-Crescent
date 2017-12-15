@@ -19,7 +19,7 @@
     <link href="{{asset('public/plugins/animate-css/animate.css')}}" rel="stylesheet" />
 
     <!-- JQuery DataTable Css -->
-    <link href="{{asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet" />
+    <!-- <link href="{{asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet" /> -->
 
     <!-- Custom Css -->
     <link href="{{asset('public/css/style.css')}}" rel="stylesheet" />
@@ -32,8 +32,14 @@
 @section('content')
 
 
+
     <section class="content">
+
         <div class="container-fluid">
+               <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournalEntry')}}"> 
+                            <i class="material-icons" title="Create New">add</i>
+                           </a>
+                           <br>
           <!--   <div class="block-header">
                 <h2>
                     JQUERY DATATABLES
@@ -42,7 +48,8 @@
             </div> -->
             <!-- #END# Basic Examples -->
             <!-- Exportable Table -->
-            <div class="row clearfix">
+
+            <div class="row clearfix" style="margin-top: 10px;">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                             <div class="header">
@@ -51,9 +58,7 @@
                                      Journal Entries
                                 </h2>
                          
-                           <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournalEntry')}}"> 
-                            <i class="material-icons">add</i>
-                           </a>       
+                                  
                         </div>
                         <div class="body">
                             <div class="table-responsive">
@@ -61,28 +66,28 @@
                                 <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>
-                                            <th>Date</th>
+                                            <th style="text-align:center">Date</th>
                                             <th>Number</th>
                                             <th>Project</th>
                                             <th>Journal</th>
-                                            <th>Amount</th>
+                                            <th style="text-align:center">Amount</th>
                                         
                                         </tr>
                                     </thead>
                                     <tfoot>
-                                      <tr>
-                                        <th colspan="4" style="text-align:center">Total:</th>
+                                      <tr id="total">
+                                        <th colspan="4" style="text-align:right">Total:</th>
                                         <th></th>
                                       </tr>
                                     </tfoot>
                                     <tbody>
                                         @foreach ($journalentries as $journalentry)
                                         <tr>
-                                            <td>{{$journalentry->entryDate}} </td>
+                                            <td style="text-align:center"> {{date('d/m/Y', strtotime($journalentry->entryDate))}} </td>
                                             <td>Entry/{{$journalentry->id}} </td>
                                             <td>{{$journalentry->project}} </td>
                                             <td>{{$journalentry->journal}} </td>
-                                            <td>{{$journalentry->amount}} </td>
+                                            <td style="text-align:center">{{$journalentry->amount}} </td>
                                         </tr>
 
                                         @endforeach  
@@ -117,7 +122,7 @@
     <script src="{{asset('public/plugins/node-waves/waves.js')}}"></script>
 
     <!-- Jquery DataTable Plugin Js -->
-    <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
+  <!--   <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js')}}"></script>
@@ -125,7 +130,7 @@
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/pdfmake.min.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/vfs_fonts.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script> -->
 
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
@@ -136,7 +141,7 @@
 
 
 
-    <script>
+<!--     <script>
 $(document).ready(function() {
     $('#example').DataTable( {
         "footerCallback": function ( row, data, start, end, display ) {
@@ -173,5 +178,40 @@ $(document).ready(function() {
         }
     } );
 } );
+</script> -->
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+    
+     var Amt = 0;
+     //var creditAmt = 0;
+
+
+            var table = $("table tbody");
+            var rowCount = $('#example tbody tr').length;
+            //console.log(rowCount);
+            table.find('tr').each(function (i) {
+                if(i<rowCount){
+                  
+                   var $tds = $(this).find('td'),
+                    
+                   // debit = $tds.eq(5).text();
+                    //debitAmt = parseFloat(debit) + debitAmt;
+
+                    amtt = $tds.eq(4).text();
+                    Amt = parseFloat(amtt) + Amt;
+
+                }
+            });
+            $('#total').closest('tr').remove();
+            var tbody = $("#example tfoot");
+            var row = "<tr id='total'><th colspan='4' style='text-align:center'>    Total</th><th style='text-align:center'>" + Amt +"</th></tr>";
+                tbody.append(row);
+
+        });        
+
+
 </script>
+
 @endsection

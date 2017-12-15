@@ -10,6 +10,7 @@ use App\JournalEntries;
 use App\JournalEntryDetail;
 use Response;
 
+
 class JournalController extends Controller
 {
 
@@ -48,12 +49,19 @@ class JournalController extends Controller
 
     public function InsertJournal(Request $request){
         $this->validate($request, [
-            'journal_name'=>'required|unique:journal,name'
-            ]);
+            'journal_name'=>'required|unique:journal,name',
+            'voucher_prefix'=>'required|unique:journal,voucherprefix'
+            ],
+
+            ['journal_name.unique'  =>'Name Already exist',
+             'voucher_prefix.unique'=>'Voucher Prefix Already exist',
+                ]
+            );
 
        // $user=Auth::user();
         $insert= new Journal;
-        $insert->name=$request->journal_name;
+        $insert->name          = $request->journal_name;
+        $insert->voucherPrefix = $request->voucher_prefix;
       	$insert->save();
 
         return redirect('getJournals');   // redirect to MAIN list
@@ -71,7 +79,8 @@ class JournalController extends Controller
 
        // $user=Auth::user();
         $record= Journal::where('id','=',$request->journal_id)->update([
-        'name'         => $request->journal_name
+        'name'         => $request->journal_name,
+        'voucherPrefix'=> $request->voucher_prefix
         
         ]);
 
@@ -102,9 +111,9 @@ class JournalController extends Controller
 
         $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
         $accounts = DB::select( DB::raw("SELECT * from accounthead Order By name") );
-        $partners = DB::select( DB::raw("SELECT * from partner Order By name") );
+        $projects = DB::select( DB::raw("SELECT * from project Order By title") );
         
-        return view('/Journal/journal_entry_add', compact('journals','accounts','partners'));
+        return view('/Journal/journal_entry_add', compact('journals','accounts','projects'));
         
     }
 
@@ -113,7 +122,8 @@ class JournalController extends Controller
         $journalEntry = new JournalEntries;
        
         $journalEntry->journalId = $request->journalId;
-        $journalEntry->date_post = $request->datePost;
+        $journalEntry->date_post = date("Y-m-d",strtotime(str_replace('/', '-', $request->datePost))); 
+        $journalEntry->reference = $request->reference;
         $journalEntry->save();
 
          for ($i=0; $i <sizeof($request->entryDetail) ; $i++) { 
@@ -129,7 +139,7 @@ class JournalController extends Controller
                 
             $dataSet[$i] = [
                             'amount'         => $amount,
-                            'partnerId'      => $request->entryDetail[$i]['partnerId'],
+                            'projectId'      => $request->entryDetail[$i]['projectId'],
                             'journalEntryid' => $journalEntry->id,
 
                             'accHeadId'      => $request->entryDetail[$i]['accountId'],
@@ -151,12 +161,11 @@ class JournalController extends Controller
     public function GetJournalItems(){
         
             
-        $journalItems = DB::select( DB::raw("SELECT  je.date_post entryDate,je.id id,jed.amount amount,pj.title project,j.name journal,ac.name account,pt.name partner,jed.isDebit isDebit  from journalentries je
+        $journalItems = DB::select( DB::raw("SELECT  je.date_post entryDate,je.id id,jed.amount amount,pj.title project,j.name journal,ac.name account,jed.isDebit isDebit  from journalentries je
                     join journalentrydetail jed on jed.journalEntryId = je.id 
                     left join project pj on pj.id = je.projectId
                     join journal j on j.id = je.journalId
                     join accounthead ac on ac.id= jed.accHeadId
-                    left join partner pt on pt.id = jed.partnerId
                     "));
 
         return view('/Journal/journal_item_list')->with('journalItems',$journalItems);

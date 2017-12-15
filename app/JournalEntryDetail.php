@@ -12,7 +12,6 @@ class JournalEntryDetail extends Model
     protected $fillable = array(
         'id',
         'amount',
-        'partnerId',
         'journalEntryId',
 		'description',
 		'accHeadId',

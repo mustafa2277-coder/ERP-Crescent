@@ -12,5 +12,6 @@ class Journal extends Model
     protected $fillable = array(
         'id',
         'name',
+        'voucherPrefix',
         );
 }
