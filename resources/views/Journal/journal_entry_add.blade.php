@@ -150,7 +150,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                    <select  id="partner_id" name="partner_id" class="form-control show-tick" data-live-search="true" required>
+                                    <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" required>
                                          <option value="0" selected="selected" disabled="disabled">Select Project</option>
                                         @foreach ($projects as $project)    
                                         <option value="{{$project->id}}">{{$project->title}}</option>

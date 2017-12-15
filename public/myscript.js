@@ -24,7 +24,7 @@
 
     $(document).on('click', 'form button[type=submit]', function(e) {
 
-
+         e.preventDefault();
            
         if($('#journal_id').find(":selected").val() == 0) {
             swal("Please select Journal!");
@@ -58,8 +58,19 @@
 
         $.each(tableData,function(e,val){
 
+            if((parseFloat(val.debit) !=0 && parseFloat(val.credit) ==0) || (parseFloat(val.debit) ==0 && parseFloat(val.credit) !=0 )){
+
             debitTotal += parseFloat(val.debit);  
-            creditTotal += parseFloat(val.credit);  
+            creditTotal += parseFloat(val.credit); 
+
+            } 
+            else{
+
+
+                swal("Invalid entry!");
+          //      e.preventDefault(); //prevent the default action 
+                    return false;
+            }
 
         });
 
@@ -73,6 +84,7 @@
         submitEntry.entryDetail = tableData;
         submitEntry.journalId =  $('#journal_id').find(":selected").val();
         submitEntry.datePost =  $('#date_post').val();
+        submitEntry.reference =  $('#reference').val();
 
         //console.log(tableData);
           e.preventDefault();
@@ -116,7 +128,7 @@
        }
  
             var rows = "";
-            var partner = "";
+            var project = "";
             rowi=1+rowi;
                 var debitAmt = $('#modal_debit').val();
                 var creditAmt = $('#modal_credit').val();
@@ -128,14 +140,14 @@
 
                 var account = $('#acc_id').find(":selected").text().trim();
                 
-                if($('#partner_id').find(":selected").val() != 0) {
+                if($('#project_id').find(":selected").val() != 0) {
 
-                partner =  $('#partner_id').find(":selected").text().trim();
+                project =  $('#project_id').find(":selected").text().trim();
                 
                 
                 }
                  
-                rows += "<tr id="+rowi+"><td>" + account + "</td><td>" + partner + "</td><td style='text-align:center'>" + debitAmt + "</td><td style='text-align:center'>" + creditAmt + '</td><td style="text-align:center"><a id="icon-toggle-delete2" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td></tr>' ;
+                rows += "<tr id="+rowi+"><td>" + account + "</td><td>" + project + "</td><td style='text-align:center'>" + debitAmt + "</td><td style='text-align:center'>" + creditAmt + '</td><td style="text-align:center"><a id="icon-toggle-delete2" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td></tr>' ;
                 
                 var tbody = $("#example tbody");
                 
@@ -148,8 +160,8 @@
                 tableindex : rowi,    
                 accountName : account ,
                 accountId: $('#acc_id').find(":selected").val(),
-                partner: partner,
-                partnerId: $('#acc_id').find(":selected").val(),
+                project: project,
+                projectId: $('#project_id').find(":selected").val(),
                 debit: debitAmt, 
                 credit: creditAmt, 
                 });

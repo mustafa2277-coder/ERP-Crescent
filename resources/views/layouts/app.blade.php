@@ -378,7 +378,7 @@
                                 <a href="{{url('/getJournals')}}">Journals</a>
                             </li>
                             <li>
-                                <a href="{{url('/getJournalItems')}}">Journal Iems</a>
+                                <a href="{{url('/getJournalItems')}}">Journal Items</a>
                             </li>
                             <li>
                                 <a href="{{url('/getJournalEntries')}}">Journal Entries</a>

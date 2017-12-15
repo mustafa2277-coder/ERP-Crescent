@@ -15,7 +15,7 @@ class JournalEntries extends Model
         'projectId',
         'description',
         'date_post',
-        'refrence',
+        'reference',
         'entryNum',
         );
 }

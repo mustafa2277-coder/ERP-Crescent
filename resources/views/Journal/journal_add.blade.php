@@ -58,14 +58,34 @@
                         <div class="body">
                             <form id="form_validation" name = "form" action = "{{ url('/updateJournal') }}" method="POST">
                                  {{ csrf_field() }}
-                                <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <input type="hidden"  name="journal_id" value='{{$record->id}}'> 
-                                        <input type="text" class="form-control" id="journal_name" value='{{$record->name}}' name="journal_name" required>
-                                        <label class="form-label">Name</label>
+                                <div class="col-sm-6"> 
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="hidden"  name="journal_id" value='{{$record->id}}'> 
+                                            <input type="text" class="form-control" id="journal_name" value='{{$record->name}}' name="journal_name" required>
+                                            <label class="form-label">Name</label>
+                                        </div>
+                                @if ($errors->has('journal_name'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('journal_name') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
-                         
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line"> 
+                                            <input type="text" class="form-control" id="voucher_prefix" value='{{$record->voucherPrefix}}' name="voucher_prefix" required>
+                                            <label class="form-label">Voucher Prefix</label>
+                                        </div>
+                                @if ($errors->has('voucher_prefix'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('voucher_prefix') }}
+                                    </span>
+                                @endif
+                                    </div>
+                                </div>
+                                <br>
                                 <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
                             </form>
                         </div>
@@ -91,15 +111,35 @@
                         <div class="body">
                             <form id="addn" name = "form" action = "{{ url('/insertJournal') }}" method="POST">
                                 {{ csrf_field() }}
-                              
-                                <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" id="journal_name"  name="journal_name" required>
-                                        <label class="form-label">Name</label>
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" id="journal_name"  name="journal_name" required>
+                                            <label class="form-label">Name</label>
+                                        </div>
+                                @if ($errors->has('journal_name'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('journal_name') }}
+                                    </span>
+                                @endif
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                        <div class="form-line"> 
+                                            <input type="text" class="form-control" id="voucher_prefix"  name="voucher_prefix" required>
+                                            <label class="form-label">Voucher Prefix</label>
+                                        </div>
+                                @if ($errors->has('voucher_prefix'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('voucher_prefix') }}
+                                    </span>
+                                @endif
                                     </div>
                                 </div>
                           
-                         
+                         <br>
                                 <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
                             </form>
                         </div>

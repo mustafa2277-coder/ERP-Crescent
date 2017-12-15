@@ -28,7 +28,7 @@ class AccountHeadController extends Controller
 
         $addNew = '<a   style="float: right; " id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"  title="Add Sub Head">add_circle_outline</i></a>';    
 
-        $edit = '<a  style="float: right; " href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';
+        $edit = '<a  style="float: right; " href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons" title="Edit Head">mode_edit</i></a>';
         //$arr .= '<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$this->GetTreeAccountHeads($item).'</div>';    
 
         //$arr.= $this->GetTreeAccountHeads($item);
@@ -64,7 +64,7 @@ class AccountHeadController extends Controller
 
          $addNew = '<a style="float:  right;" id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"   title="Add Sub Head">add_circle_outline</i></a>';    
 
-        $edit = '<a style="float:  right;" href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';    
+        $edit = '<a style="float:  right;" href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons" title="Edit Head">mode_edit</i></a>';    
         
          $arr .= '<ol class="dd-list"><li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name. $addNew.$edit.'</div>'.$this->GetTreeAccountHeads($item).'</li></ol>';
 
