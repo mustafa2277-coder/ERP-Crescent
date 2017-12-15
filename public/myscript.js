@@ -55,6 +55,7 @@
 
         var debitTotal = 0;
         var creditTotal = 0;
+        var invalidentry = 0; 
 
         $.each(tableData,function(e,val){
 
@@ -66,13 +67,15 @@
             } 
             else{
 
-
-                swal("Invalid entry!");
-          //      e.preventDefault(); //prevent the default action 
-                    return false;
+                invalidentry = 1; return false;      
             }
 
         });
+
+        if(invalidentry ==1){
+            swal("Invalid entry!");
+            return false;
+        }
 
         if(debitTotal != creditTotal) {
             swal("Unbalanced Journal Entry!");
