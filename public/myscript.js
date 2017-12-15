@@ -38,6 +38,13 @@
             return false;
         }
 
+
+        if($('#reference').val() == "") {
+            swal("Empty Reference Field!");
+            e.preventDefault(); //prevent the default action
+            return false;
+        }
+
         var rowCount = $('#example tbody tr').length;
 
         if(rowCount-1 == 0){

@@ -102,9 +102,9 @@ class JournalController extends Controller
 
         $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
         $accounts = DB::select( DB::raw("SELECT * from accounthead Order By name") );
-        $partners = DB::select( DB::raw("SELECT * from partner Order By name") );
+        $projects = DB::select( DB::raw("SELECT * from project Order By title") );
         
-        return view('/Journal/journal_entry_add', compact('journals','accounts','partners'));
+        return view('/Journal/journal_entry_add', compact('journals','accounts','projects'));
         
     }
 

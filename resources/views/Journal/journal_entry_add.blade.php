@@ -75,6 +75,14 @@
                                 <div class="col-sm-6">
                                     <input type="text" id="date_post" class="datepicker form-control" placeholder="Please choose a date...">
                                     </div>
+                                  <div class="col-sm-6">
+                                    <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" id="reference"  name="reference" required>
+                                        <label class="form-label">Reference</label>
+                                    </div>
+                                </div>
+                                    </div>    
                             </div>
                             <div class="table-responsive">
 
@@ -82,7 +90,7 @@
                                    <thead>
                                         <tr>
                                             <th>Account</th>
-                                            <th>Partner</th>
+                                            <th>Project</th>
                                             <th style='text-align:center'>Debit</th>
                                             <th style='text-align:center'>Credit</th>
                                             <th></th>
@@ -143,9 +151,9 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                     <select  id="partner_id" name="partner_id" class="form-control show-tick" data-live-search="true" required>
-                                         <option value="0" selected="selected" disabled="disabled">Select Partner</option>
-                                        @foreach ($partners as $partner)    
-                                        <option value="{{$partner->id}}">{{$partner->name}}</option>
+                                         <option value="0" selected="selected" disabled="disabled">Select Project</option>
+                                        @foreach ($projects as $project)    
+                                        <option value="{{$project->id}}">{{$project->title}}</option>
                                         @endforeach
                                     </select>
                                          </div>

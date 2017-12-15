@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                    <input type="checkbox" id="is_tran" name="is_tran">
+                                    <input type="checkbox" id="is_tran" name="is_tran" {{$record->isTransactional=='1'?'checked':''}} >
                                     <label for="is_tran">Is Transactional</label>
                                     </div>
                                 </div>
