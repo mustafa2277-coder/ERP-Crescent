@@ -6,24 +6,73 @@ use Illuminate\Http\Request;
 use DB;
 use App\User;
 use App\AccountHead;
-
+use Illuminate\Support\Facades\Route;
 class AccountHeadController extends Controller
 {
 
     public function GetAccountHeads(Request $request){
         
-            
+        $arr=null;
+        $addNew = '<a class="dd-item xyz" id="addew" href="'. URL('/addAccountHead').'"> <i class="material-icons" style="float:  right;"  title="Add New">add_circle_outline</i></a>';
+
+        
+
         $accountHeads = DB::select( DB::raw("SELECT acchead.id id,acchead.name name,accht.type type,				acchead.code code from accounthead acchead left JOIN             accountheadtypes accht on accht.id=acchead.accHeadTypeId"));
 
         $accountHeads2 = DB::select( DB::raw("
-SELECT aha.name parent,aha.id parentid  FROM accounthead aha"));
+                    SELECT aha.name ,aha.id id  FROM accounthead aha
+                    WHERE aha.`parentId` = 0 OR aha.`parentId`IS NULL"));
+       
 
-        $accountHeads3 = DB::select( DB::raw("
-SELECT aha.name child ,aha.id childid ,aha.parentId parentid FROM accounthead aha
-WHERE aha.parentId IS NOT NULL AND aha.parentId <> 0"));
+        foreach($accountHeads2 as $item){
 
-        return view('/AccountHead/acc_head_list',compact('accountHeads','accountHeads2','accountHeads3'));
+        $edit = '<a href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';
+        //$arr .= '<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$this->GetTreeAccountHeads($item).'</div>';    
+
+        //$arr.= $this->GetTreeAccountHeads($item);
+
+        $arr.='<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name.'  </div>'.$addNew.$edit.$this->GetTreeAccountHeads($item).'</li>';
+
+        }
+
+//         $accountHeads2 = DB::select( DB::raw("
+// SELECT aha.name parent,aha.id parentid  FROM accounthead aha"));
+
+//         $accountHeads3 = DB::select( DB::raw("
+// SELECT aha.name child ,aha.id childid ,aha.parentId parentid FROM accounthead aha
+// WHERE aha.parentId IS NOT NULL AND aha.parentId <> 0"));
+
+        return view('/AccountHead/acc_head_list',compact('accountHeads','arr'));//,'accountHeads3'));
     	
+    }
+
+
+    public function GetTreeAccountHeads($parent){
+
+    $arr=null;  
+    $addNew = '<a class="dd-item xyz" id="addew" href="'. URL('/addAccountHead').'"> <i class="material-icons" style="float:  right;"  title="Add New">add_circle_outline</i></a>';
+
+     
+     //$arr .= "<div class='dd-handle'>"{{$request->parent}}."</div>";
+     $accountHeads2 = DB::select( DB::raw("
+                    SELECT * from accounthead where parentId=".$parent->id));
+
+    if(count($accountHeads2)!=0){
+
+        foreach($accountHeads2 as $item){
+        
+         $arr .= '<ol class="dd-list"><li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name. $addNew.'</div>'.$this->GetTreeAccountHeads($item).'</li></ol>';
+        }
+        return $arr;
+    }else{
+
+        return  ; 
+
+
+    }
+
+
+
     }
 
     // for opening a new record form   used for add new record from

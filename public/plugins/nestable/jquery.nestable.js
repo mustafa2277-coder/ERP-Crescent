@@ -84,8 +84,10 @@
                 }
             });
 
+            //if($('#undragable').attr('id')!="undragable"){
             var onStartEvent = function(e)
             {
+            if (e.currentTarget.attributes[1].nodeValue != 'undragable') {  // for making a particular div dragable
                 var handle = $(e.target);
                 if (!handle.hasClass(list.options.handleClass)) {
                     if (handle.closest('.' + list.options.noDragClass).length) {
@@ -106,7 +108,7 @@
                 e.preventDefault();
                 list.dragStart(e.touches ? e.touches[0] : e);
             };
-
+            }
             var onMoveEvent = function(e)
             {
                 if (list.dragEl) {
@@ -122,7 +124,7 @@
                     list.dragStop(e.touches ? e.touches[0] : e);
                 }
             };
-
+         //}
             if (hasTouch) {
                 list.el[0].addEventListener('touchstart', onStartEvent, false);
                 window.addEventListener('touchmove', onMoveEvent, false);

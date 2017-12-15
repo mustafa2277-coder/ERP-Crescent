@@ -17,8 +17,6 @@
     <!-- Animation Css -->
     <link href="{{asset('public/plugins/animate-css/animate.css')}}" rel="stylesheet" />
 
-    <!-- JQuery DataTable Css -->
-    <link href="{{asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet" />
 
     <!-- Custom Css -->
     <link href="{{asset('public/css/style.css')}}" rel="stylesheet" />
@@ -53,12 +51,14 @@
                                      Chart of Accounts
                                 </h2>
                          
-                           <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addAccountHead')}}"> 
+                         <!--   <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addAccountHead')}}"> 
                             <i class="material-icons">add</i>
-                           </a>       
+                           </a>   --> 
+ 
+
                         </div>
                         <div class="body">
-                            <div class="table-responsive">
+                        <!--     <div class="table-responsive">
 
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
@@ -90,72 +90,14 @@
                                         
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> -->
                              <div class="clearfix m-b-20">
-                                <div class="dd">
-                                    <ol class="dd-list">
-
-                                     @foreach ($accountHeads2 as $accountHead2)
-                                     <li class="dd-item" data-id="1">
-                                            <div class="dd-handle">{{$accountHead2->parent}}</div>
-                                            
-                                            @foreach ($accountHeads3 as $accountHead3)
-                                            @if($accountHead3->parentid==$accountHead2->parentid)
-                                
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="3">
-                                                    <div class="dd-handle">{{$accountHead3->child}}</div>
-                                                </li>
-                                            </ol>
-                                       
-                                            @endif
-                                             @endforeach
-                                    </li>
-                                     @endforeach 
-
-
-                                        <li class="dd-item" data-id="1">
-                                            <div class="dd-handle">Item 1</div>
-                                        </li>
-                                        <li class="dd-item" data-id="2">
-                                            <div class="dd-handle">Item 2</div>
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="3">
-                                                    <div class="dd-handle">Item 3</div>
-                                                </li>
-                                                <li class="dd-item" data-id="4">
-                                                    <div class="dd-handle">Item 4</div>
-                                                </li>
-                                                <li class="dd-item" data-id="5">
-                                                    <div class="dd-handle">Item 5</div>
-                                                    <ol class="dd-list">
-                                                        <li class="dd-item" data-id="6">
-                                                            <div class="dd-handle">Item 6</div>
-                                                        </li>
-                                                        <li class="dd-item" data-id="7">
-                                                            <div class="dd-handle">Item 7</div>
-                                                        </li>
-                                                        <li class="dd-item" data-id="8">
-                                                            <div class="dd-handle">Item 8</div>
-                                                        </li>
-                                                    </ol>
-                                                </li>
-                                                <li class="dd-item" data-id="9">
-                                                    <div class="dd-handle">Item 9</div>
-                                                </li>
-                                                <li class="dd-item" data-id="10">
-                                                    <div class="dd-handle">Item 10</div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                        <li class="dd-item" data-id="11">
-                                            <div class="dd-handle">Item 11</div>
-                                        </li>
-                                        <li class="dd-item" data-id="12">
-                                            <div class="dd-handle">Item 12</div>
-                                        </li>
+                                <div class="dd" id="undragable">
+                                     <ol class="dd-list">
+                                       {!!$arr!!}
                                     </ol>
                                 </div>
+
                             </div>
 
 
@@ -187,7 +129,7 @@
     <script src="{{asset('public/plugins/node-waves/waves.js')}}"></script>
 
     <!-- Jquery DataTable Plugin Js -->
-    <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
+<!--     <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js')}}"></script>
@@ -195,18 +137,21 @@
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/pdfmake.min.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/vfs_fonts.js')}}"></script>
     <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script> -->
 
     <!-- Jquery Nestable -->
     <script src="{{asset('public/plugins/nestable/jquery.nestable.js')}}"></script>
 
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
-    <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script>
+    <!-- <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script> -->
     <script src="{{asset('public/js/pages/ui/sortable-nestable.js')}}"></script>
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
 
-
+    <script type="text/javascript"> $(document).ready(function() {
+    $('#undragable').nestable('collapseAll');
+    });
+    </script>
 @endsection
