@@ -31,7 +31,7 @@ Route::post('/editCustomer', 'CustomerController@editCustomer')->middleware('aut
 
 /*----------------------------------Account Heads---------------------------------------*/
 Route::get('/getAccountHeads','AccountHeadController@GetAccountHeads')->middleware('auth');
-Route::get('/addAccountHead' ,'AccountHeadController@GetAccountHeadForm')->middleware('auth');
+Route::get('/addAccountHead/{id}' ,'AccountHeadController@GetAccountHeadForm')->middleware('auth');
 Route::get('/editAccountHead/{id}','AccountHeadController@GetAccountHeadById')->middleware('auth');
 Route::post('/insertAccountHead','AccountHeadController@InsertAccountHead')->middleware('auth');
 Route::post('/updateAccountHead','AccountHeadController@UpdateAccountHead')->middleware('auth');

@@ -125,19 +125,31 @@
                             </ul> -->
                         </div>
                         <div class="body">
+                        
                             <form id="addn" name = "form" action = "{{ url('/insertAccountHead') }}" method="POST">
                                 {{ csrf_field() }}
                                 <div class="form-group form-float">
                                     <div class="form-line">
+                                        <input type="hidden"  name="parent_id" value='{{$parentId}}'> 
                                         <input type="text" class="form-control" id="acchead_code"  name="acchead_code" required>
                                         <label class="form-label">Code</label>
                                     </div>
+                                      @if ($errors->has('acchead_code'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('acchead_code') }}
+                                    </span>
+                                @endif
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="text" class="form-control" id="acchead_name"  name="acchead_name" required>
                                         <label class="form-label">Name</label>
                                     </div>
+                              @if ($errors->has('acchead_name'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('acchead_name') }}
+                                    </span>
+                                @endif
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">

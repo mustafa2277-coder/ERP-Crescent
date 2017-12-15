@@ -13,7 +13,7 @@ class AccountHeadController extends Controller
     public function GetAccountHeads(Request $request){
         
         $arr=null;
-        $addNew = '<a class="dd-item xyz" id="addew" href="'. URL('/addAccountHead').'"> <i class="material-icons" style="float:  right;"  title="Add New">add_circle_outline</i></a>';
+        
 
         
 
@@ -25,6 +25,8 @@ class AccountHeadController extends Controller
        
 
         foreach($accountHeads2 as $item){
+
+        $addNew = '<a class="dd-item xyz" id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons" style="float:  right;"  title="Add Sub Head">add_circle_outline</i></a>';    
 
         $edit = '<a href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';
         //$arr .= '<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$this->GetTreeAccountHeads($item).'</div>';    
@@ -77,11 +79,12 @@ class AccountHeadController extends Controller
 
     // for opening a new record form   used for add new record from
 
-    public function GetAccountHeadForm(){
+    public function GetAccountHeadForm($id){
 
     	$types = DB::select( DB::raw("SELECT * from accountheadtypes Order By type") );
+        $parentId = $id;
 
-        return view('/AccountHead/acc_head_add', compact('types'));
+        return view('/AccountHead/acc_head_add', compact('types','parentId'));
         
     }
 
@@ -104,7 +107,12 @@ class AccountHeadController extends Controller
             'acchead_code'=>'required|unique:accounthead,code',
             'acchead_name'=>'required|unique:accounthead,name',
             'type_id'=>'required'
-            ]);
+            ],
+
+            ['acchead_name.unique'=>'Name Already exist',
+             'acchead_code.unique'=>'Code Already exist',
+                ]
+        );
 
        // $user=Auth::user();
         $insert= new AccountHead;
@@ -112,6 +120,7 @@ class AccountHeadController extends Controller
         $insert->code=$request->acchead_code;
         $insert->accHeadTypeId=$request->type_id;
         $insert->isTransactional=$request->is_tran;
+        $insert->parentId=$request->parent_id;
       	$insert->save();
 
         return redirect('getAccountHeads');   // redirect to MAIN list
