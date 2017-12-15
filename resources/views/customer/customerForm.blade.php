@@ -43,7 +43,7 @@
                             @if(isset($customer))
                             <form id="form_validation" action = "{{ url('/editCustomer') }}" method = "POST">
                                 {{ csrf_field() }}
-                                <input type="hidden" name="id" value="{{$customer[0]->custId}}">
+                                <input type="hidden" name="id" value="{{$customer[0]->id}}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="text" class="form-control" name="name" value="{{$customer[0]->name}}" required>

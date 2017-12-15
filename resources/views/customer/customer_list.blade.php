@@ -40,7 +40,7 @@
                             </h2>
                             <ul class="header-dropdown m-r-0">
                                 <li>
-                                    <a href="{{ url('/getEditCustomer') }}/{{$cus->custId}}" ><i class="material-icons">edit</i></a>
+                                    <a href="{{ url('/getEditCustomer') }}/{{$cus->id}}" ><i class="material-icons">edit</i></a>
                                 </li>
                             </ul>
                             
