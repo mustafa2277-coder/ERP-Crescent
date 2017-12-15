@@ -26,14 +26,14 @@ class AccountHeadController extends Controller
 
         foreach($accountHeads2 as $item){
 
-        $addNew = '<a class="dd-item xyz" id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons" style="float:  right;"  title="Add Sub Head">add_circle_outline</i></a>';    
+        $addNew = '<a   style="float: right; " id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"  title="Add Sub Head">add_circle_outline</i></a>';    
 
-        $edit = '<a href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';
+        $edit = '<a  style="float: right; " href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';
         //$arr .= '<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$this->GetTreeAccountHeads($item).'</div>';    
 
         //$arr.= $this->GetTreeAccountHeads($item);
 
-        $arr.='<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name.'  </div>'.$addNew.$edit.$this->GetTreeAccountHeads($item).'</li>';
+        $arr.='<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name.$addNew.$edit.'  </div>'.$this->GetTreeAccountHeads($item).'</li>';
 
         }
 
@@ -61,11 +61,13 @@ class AccountHeadController extends Controller
 
         foreach($accountHeads2 as $item){
 
-         $addNew = '<a class="dd-item xyz" id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons" style="float:  right;"  title="Add Sub Head">add_circle_outline</i></a>';    
 
-        $edit = '<a href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';    
+         $addNew = '<a style="float:  right;" id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"   title="Add Sub Head">add_circle_outline</i></a>';    
+
+        $edit = '<a style="float:  right;" href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';    
         
-         $arr .= '<ol class="dd-list"><li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name.'</div>'. $addNew.$edit.$this->GetTreeAccountHeads($item).'</li></ol>';
+         $arr .= '<ol class="dd-list"><li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name. $addNew.$edit.'</div>'.$this->GetTreeAccountHeads($item).'</li></ol>';
+
         }
         return $arr;
     }else{
