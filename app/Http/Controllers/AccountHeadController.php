@@ -26,14 +26,14 @@ class AccountHeadController extends Controller
 
         foreach($accountHeads2 as $item){
 
-        $addNew = '<a class="dd-item xyz" id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons" style="float:  right;"  title="Add Sub Head">add_circle_outline</i></a>';    
+        $addNew = '<a   style="float: right; " id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"  title="Add Sub Head">add_circle_outline</i></a>';    
 
-        $edit = '<a href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';
+        $edit = '<a  style="float: right; " href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';
         //$arr .= '<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$this->GetTreeAccountHeads($item).'</div>';    
 
         //$arr.= $this->GetTreeAccountHeads($item);
 
-        $arr.='<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name.'  </div>'.$addNew.$edit.$this->GetTreeAccountHeads($item).'</li>';
+        $arr.='<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name.$addNew.$edit.'  </div>'.$this->GetTreeAccountHeads($item).'</li>';
 
         }
 
@@ -52,9 +52,7 @@ class AccountHeadController extends Controller
     public function GetTreeAccountHeads($parent){
 
     $arr=null;  
-    $addNew = '<a class="dd-item xyz" id="addew" href="'. URL('/addAccountHead').'"> <i class="material-icons" style="float:  right;"  title="Add New">add_circle_outline</i></a>';
 
-     
      //$arr .= "<div class='dd-handle'>"{{$request->parent}}."</div>";
      $accountHeads2 = DB::select( DB::raw("
                     SELECT * from accounthead where parentId=".$parent->id));
@@ -62,8 +60,12 @@ class AccountHeadController extends Controller
     if(count($accountHeads2)!=0){
 
         foreach($accountHeads2 as $item){
+
+         $addNew = '<a style="float:  right;" id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"   title="Add Sub Head">add_circle_outline</i></a>';    
+
+        $edit = '<a style="float:  right;" href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons">mode_edit</i></a>';    
         
-         $arr .= '<ol class="dd-list"><li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name. $addNew.'</div>'.$this->GetTreeAccountHeads($item).'</li></ol>';
+         $arr .= '<ol class="dd-list"><li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->name. $addNew.$edit.'</div>'.$this->GetTreeAccountHeads($item).'</li></ol>';
         }
         return $arr;
     }else{
@@ -119,7 +121,7 @@ class AccountHeadController extends Controller
         $insert->name=$request->acchead_name;
         $insert->code=$request->acchead_code;
         $insert->accHeadTypeId=$request->type_id;
-        $insert->isTransactional=$request->is_tran;
+        $insert->isTransactional=$request->is_tran=="on"?1:0;
         $insert->parentId=$request->parent_id;
       	$insert->save();
 
@@ -143,7 +145,7 @@ class AccountHeadController extends Controller
         'name'         => $request->acchead_name,
         'code'         => $request->acchead_code,
         'accHeadTypeId'=> $request->type_id,
-        'isTransactional'=> $request->is_tran
+        'isTransactional'=> $request->is_tran=="on"?1:0,
      
         ]);
 
