@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" id="date_post" class="datepicker form-control" placeholder="Please choose a date...">
-                                    </div>
+                                </div>
                                   <div class="col-sm-6">
                                     <div class="form-group form-float">
                                     <div class="form-line">

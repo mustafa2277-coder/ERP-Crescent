@@ -395,6 +395,13 @@
 
                         </a>
                     </li>
+                    <li>
+                        <a href="{{url('/projectList')}}">
+                            <i class="material-icons">text_fields</i>
+                            <span>Projects</span>
+
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- #Menu -->

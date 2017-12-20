@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductCategory extends Model
+class Pcategory extends Model
 {
     protected $connection = 'mysql';
     protected $primaryKey = 'id';
@@ -12,5 +12,6 @@ class ProductCategory extends Model
     protected $fillable = array(
         'id',
         'name',
+        'pid',
         );
 }
