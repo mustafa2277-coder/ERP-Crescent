@@ -15,5 +15,9 @@ class Customer extends Model
         'name',
         'debitAccHeadId',
         'creditAccHeadId',
+        'address1',
+        'address2',
+        'mobile',
+        'phone',
         );
 }

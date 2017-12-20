@@ -8,7 +8,7 @@ class Contact extends Model
 {
     protected $connection = 'mysql';
     protected $primaryKey = 'id';
-    protected $table = 'contactaddress';
+    protected $table = 'contact';
     protected $fillable = array(
 
         'id',
