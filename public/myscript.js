@@ -64,6 +64,7 @@
         var debitTotal = 0;
         var creditTotal = 0;
         var invalidentry = 0; 
+        var countAcc = 1; // for checking there are more than two accounts
 
         $.each(tableData,function(e,val){
 
@@ -80,7 +81,21 @@
 
         });
 
-        if(invalidentry ==1){
+        // for checking there are more than two accounts
+        $.each(tableData,function(e,val){
+
+            $.each(tableData,function(e2,val2){
+            if(val.accountId != val2.accountId){
+                countAcc +=1;
+                return false;
+            }    
+            });
+
+        });
+
+
+
+        if(invalidentry ==1 || countAcc == 1 ){
             swal("Invalid entry!");
             return false;
         }

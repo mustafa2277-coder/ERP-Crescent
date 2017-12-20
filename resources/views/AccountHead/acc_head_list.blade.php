@@ -34,6 +34,10 @@
 
     <section class="content">
         <div class="container-fluid">
+              <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addAccountHead/0')}}" style="margin-bottom: 10px;"> 
+                            <i class="material-icons" title="Create New Account Head">add</i>
+                           </a>
+                           <br>
           <!--   <div class="block-header">
                 <h2>
                     JQUERY DATATABLES
@@ -56,7 +60,7 @@
 
                         </div>
                         <div class="body">
-                       
+                 
                              <div class="clearfix m-b-20">
                                 <div class="dd" id="undragable">
                                      <ol class="dd-list">

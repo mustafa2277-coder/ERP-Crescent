@@ -9,6 +9,8 @@ use App\Journal;
 use App\JournalEntries;
 use App\JournalEntryDetail;
 use Response;
+use Illuminate\Pagination\Paginator;
+use Redirect;
 
 
 class JournalController extends Controller
@@ -48,6 +50,8 @@ class JournalController extends Controller
      // for inserting a record   used for add new record
 
     public function InsertJournal(Request $request){
+
+
         $this->validate($request, [
             'journal_name'=>'required|unique:journal,name',
             'voucher_prefix'=>'required|unique:journal,voucherprefix'
@@ -90,18 +94,162 @@ class JournalController extends Controller
 
 /*----------------------------------Journal Entry-------------------------------*/
 
-    // for getting all journal entries
 
-    public function GetJournalEntries(){
+
+    public function GetJournalEntries(Request $request){
         
-            
-        $journalentries = DB::select( DB::raw("SELECT distinct je.date_post entryDate,je.id id,jed.amount amount,pj.title project,j.name journal from journalentries je
-                    join journalentrydetail jed on jed.journalEntryId = je.id 
-                    left join project pj on pj.id = je.projectId
-                    join journal j on j.id = je.journalId
-                    "));
+    
+        // $journalentries = DB::select( DB::raw("SELECT distinct je.date_post entryDate,je.id id,je.entryNum entryNum,jed.amount amount,pj.title project,j.name journal from journalentries je
+        //             join journalentrydetail jed on jed.journalEntryId = je.id 
+        //             left join project pj on pj.id = je.projectId
+        //             join journal j on j.id = je.journalId
+        //             "));
+// if(isset($request->id)){
+//return $request->selection;
+        $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
+        $projects = DB::select( DB::raw("SELECT * from project Order By title") );
+// }
+        switch ($request->selection) {
+            case 0:
+//return $request->selection;
+                $end   = null;
+                $start = null;
+                $selection = 0;
 
-        return view('/Journal/journal_entry_list')->with('journalentries',$journalentries);
+                $journalentries = DB::table('journalentries')
+
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+            )
+                ->distinct()
+                ->get(); 
+                
+                //return redirect('getJournalEntries');
+              
+                return view('/Journal/journal_entry_list',compact('journalentries','end','start','selection','journals','projects'));
+                break;
+            case 1:
+            //return $request->selection;
+             
+                $end = $request->end_date;
+                $start = $request->start_date;
+                $selection = 1;
+                
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                )
+                ->where('journalentries.date_post', '>=', date("Y-m-d",strtotime(str_replace('/', '-', $start))))
+                ->where('journalentries.date_post', '<=', date("Y-m-d",strtotime(str_replace('/', '-', $end))))
+                ->distinct()
+                ->get(); 
+
+
+
+                return view('/Journal/journal_entry_list',compact('journalentries','end','start','selection','journals','projects'));  
+                break;
+            case 2: 
+                $end = null;
+                $start = null;
+                $selection = 2;
+                $journalId = $request->journal;  
+
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                )
+                ->where('journalentries.journalId', '=', $request->journal)
+                ->distinct()
+                ->get(); 
+
+
+
+                return view('/Journal/journal_entry_list',compact('journalentries','selection','journals','journalId','projects'));  
+                break; 
+             case 3: 
+                $end = null;
+                $start = null;
+                $selection = 3;
+                $projectId = $request->project;  
+
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                )
+                ->where('journalentries.projectId', '=', $projectId)
+                ->distinct()
+                ->get(); 
+
+
+
+                return view('/Journal/journal_entry_list',compact('journalentries','selection','journals','projects','projectId'));  
+                break;          
+            
+            default:
+           
+                $end   = null;
+                $start = null;
+                $selection = 0;
+
+                $journalentries = DB::table('journalentries')
+
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+            )
+                ->distinct()
+                ->get();
+                
+               // return redirect('getJournalEntries');
+                return view('/Journal/journal_entry_list',compact('journalentries','end','start','selection','journals'));
+                break;
+                
+        }
+      
+    
+
+
+
+        
+    }
+
+     public function GetJournalEntriesByDate(Request $request){
+
+       // return $request->api_url;
+        $end = $request->end_date;
+        $start = $request->start_date;
+
+        
+        $journalentries = DB::table('journalentries')
+
+        ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+        ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+        ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+        ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+    )
+        ->where('journalentries.date_post', '>=', date("Y-m-d",strtotime(str_replace('/', '-', $start))))
+        ->where('journalentries.date_post', '<=', date("Y-m-d",strtotime(str_replace('/', '-', $end))))
+        ->distinct()
+        ->paginate(1); 
+
+
+
+        return view('/Journal/journal_entry_list',compact('journalentries','end','start'));
         
     }
 
@@ -118,6 +266,11 @@ class JournalController extends Controller
     }
 
     public function InsertJournalEntry(Request $request){
+        
+
+        $journal = DB::table('journal')->where('id',$request->journalId)->first();
+
+        $entryNumber =  strtoupper($journal->voucherPrefix);
 
         $journalEntry = new JournalEntries;
        
@@ -125,6 +278,14 @@ class JournalController extends Controller
         $journalEntry->date_post = date("Y-m-d",strtotime(str_replace('/', '-', $request->datePost))); 
         $journalEntry->reference = $request->reference;
         $journalEntry->save();
+
+        // generate entry number  or voucher number    
+        $entryNumber.="/".date('Y')."/".$journalEntry->id;
+
+        JournalEntries::where('id','=',$journalEntry->id)->update([
+        'entryNum'         => $entryNumber
+        
+        ]);
 
          for ($i=0; $i <sizeof($request->entryDetail) ; $i++) { 
             if($request->entryDetail[$i]['debit'] == 0){
@@ -161,12 +322,26 @@ class JournalController extends Controller
     public function GetJournalItems(){
         
             
-        $journalItems = DB::select( DB::raw("SELECT  je.date_post entryDate,je.id id,jed.amount amount,pj.title project,j.name journal,ac.name account,jed.isDebit isDebit  from journalentries je
-                    join journalentrydetail jed on jed.journalEntryId = je.id 
-                    left join project pj on pj.id = je.projectId
-                    join journal j on j.id = je.journalId
-                    join accounthead ac on ac.id= jed.accHeadId
-                    "));
+        // $journalItems = DB::select( DB::raw("SELECT  je.date_post entryDate,je.id id,je.entryNum entryNum,jed.amount amount,pj.title project,j.name journal,ac.name account,jed.isDebit isDebit  from journalentries je
+        //             join journalentrydetail jed on jed.journalEntryId = je.id 
+        //             left join project pj on pj.id = je.projectId
+        //             join journal j on j.id = je.journalId
+        //             join accounthead ac on ac.id= jed.accHeadId
+        //             "));
+
+
+         $journalItems = DB::table('journalentries')
+
+        ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+        ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+        ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+        ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+
+        ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','accounthead.name as account','journalentrydetail.isDebit as isDebit'
+
+    )
+        ->paginate(30);
+    
 
         return view('/Journal/journal_item_list')->with('journalItems',$journalItems);
          // return $journalItems;

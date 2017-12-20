@@ -18,6 +18,10 @@
     <!-- Animation Css -->
     <link href="{{asset('public/plugins/animate-css/animate.css')}}" rel="stylesheet" />
 
+
+    <!-- Bootstrap Select Css -->
+    <link href="{{asset('public/plugins/bootstrap-select/css/bootstrap-select.css')}}" rel="stylesheet" />
+
     <!-- JQuery DataTable Css -->
     <!-- <link href="{{asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet" /> -->
 
@@ -53,6 +57,7 @@
                         </div>
                         <div class="body">
                             <div class="table-responsive">
+                                
 
                                 <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
@@ -82,7 +87,7 @@
                                         @foreach ($journalItems as $journalItem)
                                         <tr>
                                             <td style="text-align:center"> {{date('d/m/Y', strtotime($journalItem->entryDate))}}</td>
-                                            <td>Entry/{{$journalItem->id}} </td>
+                                            <td>Entry/{{$journalItem->entryNum}} </td>
                                             <td>{{$journalItem->project}} </td>
                                             <td>{{$journalItem->journal}} </td>
                                             <td>{{$journalItem->account}} </td>
@@ -101,6 +106,8 @@
                                         
                                     </tbody>
                                 </table>
+                               {{$journalItems->links()}} 
+                                <!-- {{($journalItems->currentpage()-1) * $journalItems->perpage() + $journalItems->count()}} -->
                             </div>
                         </div>
                     </div>
@@ -127,6 +134,9 @@
 
     <!-- Waves Effect Plugin Js -->
     <script src="{{asset('public/plugins/node-waves/waves.js')}}"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="{{asset('public/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
 
     <!-- Jquery DataTable Plugin Js -->
 <!--     <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
