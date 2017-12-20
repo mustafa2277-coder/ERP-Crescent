@@ -34,6 +34,10 @@
 
     <section class="content">
         <div class="container-fluid">
+              <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addAccountHead/0')}}" style="margin-bottom: 10px;"> 
+                            <i class="material-icons" title="Create New Account Head">add</i>
+                           </a>
+                           <br>
           <!--   <div class="block-header">
                 <h2>
                     JQUERY DATATABLES
@@ -58,39 +62,7 @@
 
                         </div>
                         <div class="body">
-                        <!--     <div class="table-responsive">
-
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
-                                    <thead>
-                                        <tr>
-                                            <th>Code</th>
-                                            <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Code</th>
-                                            <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                        @foreach ($accountHeads as $accountHead)
-                                        <tr>
-                                            <td>{{$accountHead->code}} </td>
-                                            <td>{{$accountHead->name}} </td>
-                                            <td>{{$accountHead->type}} </td>
-                                            <td> <a href="{{url('/editAccountHead')}}/{{$accountHead->id}}">Edit</a></td>
-                                        </tr>
-
-                                        @endforeach  
-                                        
-                                    </tbody>
-                                </table>
-                            </div> -->
+                 
                              <div class="clearfix m-b-20">
                                 <div class="dd" id="undragable">
                                      <ol class="dd-list">

@@ -44,9 +44,14 @@ Route::post('/insertJournal','JournalController@InsertJournal')->middleware('aut
 Route::post('/updateJournal','JournalController@UpdateJournal')->middleware('auth');
 
 /*----------------------------------Journal Entry---------------------------------------*/
-Route::get('/getJournalEntries','JournalController@GetJournalEntries')->middleware('auth');
+//Route::get('/getJournalEntries','JournalController@GetJournalEntries')->name('getJournalEntries')->middleware('auth');
+// Route::post('/getJournalEntriess','JournalController@GetJournalEntries')->middleware('auth');
+Route::match(['get', 'post'],'/getJournalEntries','JournalController@GetJournalEntries')->middleware('auth');
+
 Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm')->middleware('auth');
 Route::post('/insertJournalEntry','JournalController@InsertJournalEntry')->middleware('auth');
+
+Route::post('/getJournalEntriesByDate','JournalController@GetJournalEntriesByDate')->middleware('auth');
 
 /*----------------------------------Journal Item----------------------------*/
 Route::get('/getJournalItems','JournalController@GetJournalItems');

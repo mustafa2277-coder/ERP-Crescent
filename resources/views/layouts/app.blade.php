@@ -368,7 +368,7 @@
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">view_list</i>
-                            <span>Accounting Entries</span>
+                            <span>Accounting</span>
 
                         </a>
 
