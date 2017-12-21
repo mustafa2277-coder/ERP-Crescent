@@ -258,7 +258,7 @@ class JournalController extends Controller
     public function GetJournalEntryForm(){
 
         $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
-        $accounts = DB::select( DB::raw("SELECT * from accounthead Order By name") );
+        $accounts = DB::select( DB::raw("SELECT * from accounthead where isTransactional=1 or  isTransactional is null Order By name") );
         $projects = DB::select( DB::raw("SELECT * from project Order By title") );
         
         return view('/Journal/journal_entry_add', compact('journals','accounts','projects'));
