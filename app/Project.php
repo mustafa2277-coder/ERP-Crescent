@@ -14,5 +14,10 @@ class Project extends Model
         'id',
         'title',
         'customerId',
+        'code',
+        'start',
+        'end',
+        'description',
+        'cost',
         );
 }

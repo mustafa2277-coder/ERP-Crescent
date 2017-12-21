@@ -27,6 +27,22 @@ Route::get('/getEditCustomer/{id}', 'CustomerController@getEditCustomer')->middl
 Route::post('/addCustomer', 'CustomerController@addCustomer')->middleware('auth');
 Route::post('/editCustomer', 'CustomerController@editCustomer')->middleware('auth');
 
+/*-----------------------------------Project---------------------------------------*/
+
+Route::get('/projectList', 'ProjectController@projectList')->middleware('auth');
+Route::get('/getAddProject', 'ProjectController@getAddProject')->middleware('auth');
+Route::get('/getEditProject/{id}', 'ProjectController@getEditProject')->middleware('auth');
+Route::post('/addProject', 'ProjectController@addProject')->middleware('auth');
+Route::post('/editProject', 'ProjectController@editProject')->middleware('auth');
+
+/*-----------------------------------Product Category---------------------------------------*/
+
+Route::get('/categoryList', 'ProductCategoryController@categoryList')->middleware('auth');
+Route::get('/getAddCategory', 'ProductCategoryController@getAddCategory')->middleware('auth');
+Route::get('/getEditCategory/{id}', 'ProductCategoryController@getEditCategory')->middleware('auth');
+Route::get('/getAddSubCategory/{id}', 'ProductCategoryController@getAddSubCategory')->middleware('auth');
+Route::post('/addCategory', 'ProductCategoryController@addCategory')->middleware('auth');
+Route::post('/editCategory', 'ProductCategoryController@editCategory')->middleware('auth');
 
 
 /*----------------------------------Account Heads---------------------------------------*/
