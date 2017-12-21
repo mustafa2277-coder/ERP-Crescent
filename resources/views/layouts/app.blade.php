@@ -366,6 +366,13 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{url('/categoryList')}}">
+                            <i class="material-icons">text_fields</i>
+                            <span>Product Categories</span>
+
+                        </a>
+                    </li>
+                    <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">view_list</i>
                             <span>Accounting</span>
