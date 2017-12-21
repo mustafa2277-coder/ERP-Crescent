@@ -72,3 +72,7 @@ Route::post('/getJournalEntriesByDate','JournalController@GetJournalEntriesByDat
 /*----------------------------------Journal Item----------------------------*/
 Route::get('/getJournalItems','JournalController@GetJournalItems');
 
+/*----------------------------------Reports---------------------------------------*/
+Route::get('/getGeneralLedger','ReportController@GetGeneralLedger');
+
+

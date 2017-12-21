@@ -389,6 +389,28 @@
 
                     </li>
                     <li>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">insert_chart</i>
+                            <span>Reports</span>
+
+                        </a>
+
+                        <ul class="ml-menu">
+
+                            <li>
+                                <a href="{{url('/getGeneralLedger')}}">General Ledger</a>
+                            </li>
+                            <li>
+                                <a href="#">Report1</a>
+                            </li>
+                           
+                            
+                        </ul>
+
+
+                    </li>
+
+                    <li>
                         <a href="{{url('/customerList')}}">
                             <i class="material-icons">text_fields</i>
                             <span>Customers</span>

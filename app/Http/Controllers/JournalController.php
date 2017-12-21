@@ -20,8 +20,11 @@ class JournalController extends Controller
 
     public function GetJournals(Request $request){
         
-            
-        $journals = DB::select( DB::raw("SELECT * from journal order by name"));
+        //======= Start Raw query =========//
+            // $journals = DB::select( DB::raw("SELECT * from journal order by name"));
+        //======= End Raw query =========//    
+        
+        $journals =  DB::table('journal')->orderBy('name')->get();
 
         return view('/Journal/journal_list')->with('journals',$journals);
     	
@@ -31,7 +34,6 @@ class JournalController extends Controller
 
     public function GetJournalForm(){
 
-    	
         return view('/Journal/journal_add');
         
     }
@@ -39,9 +41,7 @@ class JournalController extends Controller
     // for getiing a record against its id  used for editing a record
     public function GetJournalById($id){
        
-        $record=Journal::find($id);
-
-        
+       $record=Journal::find($id);
 
        return view('/Journal/journal_add', compact('record'));
        
@@ -81,7 +81,6 @@ class JournalController extends Controller
             'journal_name'=>'required'
         ]);
 
-       // $user=Auth::user();
         $record= Journal::where('id','=',$request->journal_id)->update([
         'name'         => $request->journal_name,
         'voucherPrefix'=> $request->voucher_prefix
@@ -99,19 +98,17 @@ class JournalController extends Controller
     public function GetJournalEntries(Request $request){
         
     
-        // $journalentries = DB::select( DB::raw("SELECT distinct je.date_post entryDate,je.id id,je.entryNum entryNum,jed.amount amount,pj.title project,j.name journal from journalentries je
-        //             join journalentrydetail jed on jed.journalEntryId = je.id 
-        //             left join project pj on pj.id = je.projectId
-        //             join journal j on j.id = je.journalId
-        //             "));
-// if(isset($request->id)){
-//return $request->selection;
-        $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
-        $projects = DB::select( DB::raw("SELECT * from project Order By title") );
-// }
+  
+        //======= Start Raw query =========//
+            // $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
+            // $projects = DB::select( DB::raw("SELECT * from project Order By title") );
+        //======= End Raw query =========//
+        
+        $journals =  DB::table('journal')->orderBy('name')->get();
+        $projects =  DB::table('project')->orderBy('title')->get();
+
         switch ($request->selection) {
             case 0:
-//return $request->selection;
                 $end   = null;
                 $start = null;
                 $selection = 0;
@@ -126,13 +123,13 @@ class JournalController extends Controller
             )
                 ->distinct()
                 ->get(); 
-                
-                //return redirect('getJournalEntries');
+           
               
                 return view('/Journal/journal_entry_list',compact('journalentries','end','start','selection','journals','projects'));
                 break;
+
             case 1:
-            //return $request->selection;
+        
              
                 $end = $request->end_date;
                 $start = $request->start_date;
@@ -154,6 +151,7 @@ class JournalController extends Controller
 
                 return view('/Journal/journal_entry_list',compact('journalentries','end','start','selection','journals','projects'));  
                 break;
+
             case 2: 
                 $end = null;
                 $start = null;
@@ -214,7 +212,6 @@ class JournalController extends Controller
                 ->distinct()
                 ->get();
                 
-               // return redirect('getJournalEntries');
                 return view('/Journal/journal_entry_list',compact('journalentries','end','start','selection','journals'));
                 break;
                 
@@ -229,8 +226,7 @@ class JournalController extends Controller
 
      public function GetJournalEntriesByDate(Request $request){
 
-       // return $request->api_url;
-        $end = $request->end_date;
+        $end   = $request->end_date;
         $start = $request->start_date;
 
         
@@ -240,8 +236,7 @@ class JournalController extends Controller
         ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
         ->join('journal', 'journalentries.journalId', '=', 'journal.id')
         ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
-
-    )
+                )
         ->where('journalentries.date_post', '>=', date("Y-m-d",strtotime(str_replace('/', '-', $start))))
         ->where('journalentries.date_post', '<=', date("Y-m-d",strtotime(str_replace('/', '-', $end))))
         ->distinct()
@@ -257,9 +252,17 @@ class JournalController extends Controller
 
     public function GetJournalEntryForm(){
 
-        $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
-        $accounts = DB::select( DB::raw("SELECT * from accounthead where isTransactional=1 or  isTransactional is null Order By name") );
-        $projects = DB::select( DB::raw("SELECT * from project Order By title") );
+        //======= Start Raw query =========//
+        //$journals = DB::select( DB::raw("SELECT * from journal Order By name") );
+        //$accounts = DB::select( DB::raw("SELECT * from accounthead where isTransactional=1 or  isTransactional is null Order By name") );
+       //$projects = DB::select( DB::raw("SELECT * from project Order By title") );
+        //======= End Raw query =========//
+        
+        $journals =  DB::table('journal')->orderBy('name')->get();
+        $accounts =  DB::table('accounthead')->where('accounthead.isTransactional','=',1)->orwhere('accounthead.isTransactional','=',null)->orderBy('name')->get();
+        $projects =  DB::table('project')->orderBy('title')->get();
+
+        
         
         return view('/Journal/journal_entry_add', compact('journals','accounts','projects'));
         
@@ -321,13 +324,15 @@ class JournalController extends Controller
 
     public function GetJournalItems(){
         
-            
+        //======= Start Raw query =========//
         // $journalItems = DB::select( DB::raw("SELECT  je.date_post entryDate,je.id id,je.entryNum entryNum,jed.amount amount,pj.title project,j.name journal,ac.name account,jed.isDebit isDebit  from journalentries je
         //             join journalentrydetail jed on jed.journalEntryId = je.id 
         //             left join project pj on pj.id = je.projectId
         //             join journal j on j.id = je.journalId
         //             join accounthead ac on ac.id= jed.accHeadId
         //             "));
+        //======= End Raw query =========//  
+        
 
 
          $journalItems = DB::table('journalentries')
@@ -344,7 +349,7 @@ class JournalController extends Controller
     
 
         return view('/Journal/journal_item_list')->with('journalItems',$journalItems);
-         // return $journalItems;
+   
     }
 
 

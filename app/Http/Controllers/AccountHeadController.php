@@ -13,40 +13,34 @@ class AccountHeadController extends Controller
     public function GetAccountHeads(Request $request){
         
         $arr=null;
-        
 
-        
+        //======= Start Raw query =========//
 
-        $accountHeads = DB::select( DB::raw("SELECT acchead.id id,acchead.name name,accht.type type,				acchead.code code from accounthead acchead left JOIN             accountheadtypes accht on accht.id=acchead.accHeadTypeId"));
+            // $accountHeads2 = DB::select( DB::raw("
+            //             SELECT aha.name,aha.code code ,aha.id id,aha.isTransactional isTrans  FROM accounthead aha
+            //             WHERE aha.`parentId` = 0 OR aha.`parentId`IS NULL"));
 
-        $accountHeads2 = DB::select( DB::raw("
-                    SELECT aha.name,aha.code code ,aha.id id,aha.isTransactional isTrans  FROM accounthead aha
-                    WHERE aha.`parentId` = 0 OR aha.`parentId`IS NULL"));
-       
-       // return $accountHeads2;
+        //======= End Raw query =========//
+        $accountHeads2 =  DB::table('accounthead')
+                            ->select('accounthead.*','accounthead.name as name','accounthead.code as code','accounthead.id as id','accounthead.isTransactional as isTrans')
+                            ->where('accounthead.parentId', '=', 0)
+                            ->orWhere('accounthead.parentId', '=', NULL)
+                            ->get(); 
+
         foreach($accountHeads2 as $item){
 
-        if($item->isTrans!=1)    
+            if($item->isTrans!=1)    
 
-        $addNew = '<a   style="float: right; " id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"  title="Add Sub Head">add_circle_outline</i></a>';
-        else
-        $addNew = "";    
+                $addNew = '<a   style="float: right; " id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"  title="Add Sub Head">add_circle_outline</i></a>';
+                else
+                $addNew = "";    
 
-        $edit = '<a  style="float: right; " href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons" title="Edit Head">mode_edit</i></a>';
-        //$arr .= '<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$this->GetTreeAccountHeads($item).'</div>';    
-
-        //$arr.= $this->GetTreeAccountHeads($item);
-
-        $arr.='<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->code." " .$item->name.$addNew.$edit.'  </div>'.$this->GetTreeAccountHeads($item).'</li>';
+                $edit = '<a  style="float: right; " href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons" title="Edit Head">mode_edit</i></a>';
+               
+                $arr.='<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->code." " .$item->name.$addNew.$edit.'  </div>'.$this->GetTreeAccountHeads($item).'</li>';
 
         }
 
-//         $accountHeads2 = DB::select( DB::raw("
-// SELECT aha.name parent,aha.id parentid  FROM accounthead aha"));
-
-//         $accountHeads3 = DB::select( DB::raw("
-// SELECT aha.name child ,aha.id childid ,aha.parentId parentid FROM accounthead aha
-// WHERE aha.parentId IS NOT NULL AND aha.parentId <> 0"));
 
         return view('/AccountHead/acc_head_list',compact('arr'));//,'accountHeads3'));
     	
@@ -56,10 +50,13 @@ class AccountHeadController extends Controller
     public function GetTreeAccountHeads($parent){
 
     $arr=null;  
+    //======= Start Raw query =========//
 
-     //$arr .= "<div class='dd-handle'>"{{$request->parent}}."</div>";
-     $accountHeads2 = DB::select( DB::raw("
-                    SELECT * from accounthead where parentId=".$parent->id));
+         // $accountHeads2 = DB::select( DB::raw("
+                    // SELECT * from accounthead where parentId=".$parent->id));
+    
+    //======= End Raw query =========//
+    $accountHeads2 =  DB::table('accounthead')->where('accounthead.parentId', '=', $parent->id)->get();
 
     if(count($accountHeads2)!=0){
 
