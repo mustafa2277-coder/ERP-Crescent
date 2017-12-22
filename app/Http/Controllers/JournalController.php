@@ -118,10 +118,10 @@ class JournalController extends Controller
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
                 ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
-                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+                ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
             )
-                ->distinct()
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
                 ->get(); 
            
               
@@ -144,7 +144,7 @@ class JournalController extends Controller
                 )
                 ->where('journalentries.date_post', '>=', date("Y-m-d",strtotime(str_replace('/', '-', $start))))
                 ->where('journalentries.date_post', '<=', date("Y-m-d",strtotime(str_replace('/', '-', $end))))
-                ->distinct()
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
                 ->get(); 
 
 
@@ -166,7 +166,7 @@ class JournalController extends Controller
 
                 )
                 ->where('journalentries.journalId', '=', $request->journal)
-                ->distinct()
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
                 ->get(); 
 
 
@@ -187,7 +187,7 @@ class JournalController extends Controller
 
                 )
                 ->where('journalentries.projectId', '=', $projectId)
-                ->distinct()
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
                 ->get(); 
 
 
@@ -209,7 +209,8 @@ class JournalController extends Controller
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
             )
-                ->distinct()
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                
                 ->get();
                 
                 return view('/Journal/journal_entry_list',compact('journalentries','end','start','selection','journals'));

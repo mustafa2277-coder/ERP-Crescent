@@ -54,7 +54,7 @@
                                 <h2>
                                       General Ledger
                                 </h2>       
-                        </div>
+                            </div>
                         <div class="body">
                             <div class="table-responsive">
                                 
@@ -63,7 +63,6 @@
                                     <thead>
                                         <tr>
                                             <th style="text-align:center; width: 265px;" colspan="5">Account</th>
-                                      
                                             <th style="text-align:center">Debit</th>
                                             <th style="text-align:center">Credit</th>
                                             <th style="text-align:center">Balance</th>
@@ -82,103 +81,99 @@
                                   <!--  -->
                                     <tbody>
                                        
-                                        <tr>
-                                            <td colspan="8">
+<tr>
+    <td colspan="8">
                                           <!-- <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12"> -->
                                    <!--  <b>Panel Danger</b> -->
  
-                                    <div class="panel-group" id="accordion_4" role="tablist" aria-multiselectable="true">
-                                    @foreach ($ledgerAccounts as $ledgerAccount)
-                                    <?php $sumDebit=$sumCredit=0; $balance=0;?>        
-                                        <div class="panel panel-danger">
-                                            <div class="panel-heading" role="tab" id="{{$ledgerAccount->code}}">
-                                                <h4 class="panel-title">
+        <div class="panel-group" id="accordion_4" role="tablist" aria-multiselectable="true">
+        @foreach ($ledgerAccounts as $ledgerAccount)
+        <?php $sumDebit=$sumCredit=0; $balance=0;?>        
+            <div class="panel">
+                <div class="panel-heading" role="tab" id="{{$ledgerAccount->code}}">
+                    <h4 class="panel-title">
+                        <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$ledgerAccount->code}}" aria-expanded="false" aria-controls="collapse_{{$ledgerAccount->code}}">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            {{$ledgerAccount->code}}  {{$ledgerAccount->name}}
+                            <span id="bal" style="float: right;padding-right: 28px;"></span>
+                            <span id="cre" style="float: right;padding-right: 80px;"></span>
+                            <span id="deb" style="float: right;padding-right: 80px;"></span>
+                        </a>
+                    </h4>
+                </div>
 
-                                                    <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$ledgerAccount->code}}" aria-expanded="false" aria-controls="collapse_{{$ledgerAccount->code}}">
-                                                        <span class="glyphicon glyphicon-plus"></span>
-                                                       {{$ledgerAccount->code}}  {{$ledgerAccount->name}}
+            <div id="collapse_{{$ledgerAccount->code}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$ledgerAccount->code}}">
+                <div class="panel-body">
+                    <table id="example2"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Number</th>
+                                <th>Project</th>
+                                <th style="text-align:center">Debit</th>
+                                <th style="text-align:center">Credit</th>
+                                <th style="text-align:center">Balance</th>
+                            </tr>
+                        </thead>
+                                                                          <!--   <tfoot>
+                                                                              <tr id="total">
+                                                                                <th colspan="4" style="text-align:right">Total:</th>
+                                                                                <th></th>
+                                                                              </tr>
+                                                                            </tfoot> -->
+                        <tbody>
+                            <tr>
+                                <td colspan="3">Initial Balance</td>
+                                <td style="text-align:center">0</td>
+                                <td style="text-align:center">0</td>
+                                <td style="text-align:center">0</td>
+                            </tr>
+                        @foreach ($ledgers as $ledger)
+                          
+                        @if ($ledger->name==$ledgerAccount->name)
+                           
+                        
 
-                                                       
-                                                       
-                                                       <span id="deb" style="float: right;padding-right: 15px;">balance</span>
-                                                       <span id="cre" style="float: right;padding-right: 80px;">credit</span>
-                                                       <span id="bal" style="float: right;padding-right: 80px;">debit</span>
+                            <tr class="detailModal" >
 
+                                <td> {{date('d/m/Y', strtotime($ledger->date_post))}} </td>
+                                <td>{{$ledger->entryNum}} </td>
+                                <td>{{$ledger->project}} </td>
+                                @if ($ledger->Debit!=null)
+                                <td style="text-align:center">{{$ledger->Debit}}</td>
+                                @else                        
+                                <td style="text-align:center">0</td>
+                                @endif    
+                                @if ($ledger->Credit!=null)
+                                <td style="text-align:center">{{$ledger->Credit}}</td>
+                                @else                        
+                                <td style="text-align:center">0</td>
+                                @endif                          
+                        <?php $sumDebit += $ledger->Debit; $sumCredit += $ledger->Credit; $balance = $balance + $ledger->Debit - $ledger->Credit ;?>
+                                <td style="text-align:center">{{$balance}}</td> 
+                                           
+                            </tr>
+                        
+                        @endif
+                        @endforeach 
+                            <tr id="total">
+                                <th colspan="3" style="text-align:center">Total:</th>
+                                <th style="text-align:center">{{$sumDebit}}</th>
+                                <th style="text-align:center">{{$sumCredit}}</th>
+                                <th style="text-align:center">{{$balance}}</th>
+                            </tr>
 
-                                                   
-                                                    </a>
-
-                                                </h4>
-
-
-
-                                            </div>
-
-                                            <div id="collapse_{{$ledgerAccount->code}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$ledgerAccount->code}}">
-                                                <div class="panel-body">
-                                                     
-                                                          <table id="example2"  class="table table-bordered table-striped table-hover dataTable js-exportable">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style="text-align:center">Date</th>
-                                                                        <th style="text-align:center">Number</th>
-                                                                        <th>Project</th>
-                                                                        <th style="text-align:center">Debit</th>
-                                                                        <th style="text-align:center">Credit</th>
-                                                                        <th style="text-align:center">Balance</th>
-                                                                    
-                                                                    </tr>
-                                                                </thead>
-                                                              <!--   <tfoot>
-                                                                  <tr id="total">
-                                                                    <th colspan="4" style="text-align:right">Total:</th>
-                                                                    <th></th>
-                                                                  </tr>
-                                                                </tfoot> -->
-                                                                <tbody>
-                                                                    
-                                        @foreach ($ledgers as $ledger)
-                                        
-                                            @if ($ledger->name==$ledgerAccount->name)
-                                                                    <tr>
-                                                                        <td style="text-align:center"> {{date('d/m/Y', strtotime($ledger->date_post))}} </td>
-                                                                        <td style="text-align:center">{{$ledger->entryNum}} </td>
-                                                                        <td>{{$ledger->project}} </td>
-                                                @if ($ledger->Debit!=null)
-                                                    <td style="text-align:center">{{$ledger->Debit}}</td>
-                                                @else                        
-                                                    <td style="text-align:center">0</td>
-                                                @endif    
-                                                @if ($ledger->Credit!=null)
-                                                    <td style="text-align:center">{{$ledger->Credit}}</td>
-                                                @else                        
-                                                    <td style="text-align:center">0</td>
-                                                @endif                          
+                        </tbody>
+                    </table>
+                                                                         
+                                                              
+                    </div>
+                </div>
+            </div>
+                                                    @endforeach
                                                  
-                                                  <?php $sumDebit += $ledger->Debit; $sumCredit += $ledger->Credit; $balance = $balance + $ledger->Debit - $ledger->Credit ;?>
-
-                                                    <td style="text-align:center">{{$balance}}</td>                </tr>
-                                            @endif
-                                        @endforeach 
-                                                                    <tr id="total">
-                                                                    <th colspan="3" style="text-align:center">Total:</th>
-                                                                    <th style="text-align:center">{{$sumDebit}}</th>
-                                                                    <th style="text-align:center">{{$sumCredit}}</th>
-                                                                    <th style="text-align:center">{{$balance}}</th>
-                                                                  </tr>
-
-                                                                </tbody>
-                                                            </table>
-                                                             
-                                                  
                                                 </div>
-                                            </div>
-                                            
-                                        </div>
-                                        @endforeach
-                                     
-                                    </div>
-                                <!-- </div>   -->
+                                            <!-- </div>   -->
                                             </td>
                                         </tr>
 
@@ -187,6 +182,64 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- For Material Design Colors -->
+                <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!-- <h4 class="modal-title" id="defaultModalLabel">Journal Entry</h4> -->
+                             <div class="header">
+                           
+                                <h2>
+                                      BNK/2017/40
+                                </h2>       
+                            </div>
+                               <div class="row clearfix">
+                                <div class="col-sm-1">
+                                  <strong>Date</strong>
+                                </div>
+                                <div class="col-sm-3">
+                                    <span id="modal_date">Date</span>
+                                </div>
+                                <div class="col-sm-2">
+                                  <strong>Journal</strong>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span id="modal_journal">Date</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                           
+
+                            <table id="modalTable"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Account</th>
+                                <th>Project</th>
+                                
+                                <th style="text-align:center">Debit</th>
+                                <th style="text-align:center">Credit</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                        </tbody>
+                    </table>
+
+
+                            
+                        </div>
+                        <div class="modal-footer">
+                            
+                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                         </div>
                     </div>
                 </div>
@@ -231,37 +284,91 @@
     <script src="{{asset('public/js/admin.js')}}"></script>
 <!--     <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script> -->
 
+    <!-- <script src="{{asset('public/js/pages/ui/modals.js')}}"></script> -->
+
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
 
 <script>
-$(document).ready(function(){
-$('.collapse').on('shown.bs.collapse', function(){
-$(this).parent().find(".glyphicon-plus").removeClass("glyphicon-plus").addClass("glyphicon-minus");
-}).on('hidden.bs.collapse', function(){
-$(this).parent().find(".glyphicon-minus").removeClass("glyphicon-minus").addClass("glyphicon-plus");
-});
+    $(document).ready(function(){
+        $('.collapse').on('shown.bs.collapse', function(){
+        $(this).parent().find(".glyphicon-plus").removeClass("glyphicon-plus").addClass("glyphicon-minus");
+        }).on('hidden.bs.collapse', function(){
+        $(this).parent().find(".glyphicon-minus").removeClass("glyphicon-minus").addClass("glyphicon-plus");
+        });
 
 
-            var table = $("tr#total");
-            //var rowCount = $('#example tbody tr').length;
-            //console.log(rowCount);
-            table.find('th').each(function (i) {
-                // if(i<rowCount-1){
-                  
-                    var $trs = $(this).find('tr'),
-                    
-                     debit = $trs.eq(0).text();
-                     alert(trs.text());
-                //     debitAmt = parseFloat(debit) + debitAmt;
 
-                //     credit = $tds.eq(3).text();
-                //     creditAmt = parseFloat(credit) + creditAmt;
+        var divPanel = $(".panel");
 
-                // }
-            });
+        divPanel.each(function (item) {
 
-});
+            $(this).find('span#deb').text($(this).find('tr#total th').eq(1).text());
+            $(this).find('span#cre').text($(this).find('tr#total th').eq(2).text());
+            $(this).find('span#bal').text($(this).find('tr#total th').eq(3).text());
+        });
+
+    });
+
+    $('.detailModal').on('click', function () {
+       // alert($(this).find('td').eq(1).text());
+       $.ajax({
+            url: "http://localhost/ERP/erp1/getJournalEntryByEntrynum",
+            type: "GET",
+            headers: {
+                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                         },
+            data: {entrynum:$(this).find('td').eq(1).text()},
+            //crossDomain: true,
+            dataType: "json",
+            //beforeSend: function() {  $('#payModal').modal('hide'); $('#loading').show();},
+           // complete: function() { $('#loading').hide();},
+
+            success: function(data) {
+                $('#modal_date').text(data[0].entryDate);
+                $('#modal_journal').text(data[0].journal);
+           
+                $('#defaultModal').modal('show');
+                var totalDebit = 0;
+                var totalCredit = 0;
+
+                $.each(data,function(i,val){
+
+                    var row ="";
+                    var debit=0;
+                    var credit=0;
+                    if(val.isDebit==0){
+                      credit = val.amount;
+                      debit = 0;
+                    }
+                     else{
+                     debit = val.amount; 
+                     credit = 0;  
+                    }
+                    totalDebit  += parseFloat(debit);
+                    totalCredit += parseFloat(credit);
+
+                    row = "<tr><td>"+val.accountheadCode+"</td><td>"+val.account+"</td><td>"+val.project+"</td><td>"+debit+"</td><td>"+credit+"</td></tr>";
+                    $('#modalTable tbody').append(row);
+
+                   
+
+                 console.log(val);  
+
+                });
+
+                 row = "<tr><th  colSpan='3' style='text-align:center'>Total</th><th>"+totalDebit+"</th><th>"+totalCredit+"</th></tr>";
+                    $('#modalTable tbody').append(row);
+               
+                
+            //alert(data);
+
+            }
+
+         });
+
+        
+    });
 
 </script>
 @endsection

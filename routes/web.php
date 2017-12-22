@@ -74,5 +74,6 @@ Route::get('/getJournalItems','JournalController@GetJournalItems');
 
 /*----------------------------------Reports---------------------------------------*/
 Route::get('/getGeneralLedger','ReportController@GetGeneralLedger');
+Route::get('/getJournalEntryByEntrynum','ReportController@GetJournalEntryByEntrynum');
 
 

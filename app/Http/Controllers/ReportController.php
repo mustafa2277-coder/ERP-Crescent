@@ -24,7 +24,7 @@ class ReportController extends Controller
 
         //$ledger =  DB::table('accounthead')->orderBy('name')->get();
 
-        $ledgers =  DB::select( DB::raw("SELECT acch.name,jed.`isDebit`,je.`entryNum`,je.`date_post`                        ,pj.title project,
+        $ledgers =  DB::select( DB::raw("SELECT acch.name,jed.`isDebit`,je.`entryNum`,je.`date_post`,pj.title project,
                                     ( CASE WHEN jed.isDebit = 1 THEN jed.`amount` END) AS Debit,
                                     ( CASE WHEN jed.isDebit = 0 THEN jed.`amount` END) AS Credit
                                     FROM journalentrydetail jed
@@ -52,6 +52,25 @@ class ReportController extends Controller
 
         return view('/Reports/report_general_ledger',compact('ledgers','ledgerAccounts'));
     	
+    }
+
+    public function GetJournalEntryByEntrynum(Request $request){
+       
+       $record = DB::table('journalentries')
+
+        ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+        ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+        ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+        ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+
+        ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','accounthead.name as account','journalentrydetail.isDebit as isDebit','accounthead.code as accountheadCode' )
+        ->where('entryNum','=',$request->entrynum)
+        ->get();    
+
+   
+
+       return $record;
+       
     }
 
     
