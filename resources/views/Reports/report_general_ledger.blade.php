@@ -196,7 +196,7 @@
                              <div class="header">
                            
                                 <h2>
-                                      BNK/2017/40
+                                      <span id="modal_entrynum"></span>
                                 </h2>       
                             </div>
                                <div class="row clearfix">
@@ -204,13 +204,13 @@
                                   <strong>Date</strong>
                                 </div>
                                 <div class="col-sm-3">
-                                    <span id="modal_date">Date</span>
+                                    <span id="modal_date"></span>
                                 </div>
                                 <div class="col-sm-2">
                                   <strong>Journal</strong>
                                 </div>
                                 <div class="col-sm-6">
-                                    <span id="modal_journal">Date</span>
+                                    <span id="modal_journal"></span>
                                 </div>
                             </div>
                         </div>
@@ -325,8 +325,12 @@
            // complete: function() { $('#loading').hide();},
 
             success: function(data) {
+
+
                 $('#modal_date').text(data[0].entryDate);
                 $('#modal_journal').text(data[0].journal);
+                $('#modal_entrynum').text(data[0].entryNum);
+                
            
                 $('#defaultModal').modal('show');
                 var totalDebit = 0;
