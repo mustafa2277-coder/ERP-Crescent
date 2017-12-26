@@ -408,7 +408,10 @@
                                 <a href="{{url('/getGeneralLedger')}}">General Ledger</a>
                             </li>
                             <li>
-                                <a href="#">Report1</a>
+                                <a href="{{url('/getBalanceSheet')}}">Balance Sheet</a>
+                            </li>
+                            <li>
+                                <a href="{{url('/getProfitLoss')}}">Profit and Loss</a>
                             </li>
                            
                             

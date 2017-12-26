@@ -34,8 +34,8 @@
 @endsection
 
 @section('content')
-
-
+  
+ 
     <section class="content">
         <div class="container-fluid">
           <!--   <div class="block-header">
@@ -134,7 +134,7 @@
                            
                         
 
-                            <tr class="detailModal" >
+                            <tr class="detailModal" style="cursor:  pointer;" title="View" >
 
                                 <td> {{date('d/m/Y', strtotime($ledger->date_post))}} </td>
                                 <td>{{$ledger->entryNum}} </td>
@@ -187,7 +187,7 @@
                 </div>
             </div>
 
-             <!-- For Material Design Colors -->
+             <!-- For Modal  -->
                 <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -244,6 +244,7 @@
                     </div>
                 </div>
             </div>
+            <!-- End Modal  -->
             <!-- #END# Exportable Table -->
         </div>
     </section>
@@ -321,58 +322,72 @@
             data: {entrynum:$(this).find('td').eq(1).text()},
             //crossDomain: true,
             dataType: "json",
-            //beforeSend: function() {  $('#payModal').modal('hide'); $('#loading').show();},
-           // complete: function() { $('#loading').hide();},
+            beforeSend: function() { $('.page-loader-wrapper').fadeIn();},
+            complete: function() { $('.page-loader-wrapper').fadeOut();},
 
             success: function(data) {
 
 
-                $('#modal_date').text(data[0].entryDate);
-                $('#modal_journal').text(data[0].journal);
-                $('#modal_entrynum').text(data[0].entryNum);
-                
-           
-                $('#defaultModal').modal('show');
-                var totalDebit = 0;
-                var totalCredit = 0;
-
-                $.each(data,function(i,val){
-
-                    var row ="";
-                    var debit=0;
-                    var credit=0;
-                    if(val.isDebit==0){
-                      credit = val.amount;
-                      debit = 0;
-                    }
-                     else{
-                     debit = val.amount; 
-                     credit = 0;  
-                    }
-                    totalDebit  += parseFloat(debit);
-                    totalCredit += parseFloat(credit);
-
-                    row = "<tr><td>"+val.accountheadCode+"</td><td>"+val.account+"</td><td>"+val.project+"</td><td>"+debit+"</td><td>"+credit+"</td></tr>";
-                    $('#modalTable tbody').append(row);
-
-                   
-
-                 console.log(val);  
-
-                });
-
-                 row = "<tr><th  colSpan='3' style='text-align:center'>Total</th><th>"+totalDebit+"</th><th>"+totalCredit+"</th></tr>";
-                    $('#modalTable tbody').append(row);
+                if(data.length !=0){
+                    var inovDate = new Date(data[0].entryDate);
+                    $('#modal_date').text( inovDate.getDate() + '/' + (inovDate.getMonth() + 1) + '/' +  inovDate.getFullYear());
+                    $('#modal_journal').text(data[0].journal);
+                    $('#modal_entrynum').text(data[0].entryNum);
+                    
                
-                
-            //alert(data);
+                    $('#defaultModal').modal('show');
+                    var totalDebit = 0;
+                    var totalCredit = 0;
 
+                    $.each(data,function(i,val){
+
+                        var row ="";
+                        var debit=0;
+                        var credit=0;
+                        if(val.isDebit==0){
+                          credit = val.amount;
+                          debit = 0;
+                        }
+                         else{
+                         debit = val.amount; 
+                         credit = 0;  
+                        }
+                        totalDebit  += parseFloat(debit);
+                        totalCredit += parseFloat(credit);
+
+                        row = "<tr><td>"+val.accountheadCode+"</td><td>"+val.account+"</td><td>"+val.project+"</td><td>"+debit+"</td><td>"+credit+"</td></tr>";
+                        $('#modalTable tbody').append(row);
+
+                       
+
+                   //  console.log(val);  
+
+                    });
+
+                     row = "<tr><th  colSpan='3' style='text-align:center'>Total</th><th>"+totalDebit+"</th><th>"+totalCredit+"</th></tr>";
+                        $('#modalTable tbody').append(row);
+                   
+                    
+                //alert(data);
             }
+            else{
+
+                swal('error');
+            }
+        }
 
          });
 
         
     });
+
+    $('#defaultModal').on('hidden.bs.modal', function () {
+        $('#modal_date').text('');
+        $('#modal_journal').text('');
+        $('#modal_entrynum').text('');
+        $('#modalTable tbody').html('');
+
+    });    
 
 </script>
 @endsection
