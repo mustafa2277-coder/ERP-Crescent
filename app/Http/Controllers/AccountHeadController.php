@@ -112,7 +112,7 @@ class AccountHeadController extends Controller
     public function InsertAccountHead(Request $request){
         $this->validate($request, [
             'acchead_code'=>'required|unique:accounthead,code',
-            'acchead_name'=>'required|unique:accounthead,name',
+            'acchead_name'=>'required',
             'type_id'=>'required'
             ],
 
@@ -140,7 +140,7 @@ class AccountHeadController extends Controller
         
   
         $this->validate($request, [
-            'acchead_code'=>'required',
+            'acchead_code'=>'required|unique:accounthead,code',
             'acchead_name'=>'required',
             'type_id'=>'required'
             ]);

@@ -316,7 +316,7 @@
     $('.detailModal').on('click', function () {
        // alert($(this).find('td').eq(1).text());
        $.ajax({
-            url: "http://localhost/ERP/erp1/getJournalEntryByEntrynum",
+            url: "http://localhost/ERP/getJournalEntryByEntrynum",
             type: "GET",
             headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

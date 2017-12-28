@@ -76,6 +76,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
+                                    <div class="form-line">
+                                    <input type="checkbox" id="isVendor" name="isVendor" {{ $customer[0]->isVendor == 'on' ? "checked":"" }} >
+                                    <label for="isVendor">Is Vendor</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
                                     <div class="col-sm-6">
                                         <label class="form-label">Receiveable Account Head</label>
                                         <select  id="type_id" name="debit" class="form-control show-tick" data-live-search="true" required>
@@ -149,6 +155,12 @@
                                     <div class="form-line">
                                         <input type="text" class="form-control" name="mobile" required>
                                         <label class="form-label">Mobile</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                    <input type="checkbox" id="isVendor" name="isVendor"  >
+                                    <label for="isVendor">Is Vendor</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
