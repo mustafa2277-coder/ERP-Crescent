@@ -24,7 +24,6 @@ class CustomerController extends Controller
     }
     public function addCustomer(Request $request)
     {
-
         $customer=new Customer;
         $customer->name=$request->name;
         $customer->debitAccHeadId=$request->debit;
@@ -33,6 +32,10 @@ class CustomerController extends Controller
         $customer->address2=$request->address2;
         $customer->phone=$request->phone;
         $customer->mobile=$request->mobile;
+        if($request->isVendor){
+
+            $customer->isVendor=$request->isVendor;
+        }
         $customer->save();
        
 
@@ -46,6 +49,11 @@ class CustomerController extends Controller
         return view('customer/customerForm',compact('accountHeads','customer'));
     }
     public function editCustomer(Request $request){
+        $isVendor=Null;
+        if($request->isVendor){
+            
+            $isVendor=$request->isVendor;
+        }
 
        Customer::where('id','=',$request->id)->update(['name' => $request->name,
                 'debitAccHeadId'=>$request->debit,
@@ -53,7 +61,8 @@ class CustomerController extends Controller
                 'phone' => $request->phone,
                 'address1'=>$request->address1,
                 'address2'=>$request->address2,
-                'mobile'=>$request->mobile
+                'mobile'=>$request->mobile,
+                'isVendor'=>$isVendor
                 ]);
        return redirect('customerList');
         

@@ -19,5 +19,6 @@ class Customer extends Model
         'address2',
         'mobile',
         'phone',
+        'isVendor',
         );
 }
