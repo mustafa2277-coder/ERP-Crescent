@@ -22,31 +22,33 @@ class ReportController extends Controller
         
         //$generalLedger = [];
 
-        //$ledger =  DB::table('accounthead')->orderBy('name')->get();
+       // $ledger =  DB::table('accounthead')->orderBy('name')->get();
 
-        $ledgers =  DB::select( DB::raw("SELECT acch.name,jed.`isDebit`,je.`entryNum`,je.`date_post`,pj.title project,
+        $ledgers =  DB::select( DB::raw("SELECT jed.`isDebit`,je.`entryNum`,je.`date_post`,pj.title project,acch.id,
                                     ( CASE WHEN jed.isDebit = 1 THEN jed.`amount` END) AS Debit,
                                     ( CASE WHEN jed.isDebit = 0 THEN jed.`amount` END) AS Credit
                                     FROM journalentrydetail jed
                                     JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
                                     JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
                                     LEFT JOIN project pj ON pj.id = je.projectId
-                                    GROUP BY acch.name,jed.`isDebit`,je.`entryNum`,je.`date_post`,Debit,Credit,project
-                                    ORDER BY acch.`name`,je.date_post") 
+                                    GROUP BY jed.`isDebit`,je.`entryNum`,je.`date_post`,Debit,Credit,project,acch.id
+                                    ORDER BY je.date_post,je.`entryNum`") 
                         );
 
+        // $ledgerAccounts = DB::table('accounthead')->orderBy('name')->get();
 
-        $ledgerAccounts =  DB::select( DB::raw("SELECT acch2.name,acch2.code FROM `accounthead` acch2
-                                    JOIN (SELECT acch.name,jed.`isDebit`,je.`entryNum`,je.`date_post`,
+
+        $ledgerAccounts =  DB::select( DB::raw("SELECT acch2.name,acch2.code,acch2.id FROM `accounthead` acch2
+                                    JOIN (SELECT acch.name,jed.`isDebit`,je.`entryNum`,je.`date_post`,acch.id,
                                     ( CASE WHEN jed.isDebit = 1 THEN jed.`amount` END) AS Debit,
                                     ( CASE WHEN jed.isDebit = 0 THEN jed.`amount` END) AS Credit
                                      FROM journalentrydetail jed
                                     JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
                                     JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
                                     GROUP BY acch.name,jed.`isDebit`,je.`entryNum`,je.`date_post`,Debit,Credit,acch.code
-                                    ORDER BY acch.`name`,je.date_post) acc ON acch2.name=acc.name
-                                    GROUP BY acch2.name,acch2.code
-                                    ORDER BY acch2.name")
+                                    ORDER BY acch.`name`,je.date_post) acc ON acch2.id=acc.id
+                                    GROUP BY acch2.name,acch2.code,acch2.id
+                                    ORDER BY acch2.code")
                             );
      
 
@@ -77,7 +79,20 @@ class ReportController extends Controller
 
     public function GetBalanceSheet(Request $request){
         
-        $acctypes = DB::table('accountheadtypes')->orderBy('type')->get();
+        // $acctypes = DB::table('accountheadtypes')->orderBy('type')->get();
+
+        $assetAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id` FROM journalentrydetail jed
+                                JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                                JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                                JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                                LEFT JOIN project pj ON pj.id = je.projectId  
+                                WHERE acct.id IN(1,2,4,3,14,15)
+                                GROUP BY acct.type,acch.`name`,acct.`id`
+                                ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
+                            );
 
 
         $assetAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
@@ -92,6 +107,20 @@ class ReportController extends Controller
                             GROUP BY acct.type,acch.`name`,acct.`id`
                             ORDER BY acct.type")
                             );
+
+        $liaAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id` FROM journalentrydetail jed
+                                JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                                JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                                JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                                LEFT JOIN project pj ON pj.id = je.projectId  
+                                WHERE acct.id IN(6,7,8)
+                                GROUP BY acct.type,acch.`name`,acct.`id`
+                                ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
+                            );
+
         $liabilitiesAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
                             SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
                             SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
@@ -104,6 +133,20 @@ class ReportController extends Controller
                             GROUP BY acct.type,acch.`name`,acct.`id`
                             ORDER BY acct.type")
                             );
+
+        $equityAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id` FROM journalentrydetail jed
+                                JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                                JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                                JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                                LEFT JOIN project pj ON pj.id = je.projectId  
+                                WHERE acct.id IN(12,13)
+                                GROUP BY acct.type,acch.`name`,acct.`id`
+                                ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
+                            );
+
         $equityAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
                             SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
                             SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
@@ -118,7 +161,7 @@ class ReportController extends Controller
                             );
      
 
-        return view('/Reports/report_balance_sheet',compact('acctypes','assetAccounts','liabilitiesAccounts','equityAccounts'));
+        return view('/Reports/report_balance_sheet',compact('assetAccounts','liabilitiesAccounts','equityAccounts','assetAcctypes','liaAcctypes','equityAcctypes'));
         
     }
 
@@ -126,10 +169,21 @@ class ReportController extends Controller
 
     public function GetProfitLoss(Request $request){
         
-        $acctypes = DB::table('accountheadtypes')->orderBy('type')->get();
+    
+        $incomeAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id`
+                            FROM journalentrydetail jed
+                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                            JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                            LEFT JOIN project pj ON pj.id = je.projectId  
+                            WHERE acct.id IN(5,9,10)
+                            GROUP BY acct.type,acch.`name`,acct.`id`
+                            ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
+                            );
 
-
-       
         $incomeAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
                             SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
                             SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
@@ -141,7 +195,27 @@ class ReportController extends Controller
                             WHERE acct.id IN(5,9,10)
                             GROUP BY acct.type,acch.`name`,acct.`id`
                             ORDER BY acct.type")
+                            );    
+
+
+
+
+
+
+        $expenseAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id`
+                            FROM journalentrydetail jed
+                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                            JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                            LEFT JOIN project pj ON pj.id = je.projectId  
+                            WHERE acct.id IN(11)
+                            GROUP BY acct.type,acch.`name`,acct.`id`
+                            ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
                             );
+
 
         $expenseAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
                             SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
@@ -155,9 +229,40 @@ class ReportController extends Controller
                             GROUP BY acct.type,acch.`name`,acct.`id`
                             ORDER BY acct.type")
                             );
+
+
+       // $acctypes = DB::table('accountheadtypes')->orderBy('type')->get();
+
+
+       
+        // $incomeAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
+        //                     SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
+        //                     SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
+        //                     FROM journalentrydetail jed
+        //                     JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+        //                     JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+        //                     JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+        //                     LEFT JOIN project pj ON pj.id = je.projectId  
+        //                     WHERE acct.id IN(5,9,10)
+        //                     GROUP BY acct.type,acch.`name`,acct.`id`
+        //                     ORDER BY acct.type")
+        //                     );
+
+        // $expenseAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
+        //                     SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
+        //                     SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
+        //                     FROM journalentrydetail jed
+        //                     JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+        //                     JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+        //                     JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+        //                     LEFT JOIN project pj ON pj.id = je.projectId  
+        //                     WHERE acct.id IN(11)
+        //                     GROUP BY acct.type,acch.`name`,acct.`id`
+        //                     ORDER BY acct.type")
+        //                     );
      
 
-        return view('/Reports/report_profit_loss',compact('acctypes','incomeAccounts','expenseAccounts'));
+        return view('/Reports/report_profit_loss',compact('incomeAcctypes','incomeAccounts','expenseAcctypes','expenseAccounts'));
         
     }
     
