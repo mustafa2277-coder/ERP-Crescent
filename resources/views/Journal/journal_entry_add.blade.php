@@ -142,7 +142,7 @@
 
                     <div id="data">
                              <form id="person">
-                                 <div class="col-sm-6">
+                                 <div class="col-sm-6" id="div_account">
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                     <select  id="acc_id" name="acc_id" class="form-control show-tick" data-live-search="true" required>
@@ -154,7 +154,7 @@
                                          </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-6" id="div_project">
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                     <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" required>

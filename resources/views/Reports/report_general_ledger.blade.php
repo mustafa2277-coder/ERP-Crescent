@@ -95,9 +95,11 @@
                         <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$ledgerAccount->id}}" aria-expanded="false" aria-controls="collapse_{{$ledgerAccount->id}}">
                             <span class="glyphicon glyphicon-plus"></span>
                             {{$ledgerAccount->code}}  {{$ledgerAccount->name}}
-                            <span id="bal" style="float: right;border-left solid: 1px;border-left: solid #b9b6b6 1px;width: 14%;"></span>
-                            <span id="cre" style="float: right;border-left: solid #b9b6b6 1px;width: 14%;"></span>
-                            <span id="deb" style="float: right;border-left: solid #b9b6b6 1px;width: 13%;"></span>
+                            <span id="bal" style="float: right;border-left solid: 1px;border-left: solid #b9b6b6 1px;width: 14%; display: inline-block;text-align: center; font-size: 12px;"></span>
+                            <span id="cre" style="float: right;border-left: solid #b9b6b6 1px;width: 14%;display: inline-block;
+                            text-align: center;font-size: 12px;"></span>
+                            <span id="deb" style="float: right;border-left: solid #b9b6b6 1px;width: 13%;display: inline-block;
+                            text-align: center;font-size: 12px;"></span>
                         </a>
                     </h4>
                 </div>
@@ -381,7 +383,7 @@
         
     });
 
-    $('#defaultModal').on('hidden.bs.modal', function () {
+$('#defaultModal').on('hidden.bs.modal', function () {
         $('#modal_date').text('');
         $('#modal_journal').text('');
         $('#modal_entrynum').text('');

@@ -137,8 +137,37 @@
 
     });
 
-   });
+});
 
+// reset modal after closing it
+
+$('#New-Entry-Modal').on('hidden.bs.modal', function () {
+    $('#modal_debit').val('');
+    $('#modal_credit').val('');
+    
+    $("#acc_id").val('0');
+    $("#div_account .btn.dropdown-toggle.btn-default").attr('title',$("#acc_id option:selected").text());
+    $("#div_account .btn.dropdown-toggle.btn-default").find('span.filter-option.pull-left').text($("#acc_id option:selected").text())
+    $("#div_account ul.dropdown-menu.inner li.selected").removeClass('selected');
+    $("#div_account ul.dropdown-menu.inner li").each(function(i){
+        if($(this).text()==$("#acc_id option:selected").text()){
+            $(this).addClass('selected');
+        }
+    });
+
+    $("#project_id").val('0');
+    $("#div_project .btn.dropdown-toggle.btn-default").attr('title',$("#project_id option:selected").text());
+    $("#div_project .btn.dropdown-toggle.btn-default").find('span.filter-option.pull-left').text($("#project_id option:selected").text())
+    $("#div_project ul.dropdown-menu.inner li.selected").removeClass('selected');
+    $("#div_project ul.dropdown-menu.inner li").each(function(i){
+        if($(this).text()==$("#project_id option:selected").text()){
+            $(this).addClass('selected');
+        }
+    });
+
+});
+
+// End reset modal after closing it
  
 
   
