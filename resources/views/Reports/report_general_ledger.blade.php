@@ -90,19 +90,19 @@
         @foreach ($ledgerAccounts as $ledgerAccount)
         <?php $sumDebit=$sumCredit=0; $balance=0;?>        
             <div class="panel">
-                <div class="panel-heading" role="tab" id="{{$ledgerAccount->code}}">
+                <div class="panel-heading" role="tab" id="{{$ledgerAccount->id}}">
                     <h4 class="panel-title">
-                        <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$ledgerAccount->code}}" aria-expanded="false" aria-controls="collapse_{{$ledgerAccount->code}}">
+                        <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$ledgerAccount->id}}" aria-expanded="false" aria-controls="collapse_{{$ledgerAccount->id}}">
                             <span class="glyphicon glyphicon-plus"></span>
                             {{$ledgerAccount->code}}  {{$ledgerAccount->name}}
-                            <span id="bal" style="float: right;padding-right: 28px;"></span>
-                            <span id="cre" style="float: right;padding-right: 80px;"></span>
-                            <span id="deb" style="float: right;padding-right: 80px;"></span>
+                            <span id="bal" style="float: right;border-left solid: 1px;border-left: solid #b9b6b6 1px;width: 14%;"></span>
+                            <span id="cre" style="float: right;border-left: solid #b9b6b6 1px;width: 14%;"></span>
+                            <span id="deb" style="float: right;border-left: solid #b9b6b6 1px;width: 13%;"></span>
                         </a>
                     </h4>
                 </div>
 
-            <div id="collapse_{{$ledgerAccount->code}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$ledgerAccount->code}}">
+            <div id="collapse_{{$ledgerAccount->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$ledgerAccount->id}}">
                 <div class="panel-body">
                     <table id="example2"  class="table table-bordered table-striped table-hover dataTable js-exportable">
                         <thead>
@@ -130,7 +130,7 @@
                             </tr>
                         @foreach ($ledgers as $ledger)
                           
-                        @if ($ledger->name==$ledgerAccount->name)
+                        @if ($ledger->id==$ledgerAccount->id)
                            
                         
 

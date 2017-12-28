@@ -89,20 +89,20 @@
                                    <!--  <b>Panel Danger</b> -->
  
         <div class="panel-group" id="accordion_4" role="tablist" aria-multiselectable="true">
-        @foreach ($incomeAccounts as $incomeAccount)
+        @foreach ($incomeAcctypes as $incomeAcctype)
         <?php  $balance=0;?>        
             <div class="panel">
-                <div class="panel-heading" role="tab" id="{{$incomeAccount->id}}">
+                <div class="panel-heading" role="tab" id="{{$incomeAcctype->id}}">
                     <h4 class="panel-title">
-                        <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$incomeAccount->id}}" aria-expanded="false" aria-controls="collapse_{{$incomeAccount->id}}">
+                        <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$incomeAcctype->id}}" aria-expanded="false" aria-controls="collapse_{{$incomeAcctype->id}}">
                             <span class="glyphicon glyphicon-plus"></span>
-                            {{$incomeAccount->type}}  
+                            {{$incomeAcctype->type}}  
                             <span id="bal" style="float: right;"></span>
                         </a>
                     </h4>
                 </div>
 
-            <div id="collapse_{{$incomeAccount->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$incomeAccount->id}}">
+            <div id="collapse_{{$incomeAcctype->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$incomeAcctype->id}}">
                 <div class="panel-body">
                     <table id="example2"  class="table table-bordered table-striped table-hover dataTable js-exportable">
                      <!--    <thead>
@@ -120,9 +120,9 @@
                                                                             </tfoot> -->
                         <tbody>
                            
-                        @foreach ($acctypes as $acctype)
+                        @foreach ($incomeAccounts as $incomeAccount)
                           
-                        @if ($acctype->id==$incomeAccount->id)
+                        @if ($incomeAcctype->id==$incomeAccount->id)
                            
                         
 
@@ -135,7 +135,7 @@
                         @endif
                         @endforeach 
                             <tr id="total">
-                                <th  style="text-align:left;">Total of {{$incomeAccount->type}} :</th>
+                                <th  style="text-align:left;">Total of {{$incomeAcctype->type}} :</th>
                                 <th style="text-align:right">{{$balance}}</th>
                             </tr>
 
@@ -194,27 +194,27 @@
                                    <!--  <b>Panel Danger</b> -->
  
         <div class="panel-group" id="accordion_4" role="tablist" aria-multiselectable="true">
-        @foreach ($expenseAccounts as $expenseAccount)
+        @foreach ($expenseAcctypes as $expenseAcctype)
         <?php  $balance=0;?>        
             <div class="panel">
-                <div class="panel-heading" role="tab" id="{{$expenseAccount->id}}">
+                <div class="panel-heading" role="tab" id="{{$expenseAcctype->id}}">
                     <h4 class="panel-title">
-                        <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$expenseAccount->id}}" aria-expanded="false" aria-controls="collapse_{{$expenseAccount->id}}">
+                        <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$expenseAcctype->id}}" aria-expanded="false" aria-controls="collapse_{{$expenseAcctype->id}}">
                             <span class="glyphicon glyphicon-plus"></span>
-                            {{$expenseAccount->type}}  
+                            {{$expenseAcctype->type}}  
                             <span id="bal" style="float: right;"></span>
                         </a>
                     </h4>
                 </div>
 
-            <div id="collapse_{{$expenseAccount->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$expenseAccount->id}}">
+            <div id="collapse_{{$expenseAcctype->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$expenseAcctype->id}}">
                 <div class="panel-body">
                     <table id="example2"  class="table table-bordered table-striped table-hover dataTable js-exportable">
                         <tbody>
                            
-                        @foreach ($acctypes as $acctype)
+                        @foreach ($expenseAccounts as $expenseAccount)
                           
-                        @if ($acctype->id==$expenseAccount->id)
+                        @if ($expenseAcctype->id==$expenseAccount->id)
                            
                         
 
@@ -227,7 +227,7 @@
                         @endif
                         @endforeach 
                             <tr id="total">
-                                <th  style="text-align:left;">Total of {{$expenseAccount->type}} :</th>
+                                <th  style="text-align:left;">Total of {{$expenseAcctype->type}} :</th>
                                 <th style="text-align:right">{{$balance}}</th>
                             </tr>
 
