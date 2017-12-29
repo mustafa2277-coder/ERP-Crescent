@@ -73,8 +73,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
+                                     <div class="form-line">
+                                        <input type="text" class="form-control" id="open_balance" value='{{$record->openingBalance}}' name="open_balance" >
+                                        <label class="form-label">Opening Balance</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
                                     <div class="form-line">
-                                    <input type="checkbox" id="is_tran" name="is_tran" {{$record->isTransactional=='1'?'checked':''}} >
+                                    <input type="checkbox" id="is_tran" name="is_tran" <?php echo $record->isTransactional=='1'?'checked':'unchecked' ?> >
                                     <label for="is_tran">Is Transactional</label>
                                     </div>
                                 </div>
@@ -150,6 +156,12 @@
                                         * {{ $errors->first('acchead_name') }}
                                     </span>
                                 @endif
+                                </div>
+                                <div class="form-group form-float">
+                                     <div class="form-line">
+                                        <input type="text" class="form-control" id="open_balance" name="open_balance">
+                                        <label class="form-label">Opening Balance</label>
+                                    </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
