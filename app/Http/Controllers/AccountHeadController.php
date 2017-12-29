@@ -128,7 +128,8 @@ class AccountHeadController extends Controller
         $insert->accHeadTypeId=$request->type_id;
         $insert->isTransactional=$request->is_tran=="on"?1:0;
         $insert->parentId=$request->parent_id;
-      	$insert->save();
+      	$insert->openingBalance=$request->open_balance;
+        $insert->save();
 
         return redirect('getAccountHeads');   // redirect to MAIN list
 
@@ -138,9 +139,9 @@ class AccountHeadController extends Controller
 
     public function UpdateAccountHead(Request $request){
         
-  
+ 
         $this->validate($request, [
-            'acchead_code'=>'required|unique:accounthead,code',
+            'acchead_code'=>'required',
             'acchead_name'=>'required',
             'type_id'=>'required'
             ]);
@@ -150,7 +151,8 @@ class AccountHeadController extends Controller
         'name'         => $request->acchead_name,
         'code'         => $request->acchead_code,
         'accHeadTypeId'=> $request->type_id,
-        'isTransactional'=> $request->is_tran=="on"?1:0,
+        'isTransactional'=> isset($request->is_tran)?1:0,
+        'openingBalance' => $request->open_balance,
      
         ]);
 
