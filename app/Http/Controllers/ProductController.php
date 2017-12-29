@@ -46,6 +46,7 @@ class ProductController extends Controller
         $product->name=$request->name;
         $product->weight=$request->weight;
         $product->description=$request->description;
+        $product->categoryId=$request->categoryId;
         $product->unitId=$request->unit;
         $product->type=$request->type;
         $product->manfLeadTime=date("Y-m-d",strtotime(str_replace('/', '-', $request->mlt)));
@@ -71,6 +72,7 @@ class ProductController extends Controller
                 'weight'=>$request->weight,
                 'description' => $request->description,
                 'unitId'=>$request->unit,
+                'categoryId'=>$request->categoryId,
                 'type'=>$request->type,
                 'manfLeadTime'=>date("Y-m-d",strtotime(str_replace('/', '-', $request->mlt))),
                 'custLeadTime'=>date("Y-m-d",strtotime(str_replace('/', '-', $request->clt)))
