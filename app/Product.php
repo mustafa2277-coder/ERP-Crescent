@@ -13,11 +13,17 @@ class Product extends Model
 
         'id',
         'name',
+        'code',
         'categoryId',
         'description',
         'purchasePrice',
         'salePrice',
-        'quantityInStock',  
+        'type', 
+        'manfLeadTime',
+        'custLeadTime',
+        'weight',
+        'volume',
+        'unitId', 
 
         );
 }

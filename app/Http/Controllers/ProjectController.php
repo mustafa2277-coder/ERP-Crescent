@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Customer;
 use App\Project;
 use App\User;
+use App\AccountHead;
 use DB;
 use Auth;
 use Response;
@@ -31,14 +32,17 @@ class ProjectController extends Controller
     
     public function getAddProject()
     {
-        $customer=Customer::all();
-        return view('project/projectForm')->with('customers',$customer);
+        $customers=Customer::all();
+        $accountHeads=AccountHead::where('isTransactional','=','1')->get();
+        return view('project/projectForm',compact('customers','accountHeads'));
     }
     public function addProject(Request $request)
     {
 
         $project=new Project;
         $project->title=$request->title;
+        $project->creditAccHeadId=$request->credit;
+        $project->debitAccHeadId=$request->debit;
         $project->code=$request->code;
         $project->description=$request->description;
         $project->start=date("Y-m-d",strtotime(str_replace('/', '-', $request->start)));
@@ -53,8 +57,8 @@ class ProjectController extends Controller
     {
         $projects= Project::where('id','=',$id)->get();
         $customers = Customer::all();
-       
-        return view('project/projectForm',compact('projects','customers'));
+        $accountHeads=AccountHead::where('isTransactional','=','1')->get();
+        return view('project/projectForm',compact('projects','customers','accountHeads'));
     }
     public function editProject(Request $request){
         
@@ -65,6 +69,8 @@ class ProjectController extends Controller
                 'title'=>$request->title,
                 'description'=>$request->description,
                 'cost' => $request->cost,
+                'creditAccHeadId'=>$request->credit,
+                'debitAccHeadId'=>$request->debit,
                 'customerId'=>$request->customer,
                 'start'=>$start,
                 'end'=>$end

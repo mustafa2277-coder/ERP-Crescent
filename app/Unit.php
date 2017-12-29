@@ -4,19 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+class Unit extends Model
 {
     protected $connection = 'mysql';
     protected $primaryKey = 'id';
-    protected $table = 'customers';
+    protected $table = 'units';
     protected $fillable = array(
 
         'id',
         'name',
-        'address1',
-        'address2',
-        'mobile',
-        'phone',
-        'isVendor',
+        
         );
 }

@@ -428,6 +428,20 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{url('/vendorList')}}">
+                            <i class="material-icons">text_fields</i>
+                            <span>Vendors</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url('/productList')}}">
+                            <i class="material-icons">text_fields</i>
+                            <span>Products</span>
+
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{url('/projectList')}}">
                             <i class="material-icons">text_fields</i>
                             <span>Projects</span>

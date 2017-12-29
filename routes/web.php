@@ -22,6 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 /*----------------------------------Customer---------------------------------------*/
 
 Route::get('/customerList', 'CustomerController@customerList')->middleware('auth');
+Route::get('/vendorList', 'CustomerController@vendorList')->middleware('auth');
 Route::get('/getAddCustomer', 'CustomerController@getAddCustomer')->middleware('auth');
 Route::get('/getEditCustomer/{id}', 'CustomerController@getEditCustomer')->middleware('auth');
 Route::post('/addCustomer', 'CustomerController@addCustomer')->middleware('auth');
@@ -43,6 +44,14 @@ Route::get('/getEditCategory/{id}', 'ProductCategoryController@getEditCategory')
 Route::get('/getAddSubCategory/{id}', 'ProductCategoryController@getAddSubCategory')->middleware('auth');
 Route::post('/addCategory', 'ProductCategoryController@addCategory')->middleware('auth');
 Route::post('/editCategory', 'ProductCategoryController@editCategory')->middleware('auth');
+
+/*---------------------------------------Product--------------------------------------------*/
+
+Route::get('/productList', 'ProductController@productList')->middleware('auth');
+Route::get('/getAddProduct', 'ProductController@getAddProduct')->middleware('auth');
+Route::get('/getEditProduct/{id}', 'ProductController@getEditProduct')->middleware('auth');
+Route::post('/addProduct', 'ProductController@addProduct')->middleware('auth');
+Route::post('/editProduct', 'ProductController@editProduct')->middleware('auth');
 
 
 /*----------------------------------Account Heads---------------------------------------*/

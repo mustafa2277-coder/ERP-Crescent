@@ -13,7 +13,12 @@ class CustomerController extends Controller
 {
     public function customerList()
     {
-        $customerList = Customer::paginate(2);
+        $customerList = Customer::where('isVendor',null)->paginate(2);
+        return view('customer/customer_list')->with('customerList',$customerList);
+    }
+    public function vendorList()
+    {
+        $customerList = Customer::where('isVendor','on')->paginate(2);
         return view('customer/customer_list')->with('customerList',$customerList);
     }
     
