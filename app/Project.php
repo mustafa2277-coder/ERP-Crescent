@@ -13,6 +13,8 @@ class Project extends Model
 
         'id',
         'title',
+        'debitAccHeadId',
+        'creditAccHeadId',      
         'customerId',
         'code',
         'start',

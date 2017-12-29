@@ -13,5 +13,6 @@ class Pcategory extends Model
         'id',
         'name',
         'pid',
+        'leaf'
         );
 }
