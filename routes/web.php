@@ -77,15 +77,16 @@ Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm')->middlew
 Route::post('/insertJournalEntry','JournalController@InsertJournalEntry')->middleware('auth');
 
 Route::post('/getJournalEntriesByDate','JournalController@GetJournalEntriesByDate')->middleware('auth');
+Route::post('getProjectsByCustomerId' ,'JournalController@GetProjectsByCustomerId')->middleware('auth');
 
 /*----------------------------------Journal Item----------------------------*/
-Route::get('/getJournalItems','JournalController@GetJournalItems');
+Route::get('/getJournalItems','JournalController@GetJournalItems')->middleware('auth');
 
 /*----------------------------------Reports---------------------------------------*/
-Route::get('/getGeneralLedger','ReportController@GetGeneralLedger');
-Route::get('/getJournalEntryByEntrynum','ReportController@GetJournalEntryByEntrynum');
-Route::get('/getBalanceSheet','ReportController@GetBalanceSheet');
-Route::get('/getProfitLoss','ReportController@GetProfitLoss');
+Route::get('/getGeneralLedger','ReportController@GetGeneralLedger')->middleware('auth');
+Route::get('/getJournalEntryByEntrynum','ReportController@GetJournalEntryByEntrynum')->middleware('auth');
+Route::get('/getBalanceSheet','ReportController@GetBalanceSheet')->middleware('auth');
+Route::get('/getProfitLoss','ReportController@GetProfitLoss')->middleware('auth');
 
 
 
