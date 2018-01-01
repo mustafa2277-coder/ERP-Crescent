@@ -65,12 +65,22 @@
                                         <input type="text" class="form-control" id="acchead_code" value='{{$record->code}}' name="acchead_code" required>
                                         <label class="form-label">Code</label>
                                     </div>
+                                    @if ($errors->has('acchead_code'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('acchead_code') }}
+                                    </span>
+                                    @endif
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" id="acchead_name" value='{{$record->name}}' name="acchead_name" required>
+                                        <input type="text" class="form-control" id="acchead_name" value='{{$record->name}}' name="acchead_name" maxlength="100" required>
                                         <label class="form-label">Name</label>
                                     </div>
+                                    @if ($errors->has('acchead_name'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('acchead_name') }}
+                                    </span>
+                                    @endif
                                 </div>
                                 <div class="form-group form-float">
                                      <div class="form-line">
@@ -148,7 +158,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" id="acchead_name"  name="acchead_name" required>
+                                        <input type="text" class="form-control" id="acchead_name"  name="acchead_name" maxlength="100" required>
                                         <label class="form-label">Name</label>
                                     </div>
                               @if ($errors->has('acchead_name'))
@@ -171,7 +181,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <select  id="type_id" name="type_id" class="form-control show-tick" data-live-search="true">
+                                        <select  id="type_id" name="type_id" class="form-control show-tick" data-live-search="true" required>
                                         <option value="" selected="" disabled="">Select Types</option>
                                         @foreach ($types as $type)    
                                         <option value="{{$type->id}}">{{$type->type}}</option>
@@ -195,6 +205,7 @@
 
 @section('js')
     <!-- Jquery Core Js -->
+
     <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>
 
     <!-- Bootstrap Core Js -->
@@ -217,11 +228,20 @@
 
     <!-- Waves Effect Plugin Js -->
     <script src="{{asset('public/plugins/node-waves/waves.js')}}"></script>
-
+    
+   <!-- Input Mask  Plugin Js -->
+    <script src="{{asset('public/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
 
+ <script type="text/javascript">
+     $(document).ready(function() {
+            $('#acchead_code').inputmask({ mask: "9-99-999"});
+            $('#open_balance').inputmask({mask: "9{1,40}.99"});
+        });
+
+    </script>
 @endsection

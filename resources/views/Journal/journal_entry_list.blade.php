@@ -14,6 +14,8 @@
     <!-- Waves Effect Css -->
     <link href="{{asset('public/plugins/node-waves/waves.css')}}" rel="stylesheet" />
 
+    <!-- Sweetalert Css -->
+    <link href="{{asset('public/plugins/sweetalert/sweetalert.css')}}" rel="stylesheet" />
     
     <!-- Animation Css -->
     <link href="{{asset('public/plugins/animate-css/animate.css')}}" rel="stylesheet" />
@@ -150,10 +152,7 @@
                                         <div class="form-group form-float">
                                             <div class="form-line">
                                                 <select id="filter_project" name="filter_project" class="form-control show-tick" data-live-search="true">
-                                                    <option value="0" selected="selected" >All Projects</option>
-                                                    @foreach ($projects as $project)    
-                                                    <option value="{{$project->id}}">{{$project->title}}</option>
-                                                    @endforeach
+                                                   
                                                 </select>
 
                                             </div>
@@ -232,6 +231,9 @@
 
     <!-- Waves Effect Plugin Js -->
     <script src="{{asset('public/plugins/node-waves/waves.js')}}"></script>
+
+    <!-- SweetAlert Plugin Js -->
+    <script src="{{asset('public/plugins/sweetalert/sweetalert.min.js')}}" ></script>
 
     <!-- Select Plugin Js -->
     <script src="{{asset('public/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
@@ -504,21 +506,51 @@ $(document).ready(function() {
 
 $("#filter_customer").change(function () {
 
-
+$('#div_project .dropdown-menu ul').html('');
+$('#filter_project').html('');
 
    $.ajax({
-            url: "http://localhost/ERP/insertJournalEntry",
-            type: "POST",
+            url: "http://localhost/ERP/erp1/getProjectsByCustomerId",
+            type: "post",
             headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                          },
-            data: submitEntry,
+            data: {id:$('#filter_customer').val()},
             //crossDomain: true,
             dataType: "json",
            
             success: function(data) {
-             window.location = "http://localhost/ERP/getJournalEntries";
-           
+            //console.log(data);
+
+            if(data.length !=0){ 
+
+                //$('#div_project').show();   
+
+                $('#filter_project').append('<option value="0" selected="selected">Select Projects</option>');
+                $('#div_project .dropdown-menu ul').append('<li data-original-index="0" class="active selected"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">'+"Select Projects"+'</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li>');
+                $('#div_project').find('span.filter-option').text("Select Projects");
+            
+                $.each(data, function(i, d) {
+                     
+                        var ind = parseInt(i);
+                        ind +=1
+                        
+                        $('#filter_project').append('<option value="' + d.id + '">' + d.title + '</option>');
+                      
+                        $('#div_project .dropdown-menu ul').append('<li data-original-index="'+ind+'" class=""><a tabindex="0" class="" style="" data-tokens="null"><span class="text">'+d.title+'</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li>');
+                         
+
+
+                        
+
+                });
+            }
+            else{
+
+           // $('#div_project').hide();  
+            //swal("There is no project!");
+
+            }
 
             }
 

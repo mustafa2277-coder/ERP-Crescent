@@ -97,7 +97,7 @@ class JournalController extends Controller
 
     public function GetJournalEntries(Request $request){
         
-  
+  //return $request;
         //======= Start Raw query =========//
             // $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
             // $projects = DB::select( DB::raw("SELECT * from project Order By title") );
@@ -127,7 +127,7 @@ class JournalController extends Controller
                 $journalentries = DB::table('journalentries')
 
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
@@ -145,7 +145,7 @@ class JournalController extends Controller
                 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
@@ -163,7 +163,7 @@ class JournalController extends Controller
           
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
@@ -185,7 +185,7 @@ class JournalController extends Controller
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
@@ -204,7 +204,7 @@ class JournalController extends Controller
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
@@ -219,18 +219,17 @@ class JournalController extends Controller
         }
 
 
+
+
         //  filter by jounral and date
 
         if($request->filter_journal!=0 && $request->filter_project==0 && (isset($request->end_date) || isset($request->start_date))){
-//return var_dump($request->filter_journal==0);
-                $end = $request->end_date;
-                $start = $request->start_date;
-                $projectId = $request->filter_project; 
-                $journalId = $request->filter_journal;  
+
+                
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
@@ -246,22 +245,19 @@ class JournalController extends Controller
 
         //  filter by project and date
 
-        if($request->filter_journal!=0 && $request->filter_project==0 && (isset($request->end_date) || isset($request->start_date))){
+        if($request->filter_journal==0 && $request->filter_project!=0 && (isset($request->end_date) || isset($request->start_date))){
 
-                $end = $request->end_date;
-                $start = $request->start_date;
-                $projectId = $request->filter_project; 
-                $journalId = $request->filter_journal;  
+                
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
                 )
                 
-                ->where('journalentries.journalId', '=', $journalId)
+                ->where('journalentrydetail.projectId', '=', $projectId)
                 ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
                 ->groupBy('entryDate', 'id','entryNum','project','journal')
                 ->get(); 
@@ -400,12 +396,12 @@ class JournalController extends Controller
     }
 
 
-    public function GetProjectsByCustomerId($customerId){
+    public function GetProjectsByCustomerId(Request $request){
         
- 
+
         $projects =  DB::table('project')
-                    ->where('customerId','=','$customerId')
-                    ->orderBy('name')
+                    ->where('customerId','=',$request->id)
+                    ->orderBy('title')
                     ->get();
 
         

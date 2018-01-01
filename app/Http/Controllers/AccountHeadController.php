@@ -123,7 +123,7 @@ class AccountHeadController extends Controller
 
        // $user=Auth::user();
         $insert= new AccountHead;
-        $insert->name=$request->acchead_name;
+        $insert->name=trim($request->acchead_name,"_");
         $insert->code=$request->acchead_code;
         $insert->accHeadTypeId=$request->type_id;
         $insert->isTransactional=$request->is_tran=="on"?1:0;
@@ -138,18 +138,38 @@ class AccountHeadController extends Controller
        // for updating a record   used for edit
 
     public function UpdateAccountHead(Request $request){
-        
- 
-        $this->validate($request, [
-            'acchead_code'=>'required',
-            'acchead_name'=>'required',
-            'type_id'=>'required'
-            ]);
+       
 
-       // $user=Auth::user();
-        $record= AccountHead::where('id','=',$request->acchead_id)->update([
+    $tt =$request->acchead_code;
+    $res1 = trim($tt,'_');
+    $res2  = trim($res1,'-');
+    $res3 = trim($res2,'_-');
+
+  //  return $res3;
+  
+
+    if(AccountHead::where('code','=',$res3)->where('id','<>',$request->acchead_id)
+          ->exists())
+    {
+
+       $this->validate($request, [
+                'acchead_code'=>'required|unique:accounthead,code',
+                'acchead_name'=>'required',
+                'type_id'=>'required'
+                ],
+                ['acchead_name.unique'=>'Name Already exist',
+                 'acchead_code.unique'=>'Code Already exist',
+                ]);
+        
+    }
+       
+       //return $tt;
+       
+       
+    
+     $record= AccountHead::where('id','=',$request->acchead_id)->update([
         'name'         => $request->acchead_name,
-        'code'         => $request->acchead_code,
+        'code'         => $res3,
         'accHeadTypeId'=> $request->type_id,
         'isTransactional'=> isset($request->is_tran)?1:0,
         'openingBalance' => $request->open_balance,
@@ -159,6 +179,29 @@ class AccountHeadController extends Controller
         return redirect('getAccountHeads');   // redirect to MAIN list
 
     }
+    
+    private function RemoveDashes($item){
+
+
+
+        if(strpos($item,'_')){   
+        $res1 = trim($item,'_');
+        $res2  = trim($res1,'-');
+        $res3 = trim($res2,'_-');
+  
+        $this->RemoveDashes($res3);
+        }
+        else{
+//echo $item;
+           return $item;
+
+        }
+
+
+
+
+    }
+
 
 
 }
