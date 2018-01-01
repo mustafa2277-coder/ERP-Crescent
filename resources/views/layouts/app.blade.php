@@ -355,13 +355,6 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{url('/getAccountHeads')}}">
-                            <i class="material-icons">storage</i>
-                            <span>Account Heads</span>
-
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{url('/categoryList')}}">
                             <i class="material-icons">border_left</i>
                             <span>Product Categories</span>
@@ -378,6 +371,8 @@
                         <ul class="ml-menu">
 
                             <li>
+                                <a href="{{url('/getAccountHeads')}}">Account Heads</a>
+                            <li>
                                 <a href="{{url('/getJournals')}}">Journals</a>
                             </li>
                             <li>
@@ -386,30 +381,32 @@
                             <li>
                                 <a href="{{url('/getJournalEntries')}}">Journal Entries</a>
                             </li>
-                            
-                        </ul>
+
+                             <li>
+                                
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    <i class="material-icons">insert_chart</i>
+                                    <span>Reports</span>
+
+                                </a>
+
+                                <ul class="ml-menu">
+
+                                    <li>
+                                        <a href="{{url('/getGeneralLedger')}}">General Ledger</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{url('/getBalanceSheet')}}">Balance Sheet</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{url('/getProfitLoss')}}">Profit and Loss</a>
+                                    </li>
+                                   
+                                    
+                                </ul>
 
 
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">insert_chart</i>
-                            <span>Reports</span>
-
-                        </a>
-
-                        <ul class="ml-menu">
-
-                            <li>
-                                <a href="{{url('/getGeneralLedger')}}">General Ledger</a>
                             </li>
-                            <li>
-                                <a href="{{url('/getBalanceSheet')}}">Balance Sheet</a>
-                            </li>
-                            <li>
-                                <a href="{{url('/getProfitLoss')}}">Profit and Loss</a>
-                            </li>
-                           
                             
                         </ul>
 
@@ -420,6 +417,20 @@
                         <a href="{{url('/customerList')}}">
                             <i class="material-icons">account_box</i>
                             <span>Customers</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url('/vendorList')}}">
+                            <i class="material-icons">text_fields</i>
+                            <span>Vendors</span>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url('/productList')}}">
+                            <i class="material-icons">text_fields</i>
+                            <span>Products</span>
 
                         </a>
                     </li>

@@ -92,6 +92,28 @@
                                     </select>
                                     </div>
                                 </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Receiveable Account Head</label>
+                                        <select  id="type_id" name="debit" class="form-control show-tick" data-live-search="true" required>
+
+                                        @foreach ($accountHeads as $accountHead)    
+                                            <option value="{{$accountHead->id}}" {{ $accountHead->id == $projects[0]->debitAccHeadId ? "selected":"" }}>{{$accountHead->name}}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Payable Account Head</label>
+                                        <select  id="type_id" name="credit" class="form-control show-tick" data-live-search="true" required>
+                                           
+                                        @foreach ($accountHeads as $accountHead)    
+                                            <option value="{{$accountHead->id}}" {{ $accountHead->id == $projects[0]->creditAccHeadId ? "selected":"" }}>{{$accountHead->name}}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 {{--  <div class="form-group form-float">
                                     <div class="form-line">
                                         <textarea name="description" cols="30" rows="5" class="form-control no-resize" required></textarea>
@@ -156,6 +178,28 @@
                                         <option value="0" selected="selected" disabled="disabled">Select Customer</option>
                                         @foreach ($customers as $customer)    
                                             <option value="{{$customer->id}}">{{$customer->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Receiveable Account Head</label>
+                                        <select  id="type_id" name="debit" class="form-control show-tick" data-live-search="true" required>
+
+                                        @foreach ($accountHeads as $accountHead)    
+                                            <option value="{{$accountHead->id}}" {{ $accountHead->name == "Account Receivable" ? "selected":"" }}>{{$accountHead->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-6">
+                                        <label class="form-label">Payable Account Head</label>
+                                        <select  id="type_id" name="credit" class="form-control show-tick" data-live-search="true" required>
+                                           
+                                        @foreach ($accountHeads as $accountHead)    
+                                            <option value="{{$accountHead->id}}" {{ $accountHead->name == "Account Receivable" ? "selected":"" }}>{{$accountHead->name}}</option>
                                         @endforeach
                                     </select>
                                     </div>

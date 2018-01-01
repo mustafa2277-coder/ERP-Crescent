@@ -16,5 +16,6 @@ class AccountHead extends Model
         'accHeadTypeId',
         'code',
         'isTransactional',
+        'openingBalance',
         );
 }

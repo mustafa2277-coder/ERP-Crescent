@@ -44,9 +44,7 @@
     <section class="content">
 
         <div class="container-fluid">
-               <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournalEntry')}}"> 
-                            <i class="material-icons" title="Create New">add</i>
-                           </a>
+            
                            <br>
           <!--   <div class="block-header">
                 <h2>
@@ -64,17 +62,22 @@
                            
                                 <h2>
                                      Journal Entries
+                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournalEntry')}}" style="float:right;"> 
+                            <i class="material-icons" title="Create New">add</i>
+                           </a>
                                 </h2>
-                         
+                           
                                   
                         </div>
                         <div class="body">
                             <div class="table-responsive">
 
                             <h2 class="card-inside-title">Filters</h2>
+                            <form id="form_filter" name = "form" method="POST" action="{{ url('/getJournalEntries') }}">
                                 <div class="row clearfix">
-                                    
-                                    <div class="col-md-3" id="div_filter">
+                                
+                                 {{ csrf_field() }}    
+                                 <!--    <div class="col-md-3" id="div_filter">
                                         <div class="form-group form-float">
                                             <div class="form-line">
                                                 <select id="filter" class="form-control show-tick">
@@ -86,36 +89,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-md-3" id="div_journal">
-                                        <div class="form-group form-float">
-                                            <div class="form-line">
-                                                <select id="filter_journal" name="filter_journal" class="form-control show-tick" data-live-search="true">
-                                                    <option value="0" selected="selected" disabled="disabled" >Select Journal</option>
-                                                    @foreach ($journals as $journal)    
-                                                    <option value="{{$journal->id}}">{{$journal->name}}</option>
-                                                    @endforeach
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3" id="div_project">
-                                        <div class="form-group form-float">
-                                            <div class="form-line">
-                                                <select id="filter_project" name="filter_project" class="form-control show-tick" data-live-search="true">
-                                                    <option value="0" selected="selected" disabled="disabled" >Select Project</option>
-                                                    @foreach ($projects as $project)    
-                                                    <option value="{{$project->id}}">{{$project->title}}</option>
-                                                    @endforeach
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    </div> -->
 
                                     <div class="col-md-3" id="div_start_date">
                                         <div class="input-group">
@@ -129,10 +103,11 @@
 
                                     </div>
 
-                                     <div class="col-md-3" id="div_end_date">
+                                    <div class="col-md-3" id="div_end_date">
                                         <div class="input-group">
                                             <span class="input-group-addon">
                                                 <i class="material-icons">date_range</i>
+                                                 
                                             </span>
                                             <div class="form-line">
                                             <input type="text" id="end_date" name="end_date" class="datepicker form-control date">
@@ -140,8 +115,60 @@
                                             </div>
                                         </div>
                                     </div>
+                                        
+                                    <div class="col-md-3" id="div_journal">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select id="filter_journal" name="filter_journal" class="form-control show-tick" data-live-search="true">
+                                                    <option value="0" selected="selected"  >All Journals</option>
+                                                    @foreach ($journals as $journal)    
+                                                    <option value="{{$journal->id}}">{{$journal->name}}</option>
+                                                    @endforeach
+                                                </select>
 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3" id="div_customer">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select id="filter_customer" name="filter_customer" class="form-control show-tick" data-live-search="true">
+                                                    <option value="0" selected="selected" >All Customers</option>
+                                                    @foreach ($customers as $customer)    
+                                                    <option value="{{$customer->id}}">{{$customer->name}}</option>
+                                                    @endforeach
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                <div class="row clearfix">
+                                   
+                                    <div class="col-md-3" id="div_project">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                                <select id="filter_project" name="filter_project" class="form-control show-tick" data-live-search="true">
+                                                    <option value="0" selected="selected" >All Projects</option>
+                                                    @foreach ($projects as $project)    
+                                                    <option value="{{$project->id}}">{{$project->title}}</option>
+                                                    @endforeach
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group form-float">
+                                                                            
+                                     <button class="btn btn-primary waves-effect" type="submit">Search</button>
+
+                                       </div>
+                                    </div>
+                                </div>
+                            </form>
+                               
 
                             
                                 <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
@@ -175,7 +202,6 @@
                                         
                                     </tbody>
                                 </table>
-                                
 
                                 
                             </div>
@@ -286,8 +312,11 @@ $(document).ready(function() {
  $('#end_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
     
  $(document).ready(function() {
- 
-    
+
+ //  var todayDate = new Date();
+ //  var shotDate = todayDate.getDate() + '/' + (todayDate.getMonth() + 1) + '/' +  todayDate.getFullYear();    
+ // $("#start_date").val(shotDate);
+ // $("#end_date").val(shotDate); 
     ///====Start calculation of total of amount column
     var Amt = 0;
     var table = $("table tbody");
@@ -318,126 +347,95 @@ $(document).ready(function() {
 
     }
     
+
+
     ///====End calculation of total of amount column
 
-    $("#filter").change(function () {
-        var end = this.value;
-        DropDownChange(end);
+//     $("#filter").change(function () {
+//         var end = this.value;
+//        // DropDownChange(end);
         
-        if(end==0){
-        var form = $('<form action="'+ '{{ asset("/getJournalEntries")}}'  + '" method="post">'  + '" />' +
-          '<input type="hidden" name="selection" value="0" />' +
-          '{{ csrf_field() }}'+
-          '</form>');
-        $('body').append(form);
-        form.submit();
-    } 
+//         if(end==0){
+//         var form = $('<form action="'+ '{{ asset("/getJournalEntries")}}'  + '" method="post">'  + '" />' +
+//           '<input type="hidden" name="selection" value="0" />' +
+//           '{{ csrf_field() }}'+
+//           '</form>');
+//         $('body').append(form);
+//         form.submit();
+//     } 
         
-});
+// });
 
     ///====Start dropdown change of html
 
-    FilterCriteria({{$selection}}); 
+    FilterCriteria(); 
 
-    function DropDownChange(item){ 
+    // function DropDownChange(item){ 
 
-    switch(item){
-            case "0":
-            $("#div_start_date").hide();
-            $("#div_end_date").hide();
-            $("#div_journal").hide();
-            $("#div_project").hide();
-            break;
-            case "1":
-            $("#div_start_date").show();
-            $("#div_end_date").show();
-            $("#div_journal").hide();
-            $("#div_project").hide();
+    // switch(item){
+    //         case "0":
+    //         $("#div_start_date").hide();
+    //         $("#div_end_date").hide();
+    //         $("#div_journal").hide();
+    //         $("#div_project").hide();
+    //         break;
+    //         case "1":
+    //         $("#div_start_date").show();
+    //         $("#div_end_date").show();
+    //         $("#div_journal").hide();
+    //         $("#div_project").hide();
             
-            break;
-            case "2":
-            $("#div_start_date").hide();
-            $("#div_end_date").hide();
-            $("#div_journal").show();
-            $("#div_project").hide();
-            break;
-            case "3":
-            $("#div_start_date").hide();
-            $("#div_end_date").hide();
-            $("#div_journal").hide();
-            $("#div_project").show();
+    //         break;
+    //         case "2":
+    //         $("#div_start_date").hide();
+    //         $("#div_end_date").hide();
+    //         $("#div_journal").show();
+    //         $("#div_project").hide();
+    //         break;
+    //         case "3":
+    //         $("#div_start_date").hide();
+    //         $("#div_end_date").hide();
+    //         $("#div_journal").hide();
+    //         $("#div_project").show();
 
-            break;
+    //         break;
 
-         }
-    }
-    function FilterCriteria(item){ 
+    //      }
+    // }
+    function FilterCriteria(){ 
 
-    switch(item){
-            case 0:
-                DropDownChange("0");
-            break;
-            case 1:
-                DropDownChange("1");
-                @if(isset($start) && isset($end))
-                $("#start_date").val('{{$start}}');
-                $("#end_date").val('{{$end}}');
-                @endif
-                SetFilterValues('1');
-            
-            break;
-            case 2:
+        @if(isset($start) && isset($end))
+            $("#start_date").val('{{$start}}');
+            $("#end_date").val('{{$end}}');
+         @endif
+         
+        @if(isset($journalId))
+            $("#filter_journal").val('{{$journalId}}');
+        @endif
+        
+        $("#div_journal .btn.dropdown-toggle.btn-default").attr('title',$("#filter_journal option:selected").text());
+        $("#div_journal .btn.dropdown-toggle.btn-default").find('span.filter-option.pull-left').text($("#filter_journal option:selected").text())
+        $("#div_journal ul.dropdown-menu.inner li.selected").removeClass('selected');
+        $("#div_journal ul.dropdown-menu.inner li").each(function(i){
+            if($(this).text()==$("#filter_journal option:selected").text()){
+                $(this).addClass('selected');
+                    
+            }
+        });
+        
+        @if(isset($projectId))
+            $("#filter_project").val('{{$projectId}}');
+        @endif
 
-                DropDownChange("2");
-                @if(isset($start) && isset($end))
-                $("#start_date").val('{{$start}}');
-                $("#end_date").val('{{$end}}');
-                @endif
-
-                SetFilterValues('2');
-
-                @if(isset($journalId))
-                $("#filter_journal").val('{{$journalId}}');
-                @endif
-                $("#div_journal .btn.dropdown-toggle.btn-default").attr('title',$("#filter_journal option:selected").text());
-                $("#div_journal .btn.dropdown-toggle.btn-default").find('span.filter-option.pull-left').text($("#filter_journal option:selected").text())
-                $("#div_journal ul.dropdown-menu.inner li.selected").removeClass('selected');
-                $("#div_journal ul.dropdown-menu.inner li").each(function(i){
-                    if($(this).text()==$("#filter_journal option:selected").text()){
-                        $(this).addClass('selected');
-                        //$("#filter").val('2');
-                    }
-                });
-            
-            break;
-            case 3:
-
-
-                DropDownChange("3");
-                @if(isset($start) && isset($end))
-                $("#start_date").val('{{$start}}');
-                $("#end_date").val('{{$end}}');
-                @endif
-                SetFilterValues('3');
-                @if(isset($journalId))
-                $("#filter_journal").val('{{$journalId}}');
-                @endif
-
-                @if(isset($projectId))
-                $("#filter_project").val('{{$projectId}}');
-                @endif
-
-                $("#div_project .btn.dropdown-toggle.btn-default").attr('title',$("#filter_project option:selected").text());
-                $("#div_project .btn.dropdown-toggle.btn-default").find('span.filter-option.pull-left').text($("#filter_project option:selected").text())
-                $("#div_project ul.dropdown-menu.inner li.selected").removeClass('selected');
-                $("#div_project ul.dropdown-menu.inner li").each(function(i){
-                    if($(this).text()==$("#filter_project option:selected").text()){
-                        $(this).addClass('selected');
-                    }
-                }); 
-            break;
-
-         }     
+        $("#div_project .btn.dropdown-toggle.btn-default").attr('title',$("#filter_project option:selected").text());
+        $("#div_project .btn.dropdown-toggle.btn-default").find('span.filter-option.pull-left').text($("#filter_project option:selected").text())
+        $("#div_project ul.dropdown-menu.inner li.selected").removeClass('selected');
+        $("#div_project ul.dropdown-menu.inner li").each(function(i){
+            if($(this).text()==$("#filter_project option:selected").text()){
+            $(this).addClass('selected');
+            }
+        }); 
+             
 
     }
 
@@ -464,55 +462,78 @@ $(document).ready(function() {
 
 ///====Start on change functions of html 
 
-$("#end_date,#start_date").change(function () {
+// $("#end_date,#start_date").change(function () {
 
-    if($("#start_date").val()!="" && $("#end_date").val()!=""){
+//     if($("#start_date").val()!="" && $("#end_date").val()!=""){
         
- //window.location=('{{ asset("/getJournalEntries/")}}?start_date='+$('#start_date').val()+'&end_date='+$('#end_date').val()+'selection=1');
-//alert('wow');
+//     // var form = $('<form action="'+ '{{ asset("/getJournalEntries")}}'  + '" method="post">' +
+//     //       '<input type="text" name="start_date" value="' + $("#start_date").val() + '" />' +
+//     //       '<input type="hidden" name="selection" value="1" />' +
+//     //       '<input type="text" name="end_date" value="' + $("#end_date").val() + '" />' +
+//     //       '<input type="text" name="journal" value="' + $("#filter_journal").val() + '" />' +
+//     //       '<input type="text" name="project" value="' + $("#filter_project").val() + '" />' +
+//     //       '{{ csrf_field() }}'+
+//     //       '</form>');
+//     //     $('body').append(form);
+//     //     form.submit();
 
-    var form = $('<form action="'+ '{{ asset("/getJournalEntries")}}'  + '" method="post">' +
-          '<input type="text" name="start_date" value="' + $("#start_date").val() + '" />' +
-          '<input type="hidden" name="selection" value="1" />' +
-          '<input type="text" name="end_date" value="' + $("#end_date").val() + '" />' +
-          '{{ csrf_field() }}'+
-          '</form>');
-        $('body').append(form);
-        form.submit();
+//     }
 
-    }
+// });
 
-});
-
-$("#filter_journal").change(function () {
+// $("#filter_journal").change(function () {
 
 
-//alert($(this).option.value);
 
-    var form = $('<form action="'+ '{{ asset("/getJournalEntries")}}'  + '" method="post">' +
-          '<input type="hidden" name="selection" value="2" />' +
-          '<input type="text" name="journal" value="' + $("#filter_journal").val() + '" />' +
-          '{{ csrf_field() }}'+
-          '</form>');
-        $('body').append(form);
-        form.submit();
+
+//     // var form = $('<form action="'+ '{{ asset("/getJournalEntries")}}'  + '" method="post">' +
+//     //       '<input type="hidden" name="selection" value="2" />' +
+//     //       '<input type="text" name="journal" value="' + $("#filter_journal").val() + '" />' +
+//     //       '<input type="text" name="project" value="' + $("#filter_project").val() + '" />' +
+//     //       '<input type="text" name="start_date" value="' + $("#start_date").val() + '" />' +
+//     //       '<input type="hidden" name="selection" value="1" />' +
+//     //       '<input type="text" name="end_date" value="' + $("#end_date").val() + '" />' +
+//     //       '{{ csrf_field() }}'+
+//     //       '</form>');
+//     //     $('body').append(form);
+//     //     form.submit();
 
     
 
-});
+// });
 
-$("#filter_project").change(function () {
+$("#filter_customer").change(function () {
 
 
-//alert($(this).option.value);
 
-    var form = $('<form action="'+ '{{ asset("/getJournalEntries")}}'  + '" method="post">' +
-          '<input type="hidden" name="selection" value="3" />' +
-          '<input type="text" name="project" value="' + $("#filter_project").val() + '" />' +
-          '{{ csrf_field() }}'+
-          '</form>');
-        $('body').append(form);
-        form.submit();
+   $.ajax({
+            url: "http://localhost/ERP/insertJournalEntry",
+            type: "POST",
+            headers: {
+                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                         },
+            data: submitEntry,
+            //crossDomain: true,
+            dataType: "json",
+           
+            success: function(data) {
+             window.location = "http://localhost/ERP/getJournalEntries";
+           
+
+            }
+
+    });
+    // var form = $('<form action="'+ '{{ asset("/getJournalEntries")}}'  + '" method="post">' +
+    //       '<input type="hidden" name="selection" value="3" />' +
+    //       '<input type="text" name="project" value="' + $("#filter_project").val() + '" />' +
+    //       '<input type="text" name="journal" value="' + $("#filter_journal").val() + '" />' +
+    //       '<input type="text" name="start_date" value="' + $("#start_date").val() + '" />' +
+    //       '<input type="hidden" name="selection" value="1" />' +
+    //       '<input type="text" name="end_date" value="' + $("#end_date").val() + '" />' +
+    //       '{{ csrf_field() }}'+
+    //       '</form>');
+    //     $('body').append(form);
+    //     form.submit();
 
     
 
@@ -521,8 +542,7 @@ $("#filter_project").change(function () {
 
 
 ///====End on change functions of html   
-
-
+  
 
 </script>
 

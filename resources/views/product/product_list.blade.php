@@ -28,7 +28,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Projects
+                                Products
                                 <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" href="{{ url('/getAddProject')}}"> 
                                     <i class="material-icons" title="Create New">add</i>
                                 </a>
@@ -42,29 +42,30 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Title</th>
-                                        <th>Description</th>
-                                        <th>Project Code</th>
-                                        <th>Cost</th>
-                                        <th>Customer</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Weight</th>
+                                        <th>Category</th>
+                                        <th>Type</th>
+                                        <th>Customer Lead Time</th>
+                                        <th>Manufacture Lead Time</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($projectList as $project)
+                                @foreach($productList as $product)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td>{{$project->title}}</td>
-                                        <td>{{$project->description}}</td>
-                                        <td>{{$project->code}}</td>
-                                        <td>{{$project->cost}}</td>
-                                        <td>{{$project->name}}</td>
-                                        <td>{{$project->start}}</td>
-                                        <td>{{$project->end}}</td>
+                                        <td>{{$product->code}}</td>
+                                        <td>{{$product->name}}</td>
+                                        <td>{{$product->weight}} {{$product->unit}}</td>
+                                        <td>{{$product->category}}</td>
+                                        <td>{{$product->type}}</td>
+                                        <td>{{$product->custLeadTime}}</td>
+                                        <td>{{$product->manfLeadTime}}</td>
+                                        
                                         <td>
-                                            <a href="{{ url('/getEditProject') }}/{{$project->id}}" ><i class="material-icons">edit</i></a>
+                                            <a href="{{ url('/getEditProduct') }}/{{$product->id}}" ><i class="material-icons">edit</i></a>
                                         </td>
                                     </tr>
                                 @endforeach  
