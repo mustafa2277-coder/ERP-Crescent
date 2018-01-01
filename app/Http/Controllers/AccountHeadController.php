@@ -139,7 +139,7 @@ class AccountHeadController extends Controller
 
     public function UpdateAccountHead(Request $request){
         
- 
+        
         $this->validate($request, [
             'acchead_code'=>'required',
             'acchead_name'=>'required',
