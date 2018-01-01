@@ -9,9 +9,9 @@
         }
     });
 
-    initRealTimeChart();
+    // initRealTimeChart();
     initDonutChart();
-    initSparkline();
+    // initSparkline();
 });
 
 var realtime = 'on';
@@ -72,16 +72,16 @@ function initDonutChart() {
     Morris.Donut({
         element: 'donut_chart',
         data: [{
-            label: 'Chrome',
+            label: 'Recievable',
             value: 37
         }, {
-            label: 'Firefox',
+            label: 'Assets',
             value: 30
         }, {
-            label: 'Safari',
+            label: 'Capital',
             value: 18
         }, {
-            label: 'Opera',
+            label: 'Liabilities',
             value: 12
         },
         {
