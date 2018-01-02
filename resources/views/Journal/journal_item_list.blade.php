@@ -60,22 +60,22 @@
                             <div class="table-responsive">
                                 
 
-                                <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table id="example"  class="table table-striped table-hover dataTable js-exportable">
                                     <thead>
-                                        <tr>
-                                            <th style="text-align:center">Date</th>
-                                            <th>Number</th>
-                                            <th>Project</th>
-                                            <th>Journal</th>
-                                            <th>Account</th>
-                                            <th style="text-align:center">Debit</th>
-                                            <th style="text-align:center">Credit</th>
+                                        <tr style="background:#f44336;color:#fff;">
+                                            <th style="text-align:center">DATE</th>
+                                            <th>NUMBER</th>
+                                            <th>PROJECT</th>
+                                            <th>JOURNAL</th>
+                                            <th>ACCOUNT</th>
+                                            <th style="text-align:center">DEBIT</th>
+                                            <th style="text-align:center">CREDIT</th>
                                         
                                         </tr>
                                     </thead>
                                     <tfoot>
                                       <tr id="total">
-                                        <th colspan="5" style="text-align:center">Total:</th>
+                                        <th colspan="5" style="text-align:center">TOTAL:</th>
                                         <th></th>
                                         <th></th>
                                         <th></th>

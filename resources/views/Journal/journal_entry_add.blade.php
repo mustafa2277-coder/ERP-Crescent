@@ -92,15 +92,15 @@
                                 </div>
                                     </div>    
                             </div>
-                            <div class="table-responsive">
+                            <!-- <div class="table-responsive"> -->
 
-                                <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
                                    <thead>
                                         <tr>
-                                            <th>Account</th>
-                                            <th>Project</th>
-                                            <th style='text-align:center'>Debit</th>
-                                            <th style='text-align:center'>Credit</th>
+                                            <th>ACCOUNT</th>
+                                            <th>PROJECT</th>
+                                            <th style='text-align:center'>DEBIT</th>
+                                            <th style='text-align:center'>CREDIT</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -126,7 +126,7 @@
                                       
                                     </tbody>
                                 </table>
-                            </div>
+                            <!-- </div> -->
                             <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
 
                             </form>

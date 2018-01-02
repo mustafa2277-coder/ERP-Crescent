@@ -58,17 +58,17 @@
                             </div>
                         <div class="body">
                             <div class="table-responsive">    
-                                <table id="assets"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table id="assets"  class="table  table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th colspan="8" style="color:#F44336;">Assets</th>
+                                            <th colspan="8" style="color:#F44336;">ASSETS</th>
                              
                                         
                                         </tr>
                                     </thead> 
                                     <tfoot >
                                         <tr id="assets_total" style="color:#F44336;">
-                                        <th colspan="4" >Total Assets:</th>
+                                        <th colspan="4" >TOTAL ASSETS:</th>
                                         <th style="text-align:right;padding-right: 29px;"></th>
                                         </tr>
                                     </tfoot>
@@ -105,7 +105,7 @@
 
             <div id="collapse_{{$assetAcctype->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$assetAcctype->id}}">
                 <div class="panel-body">
-                    <table id="example2"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                    <table id="example2"  class="table table-striped table-hover">
                      <!--    <thead>
                             <tr>
                                 <th>Amount</th>
@@ -159,17 +159,17 @@
                                     </tbody>
                                 </table>
 
-  <table id="liabilities"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+  <table id="liabilities"  class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th colspan="8" style="color:#F44336;">Liabilities</th>
+                                            <th colspan="8" style="color:#F44336;">LIABILITIES</th>
                              
                                         
                                         </tr>
                                     </thead> 
                                     <tfoot >
                                         <tr id="lia_total" style="color:#F44336;">
-                                        <th colspan="4" >Total Liabilities:</th>
+                                        <th colspan="4" >TOTAL LIABILITIES:</th>
                                         <th style="text-align:right;padding-right: 29px;"></th>
                                         </tr>
                                     </tfoot>
@@ -206,7 +206,7 @@
 
             <div id="collapse_{{$liaAcctype->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$liaAcctype->id}}">
                 <div class="panel-body">
-                    <table id="example2"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                    <table id="example2"  class="table table-striped table-hover">
                         <tbody>
                            
                         @foreach ($liabilitiesAccounts  as $liabilitiesAccount)
@@ -249,17 +249,17 @@
                                         
                                     </tbody>
     </table>
-    <table id="equity"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+    <table id="equity"  class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th colspan="8" style="color:#F44336;">Equity</th>
+                                            <th colspan="8" style="color:#F44336;">EQUITY</th>
                              
                                         
                                         </tr>
                                     </thead> 
                                     <tfoot >
                                         <tr id="equity_total" style="color:#F44336;">
-                                        <th colspan="4" >Total Equity:</th>
+                                        <th colspan="4" >TOTAL EQUITY:</th>
                                         <th style="text-align:right;padding-right: 29px;"></th>
                                         </tr>
                                     </tfoot>
@@ -296,7 +296,7 @@
 
             <div id="collapse_{{$equityAcctype->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$equityAcctype->id}}">
                 <div class="panel-body">
-                    <table id="example2"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                    <table id="example2"  class="table table-striped table-hover">
                         <tbody>
                            
                         @foreach ($equityAccounts as $equityAccount)

@@ -39,9 +39,9 @@
                         </div>
                         <div class="body table-responsive">
                         <?php   $i=1;  ?>
-                            <table class="table table-bordered">
+                            <table class="table table-striped table-hover">
                                 <thead>
-                                    <tr>
+                                    <tr style="background: #f44336;color: #fff;">
                                         <th>#</th>
                                         <th>Code</th>
                                         <th>Name</th>

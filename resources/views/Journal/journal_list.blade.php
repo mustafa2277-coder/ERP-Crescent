@@ -62,16 +62,16 @@
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th style="text-align: center;">Voucher Prefix</th>
-                                            <th style="text-align: center;">Action</th>
+                                            <th>NAME</th>
+                                            <th style="text-align: center;">VOUCHER PREFIX</th>
+                                            <th style="text-align: center;">ACTION</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
-                                            <th>Name</th>
-                                            <th style="text-align: center;">Voucher Prefix</th>
-                                            <th style="text-align: center;">Action</th>
+                                            <th>NAME</th>
+                                            <th style="text-align: center;">VOUCHER PREFIX</th>
+                                            <th style="text-align: center;">ACTION</th>
                                            
                                         </tr>
                                     </tfoot>
