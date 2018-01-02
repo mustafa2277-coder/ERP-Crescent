@@ -59,13 +59,13 @@
                             <div class="table-responsive">
                                 
 
-                                <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table id="example"  class="table  table-striped table-hover">
                                     <thead>
-                                        <tr>
-                                            <th style="text-align:center; width: 265px;" colspan="5">Account</th>
-                                            <th style="text-align:center">Debit</th>
-                                            <th style="text-align:center">Credit</th>
-                                            <th style="text-align:center">Balance</th>
+                                        <tr style="background: #f44336;color: #fff;">
+                                            <th style="text-align:center; width: 265px;" colspan="5">ACCOUNT</th>
+                                            <th style="text-align:center">DEBIT</th>
+                                            <th style="text-align:center">CREDIT</th>
+                                            <th style="text-align:center">BALANCE</th>
                                         
                                         </tr>
                                     </thead> 
@@ -106,15 +106,15 @@
 
             <div id="collapse_{{$ledgerAccount->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$ledgerAccount->id}}">
                 <div class="panel-body">
-                    <table id="example2"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                    <table id="example2"  class="table  table-striped table-hover">
                         <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Number</th>
-                                <th>Project</th>
-                                <th style="text-align:center">Debit</th>
-                                <th style="text-align:center">Credit</th>
-                                <th style="text-align:center">Balance</th>
+                            <tr style="background: #f44336;color: #fff;">
+                                <th>DATE</th>
+                                <th>NUMBER</th>
+                                <th>PROJECT</th>
+                                <th style="text-align:center">DEBIT</th>
+                                <th style="text-align:center">CREDIT</th>
+                                <th style="text-align:center">BALANCE</th>
                             </tr>
                         </thead>
                                                                           <!--   <tfoot>
@@ -203,13 +203,13 @@
                             </div>
                                <div class="row clearfix">
                                 <div class="col-sm-1">
-                                  <strong>Date</strong>
+                                  <strong>DATE</strong>
                                 </div>
                                 <div class="col-sm-3">
                                     <span id="modal_date"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                  <strong>Journal</strong>
+                                  <strong>JOURNAL</strong>
                                 </div>
                                 <div class="col-sm-6">
                                     <span id="modal_journal"></span>
@@ -219,15 +219,15 @@
                         <div class="modal-body">
                            
 
-                            <table id="modalTable"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            <table id="modalTable"  class="table table-striped table-hover">
                             <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Account</th>
-                                <th>Project</th>
+                                <th>CODE</th>
+                                <th>ACCOUNT</th>
+                                <th>PROJECT</th>
                                 
-                                <th style="text-align:center">Debit</th>
-                                <th style="text-align:center">Credit</th>
+                                <th style="text-align:center">DEBIT</th>
+                                <th style="text-align:center">CREDIT</th>
                                 
                             </tr>
                         </thead>
@@ -316,7 +316,7 @@
     $('.detailModal').on('click', function () {
        // alert($(this).find('td').eq(1).text());
        $.ajax({
-            url: "http://localhost/ERP/getJournalEntryByEntrynum",
+            url: "http://localhost/ERP/erp1/getJournalEntryByEntrynum",
             type: "GET",
             headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

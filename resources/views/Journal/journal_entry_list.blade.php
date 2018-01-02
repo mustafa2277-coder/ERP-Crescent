@@ -72,7 +72,7 @@
                                   
                         </div>
                         <div class="body">
-                            <div class="table-responsive">
+                            <!-- <div class="table-responsive"> -->
 
                             <h2 class="card-inside-title">Filters</h2>
                             <form id="form_filter" name = "form" method="POST" action="{{ url('/getJournalEntries') }}">
@@ -170,20 +170,20 @@
                                
 
                             
-                                <table id="example"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
                                     <thead>
-                                        <tr>
-                                            <th style="text-align:center">Date</th>
-                                            <th style="text-align:center">Number</th>
-                                            <th>Project</th>
-                                            <th>Journal</th>
-                                            <th style="text-align:center">Amount</th>
+                                        <tr style="background: #f44336;color: #fff;">
+                                            <th style="text-align:center">DATE</th>
+                                            <th style="text-align:center">NUMBER</th>
+                                            <th>PROJECT</th>
+                                            <th>JOURNAL</th>
+                                            <th style="text-align:center">AMOUNT</th>
                                         
                                         </tr>
                                     </thead>
                                     <tfoot>
                                       <tr id="total">
-                                        <th colspan="4" style="text-align:right">Total:</th>
+                                        <th colspan="4" style="text-align:right">TOTAL:</th>
                                         <th></th>
                                       </tr>
                                     </tfoot>
@@ -203,7 +203,7 @@
                                 </table>
 
                                 
-                            </div>
+                         <!--    </div> -->
                         </div>
                     </div>
                 </div>

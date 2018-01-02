@@ -38,18 +38,18 @@
                         </div>
                         <div class="body table-responsive">
                         <?php   $i=1;  ?>
-                            <table class="table table-bordered">
+                            <table class="table table-striped table-hover">
                                 <thead>
-                                    <tr>
+                                    <tr style="background: #f44336;color: #fff;">
                                         <th>#</th>
-                                        <th>Code</th>
-                                        <th>Name</th>
-                                        <th>Weight</th>
-                                        <th>Category</th>
-                                        <th>Type</th>
-                                        <th>Customer Lead Time</th>
-                                        <th>Manufacture Lead Time</th>
-                                        <th>Action</th>
+                                        <th>CODE</th>
+                                        <th>NAME</th>
+                                        <th>WEIGHT</th>
+                                        <th>CATEGORY</th>
+                                        <th>TYPE</th>
+                                        <th>CUSTOMER LEAD TIME</th>
+                                        <th>MANUFACTURE LEAD TIME</th>
+                                        <th>ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody>
