@@ -29,6 +29,7 @@ class ProductController extends Controller
 
             ->get();
             //return $productList;
+            //return $productList;
         return view('product/product_list')->with('productList',$productList);
     }
     

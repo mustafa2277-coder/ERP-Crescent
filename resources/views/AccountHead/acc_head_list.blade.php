@@ -33,6 +33,7 @@
 
 
     <section class="content">
+        <a href="{{url('/home')}}">Home >></a><a>Account Heads</a>
         <div class="container-fluid">
            
                            <br>

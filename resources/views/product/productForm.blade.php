@@ -31,12 +31,17 @@
 
 @section('content')
     <section class="content">
+            <a href="{{url('/home')}}">Home >> </a><a href="{{url('/productList')}}">Products >> </a> @if(isset($products))
+                                                                                                            <a>Edit Product</a>
+                                                                                                        @else
+                                                                                                            <a>Add Product</a>
+                                                                                                        @endif 
         <div class="container-fluid">
             {{--  <div class="block-header">
             </div>  --}}
             <!-- Basic Validation -->
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
                     <div class="card">
                         <div class="header">
                             <h2>Add Product</h2>

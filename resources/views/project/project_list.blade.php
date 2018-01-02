@@ -21,10 +21,11 @@
 @endsection
 @section('content')
     <section class="content">
-            
+        <a href="{{url('/home')}}">Home >> </a><a>Projects</a>
+
         <!-- Bordered Table -->
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
                     <div class="card">
                         <div class="header">
                             <h2>

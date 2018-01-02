@@ -2382,7 +2382,9 @@ button,
 input,
 select,
 a {
-  outline: none !important; }
+  outline: none !important;
+  cursor: pointer;
+}
 
 .no-animate {
   -o-transition-property: none !important;
