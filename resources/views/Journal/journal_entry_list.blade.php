@@ -44,7 +44,7 @@
 
 
     <section class="content">
-
+        <a href="{{url('/home')}}">Home >> </a><a>Journal Entries</a>
         <div class="container-fluid">
             
                            <br>

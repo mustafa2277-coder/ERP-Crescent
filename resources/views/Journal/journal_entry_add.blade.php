@@ -40,6 +40,7 @@
 
 
     <section class="content">
+        <a href="{{url('/home')}}">Home >> </a><a href="{{url('/getJournalEntries')}}">Journal Entries >> </a><a>New Journal Entries</a>
         <div class="container-fluid">
           <!--   <div class="block-header">
                 <h2>
@@ -50,7 +51,7 @@
             <!-- #END# Basic Examples -->
             <!-- Exportable Table -->
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
                     <div class="card">
                             <div class="header">
                            

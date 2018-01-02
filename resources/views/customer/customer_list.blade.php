@@ -22,17 +22,23 @@
 
 @section('content')
      <section class="content">
+        @if($customerList[0]->isVendor=="on")
+        <a href="{{url('/home')}}">Home >> </a><a>Vendors</a>
+        @else
+        <a href="{{url('/home')}}">Home >> </a><a>Customers</a>
+        @endif
+       
         <div class="container-fluid">
             <div class="block-header">
 
-                <a href="{{ url('/getAddCustomer') }}" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float"><i class="material-icons">add</i></a>
+                <a href="{{ url('/getAddCustomer') }}" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="float:right;"><i class="material-icons">add</i></a>
                      
             </div>
             
             <!-- Basic Example -->
             <div class="row clearfix">
             @foreach($customerList as $cus)
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="margin-top: 30px;">
                     <div class="card">
                         <div class="header bg-red">
                             <h2>

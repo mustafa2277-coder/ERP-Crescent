@@ -21,15 +21,16 @@
 @endsection
 @section('content')
     <section class="content">
+            <a href="{{url('/home')}}">Home >> </a><a>Products</a>
             
         <!-- Bordered Table -->
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 30px;">
                     <div class="card">
                         <div class="header">
                             <h2>
                                 Products
-                                <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" href="{{ url('/getAddProject')}}"> 
+                                <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" href="{{ url('/getAddProduct')}}"> 
                                     <i class="material-icons" title="Create New">add</i>
                                 </a>
                             </h2>
@@ -42,14 +43,13 @@
                                 <thead>
                                     <tr style="background: #f44336;color: #fff;">
                                         <th>#</th>
-                                        <th>CODE</th>
-                                        <th>NAME</th>
-                                        <th>WEIGHT</th>
-                                        <th>CATEGORY</th>
-                                        <th>TYPE</th>
-                                        <th>CUSTOMER LEAD TIME</th>
-                                        <th>MANUFACTURE LEAD TIME</th>
-                                        <th>ACTION</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Weight</th>
+                                        <th>Category</th>
+                                        <th>Type</th>
+                                
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -61,8 +61,6 @@
                                         <td>{{$product->weight}} {{$product->unit}}</td>
                                         <td>{{$product->category}}</td>
                                         <td>{{$product->type}}</td>
-                                        <td>{{$product->custLeadTime}}</td>
-                                        <td>{{$product->manfLeadTime}}</td>
                                         
                                         <td>
                                             <a href="{{ url('/getEditProduct') }}/{{$product->id}}" ><i class="material-icons">edit</i></a>

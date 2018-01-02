@@ -35,6 +35,8 @@
 
 @if (isset($record))
     <section class="content">
+            <a href="{{url('/home')}}">Home >></a><a href="{{url('/getAccountHeads')}}">Account Heads>></a><a>Update Account Heads</a>
+            
         <div class="container-fluid">
           
             <!-- Basic Validation -->
@@ -119,6 +121,7 @@
 @else
 
    <section class="content">
+        <a href="{{url('/home')}}">Home>> </a><a href="{{url('/getAccountHeads')}}">Account Heads>> </a><a>Add New Account Heads</a> 
         <div class="container-fluid">
           
             <!-- Basic Validation -->

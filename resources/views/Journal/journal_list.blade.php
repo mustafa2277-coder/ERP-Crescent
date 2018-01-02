@@ -32,10 +32,9 @@
 
 
     <section class="content">
+        <a href="{{url('/home')}}">Home >> </a><a>Journals</a>
         <div class="container-fluid">
-            <a class="btn btn-primary btn-circle-lg waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournal')}}"> 
-                            <i class="material-icons" title="Add New Journal">add</i>
-                           </a> 
+           
           <!--   <div class="block-header">
                 <h2>
                     JQUERY DATATABLES
@@ -44,13 +43,16 @@
             </div> -->
             <!-- #END# Basic Examples -->
             <!-- Exportable Table -->
-            <div class="row clearfix" style="margin-top: 10px;">
+            <div class="row clearfix" style="margin-top: 20px;">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                             <div class="header">
                            
                                 <h2>
                                      Journals
+                                     <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournal')}}" style="float:  right;"> 
+                                        <i class="material-icons" title="Create New Account Head">add</i>
+                                    </a>
                                 </h2>
                            </a>       
                         </div>

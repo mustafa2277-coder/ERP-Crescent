@@ -28,15 +28,24 @@
 
 @section('content')
     <section class="content">
+        <a href="{{url('/home')}}">Home >> </a><a href="{{url('/customerList')}}">Customers >> </a> @if(isset($customer))
+                                                                                                        <a>Edit</a>
+                                                                                                    @else
+                                                                                                        <a>Add</a>
+                                                                                                    @endif 
         <div class="container-fluid">
             {{--  <div class="block-header">
             </div>  --}}
             <!-- Basic Validation -->
             <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
                     <div class="card">
                         <div class="header">
-                            <h2>Add Customers</h2>
+                        @if(isset($customer))
+                            <h2>Edit Customer</h2>
+                        @else
+                            <h2>Add Customer</h2>
+                        @endif
                         </div>
                         <div class="body">
                             {{--  Edit Form  --}}
