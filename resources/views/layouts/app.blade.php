@@ -378,8 +378,11 @@
                             <li>
                                 <a href="{{url('/getJournalItems')}}">Journal Items</a>
                             </li>
-                            <li>
+                           <!--  <li>
                                 <a href="{{url('/getJournalEntries')}}">Journal Entries</a>
+                            </li> -->
+                             <li>
+                                <a href="{{url('/getJournalEntriesTest')}}">Journal Entries</a>
                             </li>
 
                              <li>

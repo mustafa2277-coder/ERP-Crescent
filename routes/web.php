@@ -79,6 +79,10 @@ Route::post('/insertJournalEntry','JournalController@InsertJournalEntry')->middl
 Route::post('/getJournalEntriesByDate','JournalController@GetJournalEntriesByDate')->middleware('auth');
 Route::post('getProjectsByCustomerId' ,'JournalController@GetProjectsByCustomerId')->middleware('auth');
 
+// testing 
+Route::get('/getJournalEntriesTest' ,'JournalController@GetJournalEntriesTest')->middleware('auth');
+Route::get('/getFilterJournalEntriesTest' ,'JournalController@GetFilterJournalEntriesTest')->middleware('auth');
+
 /*----------------------------------Journal Item----------------------------*/
 Route::get('/getJournalItems','JournalController@GetJournalItems')->middleware('auth');
 

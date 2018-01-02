@@ -58,7 +58,7 @@
                         <div class="body">
                             <div class="table-responsive">
                                 
-
+                            
                                 <table id="example"  class="table table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr style="background:#f44336;color:#fff;">

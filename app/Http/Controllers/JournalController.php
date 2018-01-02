@@ -9,9 +9,9 @@ use App\Journal;
 use App\JournalEntries;
 use App\JournalEntryDetail;
 use Response;
-use Illuminate\Pagination\Paginator;
+//use Illuminate\Pagination\Paginator;
 use Redirect;
-
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class JournalController extends Controller
 {
@@ -361,7 +361,7 @@ class JournalController extends Controller
        
     }
 
-    /*----------------------------------Journal Item-------------------------------*/
+/*----------------------------------Journal Item-------------------------------*/
 
     // for getting all journal items
 
@@ -378,18 +378,20 @@ class JournalController extends Controller
         
 
 
-         $journalItems = DB::table('journalentries')
+      
+   $journalItems = DB::table('journalentries')
 
         ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-        ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+        ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
         ->join('journal', 'journalentries.journalId', '=', 'journal.id')
         ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
 
         ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','accounthead.name as account','journalentrydetail.isDebit as isDebit'
 
-    )
+            )
         ->paginate(30);
-    
+
+  
 
         return view('/Journal/journal_item_list')->with('journalItems',$journalItems);
    
@@ -408,6 +410,191 @@ class JournalController extends Controller
         
         return $projects;
         
+    }
+
+
+
+
+    public function GetJournalEntriesTest(Request $request){
+
+        $journals =  DB::table('journal')->orderBy('name')->get();
+        $customers=  DB::table('customers')->orderBy('name')->get();
+        $projects =  DB::table('project')->orderBy('title')->get();
+        $end   = date("d/m/Y");
+        $start = date("d/m/Y");
+
+        $journalentries = "";
+
+
+    return view('/Journal/journal_entry_View/journal_entry',compact('journalentries','journals','end','start','projects','projectId','journalId','customers'));
+
+     }
+
+
+    public function GetFilterJournalEntriesTest(Request $request){
+
+        
+        if($request->ajax())
+        {
+
+        $projectId = $request['filter_project'];
+        $journalId = $request['filter_journal'];
+        $end = $request['end_date'];
+        $start = $request['start_date'];
+        $journalentries = "";
+
+
+        //filter by date
+        if(empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){
+
+                
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                )
+                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
+               // ->paginate(20); 
+                ->get(); 
+
+            $journalentries = $this->paginate($journalentries)
+            ->setPath('journalentries');
+
+               ///return  $journalentries;//new Paginator($journalentries, 20);
+
+
+        }
+
+        //  filter by journal only
+
+        if(empty($projectId) && !empty($journalId) && (empty($end)|| empty($start))){
+          
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                )
+                ->where('journalentries.journalId', '=', $journalId)
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
+
+
+        } 
+
+        //  filter by project only   
+        
+        if(!empty($projectId) && empty($journalId) && (empty($end)|| empty($start))){
+                $end = $request->end_date;
+                $start = $request->start_date;
+                $projectId = $request->filter_project;
+                $journalId = $request->filter_journal;    
+
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                )
+                ->where('journalentrydetail.projectId', '=', $projectId)
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
+
+
+        }
+
+        //  filter by jounral,project,date   
+
+        if(!empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){
+
+
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                )
+                ->where('journalentrydetail.projectId', '=', $projectId)
+                ->where('journalentries.journalId', '=', $journalId)
+                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
+
+                //return $start;
+        }
+
+
+
+
+        //  filter by jounral and date
+
+        if(empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){        
+
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                )
+                
+                ->where('journalentries.journalId', '=', $journalId)
+                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
+ 
+        }
+
+        //  filter by project and date
+
+        if(!empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){        
+
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                )
+                
+                ->where('journalentrydetail.projectId', '=', $projectId)
+                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
+
+        }             
+            
+
+        
+        $view =  view('/Journal/journal_entry_View/journal_entry_list',compact('journalentries'))->render();       
+
+
+        return response($view);
+
+        }
+    }
+
+      protected function paginate($items, $perPage = 12)
+    {
+        //Get current page form url e.g. &page=1
+        $currentPage =  LengthAwarePaginator::resolveCurrentPage();
+
+        //Slice the collection to get the items to display in current page
+        $currentPageItems = $items->slice(($currentPage - 1) * $perPage, $perPage);
+
+        //Create our paginator and pass it to the view
+        return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
     }
 
 
