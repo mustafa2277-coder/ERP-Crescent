@@ -13,7 +13,7 @@ class CustomerController extends Controller
 {
     public function customerList()
     {
-        $customerList = Customer::where('isVendor',null)->paginate(2);
+        $customerList = Customer::where('isVendor',null)->paginate(6);
         return view('customer/customer_list')->with('customerList',$customerList);
     }
     public function vendorList()
@@ -31,8 +31,6 @@ class CustomerController extends Controller
     {
         $customer=new Customer;
         $customer->name=$request->name;
-        $customer->debitAccHeadId=$request->debit;
-        $customer->creditAccHeadId=$request->credit;
         $customer->address1=$request->address1;
         $customer->address2=$request->address2;
         $customer->phone=$request->phone;

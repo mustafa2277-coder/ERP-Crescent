@@ -31,14 +31,14 @@
         <div class="container-fluid">
             <div class="block-header">
 
-                <a href="{{ url('/getAddCustomer') }}" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="float:right;"><i class="material-icons">add</i></a>
+                <a href="{{ url('/getAddCustomer') }}" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float" title="Add New" ><i class="material-icons">add</i></a>
                      
             </div>
             
             <!-- Basic Example -->
             <div class="row clearfix">
             @foreach($customerList as $cus)
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="margin-top: 30px;">
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="margin-top: 20px;">
                     <div class="card">
                         <div class="header bg-red">
                             <h2>

@@ -54,13 +54,18 @@
                                 <input type="hidden" name="id" value="{{$products->id}}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="code" value="{{$products->code}}"required>
+                                        <input type="text" class="form-control" maxlength="20" name="code" value="{{$products->code}}"required>
                                         <label class="form-label">Code</label>
                                     </div>
+                                     @if ($errors->has('code'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('code') }}
+                                    </span>
+                                    @endif
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="name" value="{{$products->name}}" required>
+                                        <input type="text" class="form-control" name="name" maxlength="100" value="{{$products->name}}" required>
                                         <label class="form-label">Name</label>
                                     </div>
                                 </div>
@@ -72,7 +77,7 @@
                                 </div>  
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="weight" value="{{$products->weight}}" >
+                                        <input type="text" class="form-control" name="weight" maxlength="20" value="{{$products->weight}}" >
                                         <label class="form-label">Weight</label>
                                     </div>
                                 </div>
@@ -128,25 +133,31 @@
                                 {{ csrf_field() }}
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="code" required>
-                                        <label class="form-label">Code</label>
+                                        <input type="text" class="form-control" name="code" value="{{ old('code') }}" maxlength="20" required>
+                                        <label class="form-label">Code*</label>
+                                    </div>
+                                    @if ($errors->has('code'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('code') }}
+                                    </span>
+                                    @endif
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" maxlength="100" class="form-control" value="{{ old('name') }}"  name="name" required>
+                                        <label class="form-label">Name*</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="name" required>
-                                        <label class="form-label">Name</label>
-                                    </div>
-                                </div>
-                                <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <textarea name="description" cols="30" rows="3" class="form-control no-resize" ></textarea>
+                                        <textarea maxlength="200" name="description" cols="30" rows="3" value="{{ old('description') }}" class="form-control no-resize" ></textarea>
                                         <label class="form-label">Description</label>
                                     </div>
-                                </div>  
+                                </div> 
+
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="weight"  >
+                                        <input type="text" value="{{ old('weight') }}"  class="form-control" maxlength="20" name="weight"  >
                                         <label class="form-label">Weight</label>
                                     </div>
                                 </div>
@@ -163,7 +174,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="col-sm-12">
-                                        <label class="form-label">Category</label>
+                                        <label class="form-label">Category*</label>
                                         <select  id="type_id" name="categoryId" class="form-control show-tick" data-live-search="true" required>
                                         <option value="" selected="selected" disabled="disabled">Select Category</option>
                                         @foreach ($category as $category)    
@@ -174,7 +185,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="col-sm-12">
-                                        <label class="form-label">Product Type</label>
+                                        <label class="form-label">Product Type*</label>
                                         <select  id="type_id" name="type" class="form-control show-tick" data-live-search="true" required>
                                         <option value="" selected="selected" disabled="disabled">Select Product Type</option>
                                             
