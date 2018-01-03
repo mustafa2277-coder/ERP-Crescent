@@ -42,6 +42,15 @@ class ProductController extends Controller
     }
     public function addProduct(Request $request)
     {
+
+        $this->validate($request, [
+            'code'=>'required|unique:products,code',
+            ],
+
+            ['code.unique'=>'Code Already exist'
+                ]
+        );
+
         $product=new Product;
         $product->code=$request->code;
         $product->name=$request->name;
@@ -67,6 +76,20 @@ class ProductController extends Controller
         return view('product/productForm',compact('products','category','units'));
     }
     public function editProduct(Request $request){
+
+
+    if(Product::where('code','=',$request->code)->where('id','<>',$request->id)
+          ->exists())
+    {
+
+       $this->validate($request, [
+                'code'=>'required|unique:accounthead,code',
+                ],
+                [
+                 'code.unique'=>'Code Already exist',
+                ]);
+        
+    }
         
        Product::where('id','=',$request->id)->update(['name' => $request->name,
                 'code'=>$request->code,

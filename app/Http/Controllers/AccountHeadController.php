@@ -110,6 +110,8 @@ class AccountHeadController extends Controller
      // for inserting a record   used for add new record
 
     public function InsertAccountHead(Request $request){
+        
+
         $this->validate($request, [
             'acchead_code'=>'required|unique:accounthead,code',
             'acchead_name'=>'required',
@@ -146,7 +148,7 @@ class AccountHeadController extends Controller
     $res3 = trim($res2,'_-');
 
   //  return $res3;
-  
+
 
     if(AccountHead::where('code','=',$res3)->where('id','<>',$request->acchead_id)
           ->exists())
@@ -160,6 +162,14 @@ class AccountHeadController extends Controller
                 ['acchead_name.unique'=>'Name Already exist',
                  'acchead_code.unique'=>'Code Already exist',
                 ]);
+        
+    }
+
+     if(DB::table('journalentrydetail')->where('accHeadId','=',$request->acchead_id)->exists() && empty($request->is_tran))
+    {
+
+
+     return redirect()->back()->with('error','isTransactional cannot be unchecked!');
         
     }
        

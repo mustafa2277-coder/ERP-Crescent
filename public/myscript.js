@@ -173,14 +173,28 @@ $('#New-Entry-Modal').on('hidden.bs.modal', function () {
   
   function AddData() {
 
-     if($('#acc_id').find(":selected").val() == 0) {
+    if($('#acc_id').find(":selected").val() == 0) {
 
         swal("Account is not selected!");
        
         //$('#New-Entry-Modal').modal('hide');
         return false;
 
-       }
+    }
+    if(!$.isNumeric($('#modal_debit').val()) && $('#modal_debit').val() !="" ) {
+
+        swal("Debit Field is Numeric!");
+        return false;
+
+    }
+
+    if(!$.isNumeric($('#modal_credit').val()) && $('#modal_credit').val() !="") {
+
+        swal("Credit Field is Numeric!");
+        return false;
+
+    }
+    
  
             var rows = "";
             var project = "";
@@ -192,6 +206,8 @@ $('#New-Entry-Modal').on('hidden.bs.modal', function () {
                   
                 if(creditAmt =="" || creditAmt == null)
                     creditAmt = 0;
+
+                
 
                 var account = $('#acc_id').find(":selected").text().trim();
                 

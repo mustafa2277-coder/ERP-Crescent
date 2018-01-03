@@ -31,7 +31,7 @@
 
 @section('content')
     <section class="content">
-            <a href="{{url('/home')}}">Home >> </a><a href="{{url('/productList')}}">Products >> </a> @if(isset($projects))
+            <a href="{{url('/home')}}">Home >> </a><a href="{{url('/projectList')}}">Projects >> </a> @if(isset($projects))
                                                                                                             <a>Edit Projet</a>
                                                                                                         @else
                                                                                                             <a>Add Project</a>
@@ -59,14 +59,19 @@
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="text" class="form-control" name="code" value="{{$projects[0]->code}}" required>
-                                        <label class="form-label">Project Code</label>
+                                        <label class="form-label">Project Code*</label>
                                     </div>
+                                    @if ($errors->has('code'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('code') }}
+                                    </span>
+                                    @endif
                                 </div>
                                 
                                  <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="text" class="form-control" name="title" value="{{$projects[0]->title}}" required >
-                                        <label class="form-label">Project Title</label>
+                                        <label class="form-label">Project Title*</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
@@ -76,23 +81,28 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" name="cost" value="{{$projects[0]->cost}}" >
-                                        <label class="form-label">Project Cost</label>
-                                    </div>
+                                   <b>Project Cost</b>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">attach_money</i>
+                                            </span>
+                                            <div class="form-line">
+                                                <input type="text" id="cost"  name="cost" value="{{$projects[0]->cost}}" class="form-control money-dollar" placeholder="Ex:99.99 ">
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="form-label">Start Date</label>
+                                    <label class="form-label">Start Date*</label>
                                     <input type="text" id="date_post1" name="start" class="datepicker form-control" placeholder="Please choose Start Date..." value="{{date('d/m/Y', strtotime($projects[0]->start))}}" required>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="form-label">End Date</label>
+                                    <label class="form-label">End Date*</label>
                                     <input type="text" name="end" id="date_post" class="datepicker form-control" placeholder="Please choose End Date..."  value="{{date('d/m/Y', strtotime($projects[0]->end))}}" required>
                                 </div>
                                 
                                 <div class="form-group form-float">
                                     <div class="col-sm-12">
-                                        <label class="form-label">Customer</label>
+                                        <label class="form-label">Customer*</label>
                                         <select  id="type_id" name="customer" class="form-control show-tick" data-live-search="true" required>
                                         <option value="0" selected="selected" disabled="disabled">Select Customer</option>
                                         @foreach ($customers as $customer)    
@@ -103,7 +113,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="col-sm-6">
-                                        <label class="form-label">Receiveable Account Head</label>
+                                        <label class="form-label">Receiveable Account Head*</label>
                                         <select  id="type_id" name="debit" class="form-control show-tick" data-live-search="true" required>
 
                                         @foreach ($accountHeads as $accountHead)    
@@ -114,7 +124,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="col-sm-6">
-                                        <label class="form-label">Payable Account Head</label>
+                                        <label class="form-label">Payable Account Head*</label>
                                         <select  id="type_id" name="credit" class="form-control show-tick" data-live-search="true" required>
                                            
                                         @foreach ($accountHeads as $accountHead)    
@@ -148,41 +158,52 @@
                                 {{ csrf_field() }}
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="code" required>
-                                        <label class="form-label">Project Code</label>
+                                        <input type="text" maxlength="20" class="form-control"  name="code" required>
+                                        <label class="form-label">Project Code*</label>
                                     </div>
+                                    @if ($errors->has('code'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{ $errors->first('code') }}
+                                    </span>
+                                    @endif
                                 </div>
                                 
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="title" required >
-                                        <label class="form-label">Project Title</label>
+                                        <input type="text"  maxlength="100"class="form-control" name="title" required >
+                                        <label class="form-label">Project Title*</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="description" >
+                                        
+                                        <textarea name="description" cols="30" rows="3" class="form-control no-resize" ></textarea>
                                         <label class="form-label">Description</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" name="cost" >
-                                        <label class="form-label">Project Cost</label>
-                                    </div>
+                                   <b>Project Cost</b>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">attach_money</i>
+                                            </span>
+                                            <div class="form-line">
+                                                <input type="text" id="cost" name="cost" class="form-control money-dollar" placeholder="Ex:99.99 ">
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="form-label">Start Date</label>
-                                    <input type="text" id="date_post1" name="start" class="datepicker form-control" placeholder="Please choose Start Date..." required>
+                                    <label class="form-label">Start Date*</label>
+                                    <input type="text" id="start" name="start" class="datepicker form-control" placeholder="Please choose Start Date..." required>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="form-label">End Date</label>
-                                    <input type="text" name="end" id="date_post" class="datepicker form-control" placeholder="Please choose End Date..." required>
+                                    <label class="form-label">End Date*</label>
+                                    <input type="text" name="end" id="end" class="datepicker form-control" placeholder="Please choose End Date..." required>
                                 </div>
                                 
                                 <div class="form-group form-float">
                                     <div class="col-sm-12">
-                                        <label class="form-label">Customer</label>
+                                        <label class="form-label">Customer*</label>
                                         <select  id="type_id" name="customer" class="form-control show-tick" data-live-search="true" required>
                                         <option value="0" selected="selected" disabled="disabled">Select Customer</option>
                                         @foreach ($customers as $customer)    
@@ -193,7 +214,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="col-sm-6">
-                                        <label class="form-label">Receiveable Account Head</label>
+                                        <label class="form-label">Receiveable Account Head*</label>
                                         <select  id="type_id" name="debit" class="form-control show-tick" data-live-search="true" required>
 
                                         @foreach ($accountHeads as $accountHead)    
@@ -204,7 +225,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="col-sm-6">
-                                        <label class="form-label">Payable Account Head</label>
+                                        <label class="form-label">Payable Account Head*</label>
                                         <select  id="type_id" name="credit" class="form-control show-tick" data-live-search="true" required>
                                            
                                         @foreach ($accountHeads as $accountHead)    
@@ -218,7 +239,7 @@
                                 
                                 {{--  <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="cost" required>
+                                        <input type="text" class="form-control" id="cost" name="cost" required>
                                         <label class="form-label">Project Cost</label>
                                     </div>
                                 </div>  --}}
@@ -268,7 +289,7 @@
     <script src="{{asset('public/plugins/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
 
     <!-- Jquery Validation Plugin Css -->
-    <script src="../../plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="{{asset('public/plugins/jquery-validation/jquery.validate.js')}}"></script>
 
     <!-- Sweet Alert Plugin Js -->
     <script src="{{asset('public/plugins/sweetalert/sweetalert.min.js')}}"></script>
@@ -284,7 +305,9 @@
 
      <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{asset('public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
-
+    
+    <!-- Input Mask  Plugin Js -->
+    <script src="{{asset('public/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
     
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
@@ -295,5 +318,16 @@
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
-    <script src="{{asset('public/myscript.js')}}"></script>
+
+     <script type="text/javascript">
+
+    $('#start').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
+    $('#end').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
+   
+     $(document).ready(function() {
+            $('#cost').inputmask({mask: "9{1,40}.99"});
+            
+        });
+
+    </script>
 @endsection

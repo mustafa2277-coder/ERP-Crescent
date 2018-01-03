@@ -55,34 +55,44 @@
                                 <input type="hidden" name="id" value="{{$customer[0]->id}}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="name" value="{{$customer[0]->name}}" required>
+                                        <input type="text" class="form-control" name="name" maxlength="100" value="{{$customer[0]->name}}" required>
                                         <label class="form-label">Name</label>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="address1" value="{{$customer[0]->address1}}" required >
+                                        <input type="text" class="form-control" name="address1" maxlength="190" value="{{$customer[0]->address1}}" required >
                                         <label class="form-label">Address1</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="address2" value="{{$customer[0]->address2}}">
+                                        <input type="text" class="form-control" name="address2"  maxlength="190" value="{{$customer[0]->address2}}">
                                         <label class="form-label">Address2</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" name="phone" value="{{$customer[0]->phone}}">
-                                        <label class="form-label">Phone</label>
-                                    </div>
+                                        <b>Phone Number</b>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">phone</i>
+                                            </span>
+                                            <div class="form-line">
+                                               <input type="text" class="form-control" id="phone" name="phone"  value="{{$customer[0]->phone}}" placeholder="Ex: +00 (000) 0000000" >
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" name="mobile" value="{{$customer[0]->mobile}}" required>
-                                        <label class="form-label">Mobile</label>
-                                    </div>
+                                        <b>Mobile</b>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                               <i class="material-icons">phone_iphone</i>
+                                            </span>
+                                            <div class="form-line">
+                                               <input type="text" class="form-control" id="mobile" name="mobile" value="{{$customer[0]->mobile}}" placeholder="Ex: +00 (000) 0000000" >
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
@@ -133,17 +143,29 @@
                                         <label class="form-label">Address2</label>
                                     </div>
                                 </div>
+                             
                                 <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" name="phone" >
-                                        <label class="form-label">Phone</label>
-                                    </div>
+                                        <b>Phone Number</b>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="material-icons">phone</i>
+                                            </span>
+                                            <div class="form-line">
+                                               <input type="text" class="form-control" id="phone" name="phone" placeholder="Ex: +00 (000) 0000000" required>
+                                            </div>
+                                        </div>
                                 </div>
+                            
                                 <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" name="mobile" required>
-                                        <label class="form-label">Mobile</label>
-                                    </div>
+                                        <b>Mobile</b>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                               <i class="material-icons">phone_iphone</i>
+                                            </span>
+                                            <div class="form-line">
+                                               <input type="text" class="form-control" id="mobile" name="mobile"  placeholder="Ex: +00 (000) 0000000" required>
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
@@ -197,7 +219,7 @@
     <script src="{{asset('public/plugins/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
 
     <!-- Jquery Validation Plugin Css -->
-    <script src="../../plugins/jquery-validation/jquery.validate.js"></script>
+    <script src="{{asset('public/plugins/jquery-validation/jquery.validate.js')}}"></script>
 
     <!-- Sweet Alert Plugin Js -->
     <script src="{{asset('public/plugins/sweetalert/sweetalert.min.js')}}"></script>
@@ -210,15 +232,27 @@
 
     <!-- Moment Plugin Js -->
     <script src="{{asset('public/plugins/momentjs/moment.js')}}"></script>
-
+    
+    <!-- Input Mask  Plugin Js -->
+    <script src="{{asset('public/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
     
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
     <script src="{{asset('public/js/pages/forms/form-validation.js')}}"></script>
 
-    <script src="{{asset('public/js/pages/forms/basic-form-elements.js')}}"></script>
+    <!-- <script src="{{asset('public/js/pages/forms/basic-form-elements.js')}}"></script> -->
     
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
+
+     <script type="text/javascript">
+     $(document).ready(function() {
+            $('#phone').inputmask({ mask: "+99-999-9999999"});
+            $('#mobile').inputmask({ mask: "+99-999-9999999"});
+    });
+
+    </script>
+
+
 @endsection

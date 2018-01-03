@@ -39,11 +39,22 @@ class ProjectController extends Controller
     public function addProject(Request $request)
     {
 
+        $tt =$request->cost;
+        $res1 = trim($tt,'_');
+
+        $this->validate($request, [
+            'code'=>'required|unique:project,code',
+            ],
+
+            ['code.unique'=>'Code Already exist',
+                ]
+        );
+
         $project=new Project;
         $project->title=$request->title;
         $project->creditAccHeadId=$request->credit;
         $project->debitAccHeadId=$request->debit;
-        $project->code=$request->code;
+        $project->code=$res1;
         $project->description=$request->description;
         $project->start=date("Y-m-d",strtotime(str_replace('/', '-', $request->start)));
         $project->end=date("Y-m-d",strtotime(str_replace('/', '-', $request->end)));
@@ -61,6 +72,23 @@ class ProjectController extends Controller
         return view('project/projectForm',compact('projects','customers','accountHeads'));
     }
     public function editProject(Request $request){
+
+
+    $tt = $request->cost;
+    $res1 = trim($tt,'_');
+
+    if(Project::where('code','=',$request->code)->where('id','<>',$request->id)
+          ->exists())
+    {
+
+       $this->validate($request, [
+                'code'=>'required|unique:accounthead,code',
+                ],
+                [
+                 'code.unique'=>'Code Already exist',
+                ]);
+        
+    }
         
         $start=date("Y-m-d",strtotime(str_replace('/', '-', $request->start)));
         $end=date("Y-m-d",strtotime(str_replace('/', '-', $request->end)));
@@ -68,7 +96,7 @@ class ProjectController extends Controller
         Project::where('id','=',$request->id)->update(['code' => $request->code,
                 'title'=>$request->title,
                 'description'=>$request->description,
-                'cost' => $request->cost,
+                'cost' => $res1,
                 'creditAccHeadId'=>$request->credit,
                 'debitAccHeadId'=>$request->debit,
                 'customerId'=>$request->customer,

@@ -95,6 +95,11 @@
                                     <input type="checkbox" id="is_tran" name="is_tran" <?php echo $record->isTransactional=='1'?'checked':'unchecked' ?> >
                                     <label for="is_tran">Is Transactional</label>
                                     </div>
+                                   @if ($message = Session::get('error'))
+                                    <span class="help-block" style="color: red; font-size: 12px;">
+                                        * {{$message}}
+                                    </span>
+                                    @endif
                                 </div>
                                
                                 <div class="form-group form-float">
