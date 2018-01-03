@@ -354,13 +354,7 @@
                             <span>Home</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{url('/categoryList')}}">
-                            <i class="material-icons">border_left</i>
-                            <span>Product Categories</span>
-
-                        </a>
-                    </li>
+                    
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">account_balance_wallet</i>
@@ -416,6 +410,47 @@
 
                     </li>
 
+
+
+
+
+
+                        <li>
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">unarchive</i>
+                                <span>Product Management</span>
+    
+                            </a>
+    
+                            <ul class="ml-menu">
+                                    
+                                <li>
+                                            <a href="{{url('/productList')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Products</span>
+                    
+                                            </a>
+                                </li>
+                                <li>
+                                        <a href="{{url('/categoryList')}}">
+                                            <i class="material-icons">border_left</i>
+                                            <span>Product Categories</span>
+                
+                                        </a>
+                                </li>
+                                
+                                
+                            </ul>
+    
+    
+                        </li>
+
+
+
+
+
+
+
                     <li>
                         <a href="{{url('/customerList')}}">
                             <i class="material-icons">account_box</i>
@@ -430,13 +465,7 @@
 
                         </a>
                     </li>
-                    <li>
-                        <a href="{{url('/productList')}}">
-                            <i class="material-icons">text_fields</i>
-                            <span>Products</span>
-
-                        </a>
-                    </li>
+                    
                     <li>
                         <a href="{{url('/projectList')}}">
                             <i class="material-icons">view_quilt</i>
