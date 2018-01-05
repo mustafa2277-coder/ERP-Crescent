@@ -387,7 +387,7 @@
                                 <ul class="ml-menu">
 
                                     <li>
-                                        <a href="{{url('/getGeneralLedger')}}">General Ledger</a>
+                                        <a href="{{url('/getGeneralLedgerView')}}">General Ledger</a>
                                     </li>
                                     <li>
                                         <a href="{{url('/getBalanceSheet')}}">Balance Sheet</a>

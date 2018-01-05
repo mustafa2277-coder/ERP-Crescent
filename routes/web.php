@@ -69,19 +69,13 @@ Route::post('/insertJournal','JournalController@InsertJournal')->middleware('aut
 Route::post('/updateJournal','JournalController@UpdateJournal')->middleware('auth');
 
 /*----------------------------------Journal Entry---------------------------------------*/
-//Route::get('/getJournalEntries','JournalController@GetJournalEntries')->name('getJournalEntries')->middleware('auth');
-// Route::post('/getJournalEntriess','JournalController@GetJournalEntries')->middleware('auth');
 Route::match(['get', 'post'],'/getJournalEntries','JournalController@GetJournalEntries')->middleware('auth');
-
 Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm')->middleware('auth');
 Route::post('/insertJournalEntry','JournalController@InsertJournalEntry')->middleware('auth');
-
 Route::post('/getJournalEntriesByDate','JournalController@GetJournalEntriesByDate')->middleware('auth');
 Route::post('getProjectsByCustomerId' ,'JournalController@GetProjectsByCustomerId')->middleware('auth');
-
-// testing 
-Route::get('/getJournalEntriesTest' ,'JournalController@GetJournalEntriesTest')->middleware('auth');
-Route::get('/getFilterJournalEntriesTest' ,'JournalController@GetFilterJournalEntriesTest')->middleware('auth');
+Route::get('/getJournalEntriesListView' ,'JournalController@GetJournalEntriesListView')->middleware('auth');
+Route::get('/getFilterJournalEntriesList' ,'JournalController@GetFilterJournalEntriesList')->middleware('auth');
 
 /*----------------------------------Journal Item----------------------------*/
 Route::get('/getJournalItems','JournalController@GetJournalItems')->middleware('auth');
@@ -91,6 +85,9 @@ Route::get('/getGeneralLedger','ReportController@GetGeneralLedger')->middleware(
 Route::get('/getJournalEntryByEntrynum','ReportController@GetJournalEntryByEntrynum')->middleware('auth');
 Route::get('/getBalanceSheet','ReportController@GetBalanceSheet')->middleware('auth');
 Route::get('/getProfitLoss','ReportController@GetProfitLoss')->middleware('auth');
+Route::get('/getGeneralLedgerView','ReportController@GetGeneralLedgerView')->middleware('auth');
+Route::get('/getFilterGeneralLedgerList' ,'ReportController@GetFilterGeneralLedgerList')->middleware('auth');
+
 
 
 

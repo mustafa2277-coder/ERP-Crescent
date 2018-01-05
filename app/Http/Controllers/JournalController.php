@@ -93,54 +93,38 @@ class JournalController extends Controller
 
 /*----------------------------------Journal Entry-------------------------------*/
 
+    
+    public function GetJournalEntriesListView(Request $request){    
 
-
-    public function GetJournalEntries(Request $request){
-        
-  //return $request;
-        //======= Start Raw query =========//
-            // $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
-            // $projects = DB::select( DB::raw("SELECT * from project Order By title") );
-        //======= End Raw query =========//
-        
         $journals =  DB::table('journal')->orderBy('name')->get();
         $customers=  DB::table('customers')->orderBy('name')->get();
         $projects =  DB::table('project')->orderBy('title')->get();
+        $end   = date("d/m/Y");
+        $start = date("d/m/Y");
+
         $journalentries = "";
+
+
+        return view('/Journal/journal_entry_list_view',compact('journalentries','journals','end','start','projects','projectId','journalId','customers'));
+
+    }
+
+
+    public function GetFilterJournalEntriesList(Request $request){
+
         
-        $projectId = $request->filter_project;
-        $journalId = $request->filter_journal;
-        $end = $request->end_date;
-        $start = $request->start_date;
+        if($request->ajax())
+        {
+
+        $projectId = $request['filter_project'];
+        $journalId = $request['filter_journal'];
+        $end = $request['end_date'];
+        $start = $request['start_date'];
+        $journalentries = "";
 
 
-
-        // by default filter by today's date
-
-        if(is_null($journalId) && is_null($projectId) && (!isset($end) || !isset($start))){
-
-                $end   = date("d/m/Y");
-                $start = date("d/m/Y");
-
-               
-
-                $journalentries = DB::table('journalentries')
-
-                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
-                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
-                ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
-
-            )
-                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get(); 
-           
-        }
-
-        //  filter by date only
-        
-        if($request->filter_journal==0 && $request->filter_project==0 && ($request->end_date!='null' || $request->start_date!='null')){
+        //filter by date
+        if(empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){
 
                 
                 $journalentries = DB::table('journalentries')
@@ -152,14 +136,17 @@ class JournalController extends Controller
                 )
                 ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
                 ->groupBy('entryDate', 'id','entryNum','project','journal')
+               // ->paginate(20); 
                 ->get(); 
 
+            $journalentries = $this->paginate($journalentries)->setPath('journalentries');
 
+               ///return  $journalentries;//new Paginator($journalentries, 20);
         }
 
         //  filter by journal only
 
-        if($request->filter_journal!=0 && $request->filter_project==0 && (!isset($request->end_date) || !isset($request->start_date))){
+        if(empty($projectId) && !empty($journalId) && (empty($end)|| empty($start))){
           
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
@@ -168,16 +155,17 @@ class JournalController extends Controller
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
                 )
-                ->where('journalentries.journalId', '=', $request->journal)
+                ->where('journalentries.journalId', '=', $journalId)
                 ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get(); 
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
 
 
         } 
 
         //  filter by project only   
         
-        if($request->filter_journal==0 && $request->filter_project!=0 && (!isset($request->end_date) || !isset($request->start_date))){
+        if(!empty($projectId) && empty($journalId) && (empty($end)|| empty($start))){
                 $end = $request->end_date;
                 $start = $request->start_date;
                 $projectId = $request->filter_project;
@@ -190,32 +178,34 @@ class JournalController extends Controller
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
                 )
-                ->where('journalentries.projectId', '=', $projectId)
+                ->where('journalentrydetail.projectId', '=', $projectId)
                 ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get(); 
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
 
 
         }
 
         //  filter by jounral,project,date   
 
-        if($request->filter_journal!=0 && $request->filter_project!=0 && (isset($request->end_date) || isset($request->start_date))){
+        if(!empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){
 
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
                 ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
-                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+                ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
                 )
-                ->where('journalentries.projectId', '=', $projectId)
+                ->where('journalentrydetail.projectId', '=', $projectId)
                 ->where('journalentries.journalId', '=', $journalId)
                 ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
                 ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get(); 
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
 
-
+                //return $start;
         }
 
 
@@ -223,9 +213,7 @@ class JournalController extends Controller
 
         //  filter by jounral and date
 
-        if($request->filter_journal!=0 && $request->filter_project==0 && (isset($request->end_date) || isset($request->start_date))){
-
-                
+        if(empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){        
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
@@ -238,16 +226,14 @@ class JournalController extends Controller
                 ->where('journalentries.journalId', '=', $journalId)
                 ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
                 ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get(); 
-
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
  
         }
 
         //  filter by project and date
 
-        if($request->filter_journal==0 && $request->filter_project!=0 && (isset($request->end_date) || isset($request->start_date))){
-
-                
+        if(!empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){        
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
@@ -260,12 +246,191 @@ class JournalController extends Controller
                 ->where('journalentrydetail.projectId', '=', $projectId)
                 ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
                 ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get(); 
+                ->get();
+                $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
 
         }             
             
-        return view('/Journal/journal_entry_list',compact('journalentries','journals','end','start','projects','projectId','journalId','customers'));  
+
+        
+        $view =  view('/Journal/journal_entry_View/journal_entry_list',compact('journalentries'))->render();       
+
+        return response($view);
+
+        }
     }
+
+    // public function GetJournalEntries(Request $request){
+        
+  
+    //     //======= Start Raw query =========//
+    //         // $journals = DB::select( DB::raw("SELECT * from journal Order By name") );
+    //         // $projects = DB::select( DB::raw("SELECT * from project Order By title") );
+    //     //======= End Raw query =========//
+        
+    //     $journals =  DB::table('journal')->orderBy('name')->get();
+    //     $customers=  DB::table('customers')->orderBy('name')->get();
+    //     $projects =  DB::table('project')->orderBy('title')->get();
+    //     $journalentries = "";
+        
+    //     $projectId = $request->filter_project;
+    //     $journalId = $request->filter_journal;
+    //     $end = $request->end_date;
+    //     $start = $request->start_date;
+
+
+
+    //     // by default filter by today's date
+
+    //     if(is_null($journalId) && is_null($projectId) && (!isset($end) || !isset($start))){
+
+    //             $end   = date("d/m/Y");
+    //             $start = date("d/m/Y");
+
+               
+
+    //             $journalentries = DB::table('journalentries')
+
+    //             ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+    //             ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+    //             ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+    //             ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+    //         )
+    //             ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+    //             ->groupBy('entryDate', 'id','entryNum','project','journal')
+    //             ->get(); 
+           
+    //     }
+
+    //     //  filter by date only
+        
+    //     if($request->filter_journal==0 && $request->filter_project==0 && ($request->end_date!='null' || $request->start_date!='null')){
+
+                
+    //             $journalentries = DB::table('journalentries')
+    //             ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+    //             ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+    //             ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+    //             ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+    //             )
+    //             ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+    //             ->groupBy('entryDate', 'id','entryNum','project','journal')
+    //             ->get(); 
+
+
+    //     }
+
+    //     //  filter by journal only
+
+    //     if($request->filter_journal!=0 && $request->filter_project==0 && (!isset($request->end_date) || !isset($request->start_date))){
+          
+    //             $journalentries = DB::table('journalentries')
+    //             ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+    //             ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+    //             ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+    //             ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+    //             )
+    //             ->where('journalentries.journalId', '=', $request->journal)
+    //             ->groupBy('entryDate', 'id','entryNum','project','journal')
+    //             ->get(); 
+
+
+    //     } 
+
+    //     //  filter by project only   
+        
+    //     if($request->filter_journal==0 && $request->filter_project!=0 && (!isset($request->end_date) || !isset($request->start_date))){
+    //             $end = $request->end_date;
+    //             $start = $request->start_date;
+    //             $projectId = $request->filter_project;
+    //             $journalId = $request->filter_journal;    
+
+    //             $journalentries = DB::table('journalentries')
+    //             ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+    //             ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+    //             ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+    //             ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+    //             )
+    //             ->where('journalentries.projectId', '=', $projectId)
+    //             ->groupBy('entryDate', 'id','entryNum','project','journal')
+    //             ->get(); 
+
+
+    //     }
+
+    //     //  filter by jounral,project,date   
+
+    //     if($request->filter_journal!=0 && $request->filter_project!=0 && (isset($request->end_date) || isset($request->start_date))){
+
+
+    //             $journalentries = DB::table('journalentries')
+    //             ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+    //             ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+    //             ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+    //             ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+    //             )
+    //             ->where('journalentries.projectId', '=', $projectId)
+    //             ->where('journalentries.journalId', '=', $journalId)
+    //             ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+    //             ->groupBy('entryDate', 'id','entryNum','project','journal')
+    //             ->get(); 
+
+
+    //     }
+
+
+
+
+    //     //  filter by jounral and date
+
+    //     if($request->filter_journal!=0 && $request->filter_project==0 && (isset($request->end_date) || isset($request->start_date))){
+
+                
+
+    //             $journalentries = DB::table('journalentries')
+    //             ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+    //             ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+    //             ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+    //             ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+    //             )
+                
+    //             ->where('journalentries.journalId', '=', $journalId)
+    //             ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+    //             ->groupBy('entryDate', 'id','entryNum','project','journal')
+    //             ->get(); 
+
+ 
+    //     }
+
+    //     //  filter by project and date
+
+    //     if($request->filter_journal==0 && $request->filter_project!=0 && (isset($request->end_date) || isset($request->start_date))){
+
+                
+
+    //             $journalentries = DB::table('journalentries')
+    //             ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+    //             ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+    //             ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+    //             ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+    //             )
+                
+    //             ->where('journalentrydetail.projectId', '=', $projectId)
+    //             ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+    //             ->groupBy('entryDate', 'id','entryNum','project','journal')
+    //             ->get(); 
+
+    //     }             
+            
+    //     return view('/Journal/journal_entry_list',compact('journalentries','journals','end','start','projects','projectId','journalId','customers'));  
+    // }
 
      public function GetJournalEntriesByDate(Request $request){
 
@@ -415,175 +580,7 @@ class JournalController extends Controller
 
 
 
-    public function GetJournalEntriesTest(Request $request){
-
-        $journals =  DB::table('journal')->orderBy('name')->get();
-        $customers=  DB::table('customers')->orderBy('name')->get();
-        $projects =  DB::table('project')->orderBy('title')->get();
-        $end   = date("d/m/Y");
-        $start = date("d/m/Y");
-
-        $journalentries = "";
-
-
-    return view('/Journal/journal_entry_View/journal_entry',compact('journalentries','journals','end','start','projects','projectId','journalId','customers'));
-
-     }
-
-
-    public function GetFilterJournalEntriesTest(Request $request){
-
-        
-        if($request->ajax())
-        {
-
-        $projectId = $request['filter_project'];
-        $journalId = $request['filter_journal'];
-        $end = $request['end_date'];
-        $start = $request['start_date'];
-        $journalentries = "";
-
-
-        //filter by date
-        if(empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){
-
-                
-                $journalentries = DB::table('journalentries')
-                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
-                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
-                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
-
-                )
-                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
-               // ->paginate(20); 
-                ->get(); 
-
-            $journalentries = $this->paginate($journalentries)
-            ->setPath('journalentries');
-
-               ///return  $journalentries;//new Paginator($journalentries, 20);
-
-
-        }
-
-        //  filter by journal only
-
-        if(empty($projectId) && !empty($journalId) && (empty($end)|| empty($start))){
-          
-                $journalentries = DB::table('journalentries')
-                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
-                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
-                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
-
-                )
-                ->where('journalentries.journalId', '=', $journalId)
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get();
-                $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
-
-
-        } 
-
-        //  filter by project only   
-        
-        if(!empty($projectId) && empty($journalId) && (empty($end)|| empty($start))){
-                $end = $request->end_date;
-                $start = $request->start_date;
-                $projectId = $request->filter_project;
-                $journalId = $request->filter_journal;    
-
-                $journalentries = DB::table('journalentries')
-                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
-                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
-                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
-
-                )
-                ->where('journalentrydetail.projectId', '=', $projectId)
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get();
-                $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
-
-
-        }
-
-        //  filter by jounral,project,date   
-
-        if(!empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){
-
-
-                $journalentries = DB::table('journalentries')
-                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
-                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
-                ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
-
-                )
-                ->where('journalentrydetail.projectId', '=', $projectId)
-                ->where('journalentries.journalId', '=', $journalId)
-                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get();
-                $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
-
-                //return $start;
-        }
-
-
-
-
-        //  filter by jounral and date
-
-        if(empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){        
-
-                $journalentries = DB::table('journalentries')
-                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
-                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
-                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
-
-                )
-                
-                ->where('journalentries.journalId', '=', $journalId)
-                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get();
-                $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
- 
-        }
-
-        //  filter by project and date
-
-        if(!empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){        
-
-                $journalentries = DB::table('journalentries')
-                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
-                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
-                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
-
-                )
-                
-                ->where('journalentrydetail.projectId', '=', $projectId)
-                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
-                ->get();
-                $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
-
-        }             
-            
-
-        
-        $view =  view('/Journal/journal_entry_View/journal_entry_list',compact('journalentries'))->render();       
-
-
-        return response($view);
-
-        }
-    }
+    
 
       protected function paginate($items, $perPage = 12)
     {
