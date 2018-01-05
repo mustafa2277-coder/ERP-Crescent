@@ -37,7 +37,13 @@
   
  
     <section class="content">
-        <a href="{{url('/home')}}">Home >> </a><a>Balance Sheet</a>
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li class="active"><a>Balance Sheet</a></li>
+                    </ol>
+            </div>
+        
         <div class="container-fluid">
           <!--   <div class="block-header">
                 <h2>

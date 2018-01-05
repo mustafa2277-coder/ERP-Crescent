@@ -37,7 +37,13 @@
   
  
     <section class="content">
-        <a href="{{url('/home')}}">Home >> </a><a>General Ledger</a>
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li class="active"><a>General Ledger</a></li>
+                    </ol>
+            </div>
+
         <div class="container-fluid">
           <!--   <div class="block-header">
                 <h2>

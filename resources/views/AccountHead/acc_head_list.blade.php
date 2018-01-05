@@ -33,7 +33,13 @@
 
 
     <section class="content">
-        <a href="{{url('/home')}}">Home >></a><a>Account Heads</a>
+            <div class="body">
+                <ol class="breadcrumb breadcrumb-bg-red">
+                    <li><a href="{{url('/home')}}">Home</a></li>
+                    <li class="active"><a>Account Heads</a></li>
+                </ol>
+            </div>
+       {{--   <a href="{{url('/home')}}">Home >></a><a>Account Heads</a>  --}}
         <div class="container-fluid">
            
                            <br>
@@ -57,9 +63,6 @@
                             <i class="material-icons" title="Create New Account Head">add</i>
                            </a>
                                 </h2>
-                         
-                   
- 
 
                         </div>
                         <div class="body">

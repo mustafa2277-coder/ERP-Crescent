@@ -21,7 +21,12 @@
 @endsection
 @section('content')
     <section class="content">
-        <a href="{{url('/home')}}">Home >> </a><a>Projects</a>
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li class="active"><a>Projects</a></li>
+                    </ol>
+            </div>
 
         <!-- Bordered Table -->
             <div class="row clearfix">

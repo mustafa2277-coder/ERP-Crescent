@@ -40,7 +40,14 @@
 
 
     <section class="content">
-        <a href="{{url('/home')}}">Home >> </a><a href="{{url('/getJournalEntries')}}">Journal Entries >> </a><a>New Journal Entries</a>
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li><a href="{{url('/getJournalEntries')}}">Journal Entries</a></li>
+                        <li class="active"><a>New Journal Entries</a></li>
+                    </ol>
+            </div>
+    
         <div class="container-fluid">
           <!--   <div class="block-header">
                 <h2>

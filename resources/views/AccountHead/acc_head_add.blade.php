@@ -35,6 +35,13 @@
 
 @if (isset($record))
     <section class="content">
+            <div class="body">
+                <ol class="breadcrumb breadcrumb-bg-red">
+                    <li><a href="{{url('/home')}}">Home</a></li>
+                    <li><a href="{{url('/getAccountHeads')}}">Account Heads</a></li>
+                    <li class="active"><a>Update Account Heads</a></li>
+                </ol>
+            </div>
             <a href="{{url('/home')}}">Home >></a><a href="{{url('/getAccountHeads')}}">Account Heads>></a><a>Update Account Heads</a>
             
         <div class="container-fluid">
@@ -126,8 +133,11 @@
 @else
 
    <section class="content">
-        <a href="{{url('/home')}}">Home>> </a><a href="{{url('/getAccountHeads')}}">Account Heads>> </a><a>Add New Account Heads</a> 
-        <div class="container-fluid">
+        <ol class="breadcrumb breadcrumb-bg-red">
+                <li><a href="{{url('/home')}}">Home</a></li>
+                <li><a href="{{url('/getAccountHeads')}}">Account Heads</a></li>
+                <li class="active"><a>Add New Account Heads</a></li>
+        </ol>
           
             <!-- Basic Validation -->
             <div class="row clearfix">

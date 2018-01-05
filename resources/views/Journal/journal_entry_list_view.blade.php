@@ -44,6 +44,12 @@
 
 
     <section class="content">
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li class="active"><a>Journal Entries</a></li>
+                    </ol>
+            </div>
  <a href="{{url('/home')}}">Home >> </a><a>Journal Entries</a>
         <div class="container-fluid">
             
