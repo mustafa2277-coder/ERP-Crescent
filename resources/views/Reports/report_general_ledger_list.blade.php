@@ -1,4 +1,5 @@
 ﻿
+
 <div class="table-responsive">
     <!-- <a href="#" class="exportcsv">Export Table data into Excel</a>                              -->
     <table id="example"  class="table  table-striped table-hover">
@@ -99,7 +100,7 @@
     
 </div>
 
-
+<script src="{{asset('public/plugins/print/jQuery.PrintArea.js')}}"></script> 
 <script>
     $(document).ready(function(){
 
@@ -144,6 +145,7 @@
                         $('#modal_date').text( inovDate.getDate() + '/' + (inovDate.getMonth() + 1) + '/' +  inovDate.getFullYear());
                         $('#modal_journal').text(data[0].journal);
                         $('#modal_entrynum').text(data[0].entryNum);
+                        $('#modal_ref').text(data[0].reference);
                         
                    
                         $('#defaultModal').modal('show');
@@ -318,7 +320,15 @@
 
 
        
+$("#btnPrint").click(function(){
 
+var mode = 'iframe';
+var close = mode == "popup";
+var options = {mode:mode,popClose:close};
+
+$('div#printInv').printArea(options);
+
+});
    
 
       

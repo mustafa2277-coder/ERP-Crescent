@@ -88,7 +88,7 @@
                                         @foreach ($journalItems as $journalItem)
                                         <tr>
                                             <td style="text-align:center"> {{date('d/m/Y', strtotime($journalItem->entryDate))}}</td>
-                                            <td>Entry/{{$journalItem->entryNum}} </td>
+                                            <td>{{$journalItem->entryNum}} </td>
                                             <td>{{$journalItem->project}} </td>
                                             <td>{{$journalItem->journal}} </td>
                                             <td>{{$journalItem->account}} </td>

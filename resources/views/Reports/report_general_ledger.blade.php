@@ -30,6 +30,9 @@
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="{{asset('public/css/themes/all-themes.css')}}" rel="stylesheet" />
+
+   
+
     
 @endsection
 
@@ -241,8 +244,9 @@
                             
                         </div>
                         <div class="modal-footer">
-                            
                             <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                            
+                            
                         </div>
                     </div>
                 </div>

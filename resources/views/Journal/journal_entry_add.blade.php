@@ -40,7 +40,7 @@
 
 
     <section class="content">
-        <a href="{{url('/home')}}">Home >> </a><a href="{{url('/getJournalEntries')}}">Journal Entries >> </a><a>New Journal Entries</a>
+        <a href="{{url('/home')}}">Home >> </a><a href="{{url('/getJournalEntriesListView')}}">Journal Entries >> </a><a>New Journal Entries</a>
         <div class="container-fluid">
           <!--   <div class="block-header">
                 <h2>
@@ -72,6 +72,18 @@
                                         <option value="{{$journal->id}}">{{$journal->name}}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="col-sm-6" id="div_project">
+                                    <div class="form-group form-float">
+                                        <div class="form-line">
+                                    <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" required>
+                                         <option value="0" selected="selected" disabled="disabled">Select Project</option>
+                                        @foreach ($projects as $project)    
+                                        <option value="{{$project->id}}">{{$project->title}}</option>
+                                        @endforeach
+                                    </select>
+                                         </div>
+                                    </div>
                                 </div>
                                    
                                     <div class="col-sm-6">
@@ -143,7 +155,7 @@
 
                     <div id="data">
                              <form id="person">
-                                 <div class="col-sm-6" id="div_account">
+                                 <div class="col-sm-12" id="div_account">
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                     <select  id="acc_id" name="acc_id" class="form-control show-tick" data-live-search="true" required>
@@ -155,7 +167,7 @@
                                          </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6" id="div_project">
+                               <!--  <div class="col-sm-6" id="div_project">
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                     <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" required>
@@ -166,7 +178,7 @@
                                     </select>
                                          </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">

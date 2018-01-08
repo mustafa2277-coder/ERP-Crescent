@@ -34,6 +34,12 @@
             return false;
         }
 
+        if($('#project_id').find(":selected").val() == 0) {
+            swal("Please select Project!");
+            e.preventDefault(); //prevent the default action
+            return false;
+        }
+
         if($('#date_post').val() == "") {
             swal("Please select Date!");
             e.preventDefault(); //prevent the default action
@@ -109,13 +115,14 @@
         var submitEntry = {};
         submitEntry.entryDetail = tableData;
         submitEntry.journalId =  $('#journal_id').find(":selected").val();
+        submitEntry.projectId =  $('#project_id').find(":selected").val();
         submitEntry.datePost =  $('#date_post').val();
         submitEntry.reference =  $('#reference').val();
 
         //console.log(tableData);
           e.preventDefault();
           $.ajax({
-            url: "http://localhost/ERP/insertJournalEntry",
+            url: "http://localhost/ERP/erp1/insertJournalEntry",
             type: "POST",
             headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -125,7 +132,7 @@
             dataType: "json",
            
             success: function(data) {
-             window.location = "http://localhost/ERP/getJournalEntries";
+             window.location = "http://localhost/ERP/erp1/getJournalEntriesListView";
            
 
             }
@@ -155,15 +162,15 @@ $('#New-Entry-Modal').on('hidden.bs.modal', function () {
         }
     });
 
-    $("#project_id").val('0');
-    $("#div_project .btn.dropdown-toggle.btn-default").attr('title',$("#project_id option:selected").text());
-    $("#div_project .btn.dropdown-toggle.btn-default").find('span.filter-option.pull-left').text($("#project_id option:selected").text())
-    $("#div_project ul.dropdown-menu.inner li.selected").removeClass('selected');
-    $("#div_project ul.dropdown-menu.inner li").each(function(i){
-        if($(this).text()==$("#project_id option:selected").text()){
-            $(this).addClass('selected');
-        }
-    });
+    // $("#project_id").val('0');
+    // $("#div_project .btn.dropdown-toggle.btn-default").attr('title',$("#project_id option:selected").text());
+    // $("#div_project .btn.dropdown-toggle.btn-default").find('span.filter-option.pull-left').text($("#project_id option:selected").text())
+    // $("#div_project ul.dropdown-menu.inner li.selected").removeClass('selected');
+    // $("#div_project ul.dropdown-menu.inner li").each(function(i){
+    //     if($(this).text()==$("#project_id option:selected").text()){
+    //         $(this).addClass('selected');
+    //     }
+    // });
 
 });
 
@@ -211,12 +218,12 @@ $('#New-Entry-Modal').on('hidden.bs.modal', function () {
 
                 var account = $('#acc_id').find(":selected").text().trim();
                 
-                if($('#project_id').find(":selected").val() != 0) {
+                // if($('#project_id').find(":selected").val() != 0) {
 
-                project =  $('#project_id').find(":selected").text().trim();
+                // project =  $('#project_id').find(":selected").text().trim();
                 
                 
-                }
+                // }
                  
                 rows += "<tr id="+rowi+"><td>" + account + "</td><td>" + project + "</td><td style='text-align:center'>" + debitAmt + "</td><td style='text-align:center'>" + creditAmt + '</td><td style="text-align:center"><a id="icon-toggle-delete2" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td></tr>' ;
                 
@@ -231,8 +238,8 @@ $('#New-Entry-Modal').on('hidden.bs.modal', function () {
                 tableindex : rowi,    
                 accountName : account ,
                 accountId: $('#acc_id').find(":selected").val(),
-                project: project,
-                projectId: $('#project_id').find(":selected").val(),
+               // project: project,
+               // projectId: $('#project_id').find(":selected").val(),
                 debit: debitAmt, 
                 credit: creditAmt, 
                 });

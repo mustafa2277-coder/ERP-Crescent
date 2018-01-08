@@ -62,13 +62,13 @@ class ReportController extends Controller
         
 
         $journals =  DB::table('journal')->orderBy('name')->get();
+        $accounts=  DB::table('accounthead')->where('isTransactional','1')->orwhere('isTransactional',null)->orderBy('name')->get();
         $customers=  DB::table('customers')->orderBy('name')->get();
-        $projects =  DB::table('project')->orderBy('title')->get();
         $end   = date("d/m/Y");
         $start = date("d/m/Y");
 
 
-        return view('/Reports/report_general_ledger_view',compact('journals','end','start','projects','projectId','journalId','customers'));
+        return view('/Reports/report_general_ledger_view',compact('journals','end','start','customers','accounts'));
         
     }
 
@@ -79,14 +79,14 @@ class ReportController extends Controller
         {
 
             $projectId = $request['filter_project'];
-            $journalId = $request['filter_journal'];
+            $accountHeadId = $request['filter_account'];
             $end = $request['end_date'];
             $start = $request['start_date'];
-            $journalentries = "";
+            //$journalentries = "";
 
 
             //filter by date
-            if(empty($journalId) && (!empty($end)|| !empty($start))){
+            if(empty($accountHeadId) && (!empty($end)|| !empty($start))){
 
                 $end   = date("Y-m-d",strtotime(str_replace('/', '-', $end)));
                 $start = date("Y-m-d",strtotime(str_replace('/', '-', $start)));
@@ -125,6 +125,46 @@ class ReportController extends Controller
 
             return response($view);
             }
+
+            if(!empty($accountHeadId) && (!empty($end)|| !empty($start))){
+
+                $end   = date("Y-m-d",strtotime(str_replace('/', '-', $end)));
+                $start = date("Y-m-d",strtotime(str_replace('/', '-', $start)));
+
+                $ledgers =  DB::select( DB::raw("SELECT jed.`isDebit`,je.`entryNum`,je.`date_post`,pj.title project,acch.id,
+                                            ( CASE WHEN jed.isDebit = 1 THEN jed.`amount` END) AS Debit,
+                                            ( CASE WHEN jed.isDebit = 0 THEN jed.`amount` END) AS Credit
+                                            FROM journalentrydetail jed
+                                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                                            LEFT JOIN project pj ON pj.id = je.projectId
+                                            WHERE je.`date_post` >= '$start' AND je.`date_post` <= '$end' AND jed.accHeadId = '$accountHeadId'
+                                            GROUP BY jed.`isDebit`,je.`entryNum`,je.`date_post`,Debit,Credit,project,acch.id
+                                            ORDER BY je.date_post,je.`entryNum`") 
+                                );
+
+
+                $ledgerAccounts =  DB::select( DB::raw("SELECT acch2.name,acch2.id,acch2.code
+                                     ,(SUM(CASE WHEN jj.isDebit = 1 THEN jj.`amount` ELSE 0  END)-
+                                     SUM(CASE WHEN jj.isDebit = 0 THEN jj.`amount`   ELSE 0  END)) AS Balance  
+                                      
+                                    FROM `accounthead` acch2
+                                    LEFT JOIN 
+                                    (SELECT jed.amount,jed.`accHeadId`,jed.`isDebit` FROM  journalentrydetail  jed
+                                    LEFT JOIN journalentries je2 ON jed.`journalEntryId`=je2.`id` 
+                                    WHERE je2.`date_post` < '$start'
+                                    ) 
+                                    jj ON jj.accHeadId = acch2.id
+                                    WHERE acch2.id='$accountHeadId'   
+                                    GROUP BY acch2.name,acch2.id,acch2.code
+                                    ORDER BY acch2.code")
+                                    );
+
+
+            $view =  view('/Reports/report_general_ledger_list',compact('ledgers','ledgerAccounts'))->render(); 
+
+            return response($view);
+            }    
         
            
         }
@@ -140,7 +180,7 @@ class ReportController extends Controller
         ->join('journal', 'journalentries.journalId', '=', 'journal.id')
         ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
 
-        ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','accounthead.name as account','journalentrydetail.isDebit as isDebit','accounthead.code as accountheadCode' )
+        ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','accounthead.name as account','journalentrydetail.isDebit as isDebit','accounthead.code as accountheadCode','journalentries.reference as reference' )
         ->where('entryNum','=',$request->entrynum)
         ->get();    
 
