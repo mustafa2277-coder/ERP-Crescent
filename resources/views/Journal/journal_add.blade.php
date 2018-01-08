@@ -34,7 +34,13 @@
 
 @if (isset($record))
     <section class="content">
-            <a href="{{url('/home')}}">Home >> </a><a href="{{url('/getJournals')}}">Journals >> </a><a>Update Journals</a>
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li><a href="{{url('/getJournals')}}">Journals >> </a></li>
+                        <li class="active"><a>Update Journals</a></li>
+                    </ol>
+            </div>
         <div class="container-fluid">
             
             <!-- Basic Validation -->
@@ -99,7 +105,13 @@
 @else
 
    <section class="content">
-        <a href="{{url('/home')}}">Home >> </a><a href="{{url('/getJournals')}}">Journals >> </a><a>Add New Journal</a>
+        <div class="body">
+                <ol class="breadcrumb breadcrumb-bg-red">
+                    <li><a href="{{url('/home')}}">Home</a></li>
+                    <li><a href="{{url('/getJournals')}}">Journals >> </a></li>
+                    <li class="active"><a>Add New Journal</a></li>
+                </ol>
+        </div>
         <div class="container-fluid">
           
             <!-- Basic Validation -->

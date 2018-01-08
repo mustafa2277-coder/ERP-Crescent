@@ -23,9 +23,19 @@
 @section('content')
      <section class="content">
         @if($customerList[0]->isVendor=="on")
-        <a href="{{url('/home')}}">Home >> </a><a>Vendors</a>
+        <div class="body">
+                <ol class="breadcrumb breadcrumb-bg-red">
+                    <li><a href="{{url('/home')}}">Home</a></li>
+                    <li class="active"><a>Vendors</a></li>
+                </ol>
+        </div>
         @else
-        <a href="{{url('/home')}}">Home >> </a><a>Customers</a>
+        <div class="body">
+                <ol class="breadcrumb breadcrumb-bg-red">
+                    <li><a href="{{url('/home')}}">Home</a></li>
+                    <li class="active"><a>Customers</a></li>
+                </ol>
+        </div>
         @endif
        
         <div class="container-fluid">

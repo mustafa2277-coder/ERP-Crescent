@@ -31,11 +31,20 @@
 
 @section('content')
     <section class="content">
-            <a href="{{url('/home')}}">Home >> </a><a href="{{url('/projectList')}}">Projects >> </a> @if(isset($projects))
-                                                                                                            <a>Edit Projet</a>
-                                                                                                        @else
-                                                                                                            <a>Add Project</a>
-                                                                                                        @endif
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li><a href="{{url('/projectList')}}">Projects</a></li>
+                        <li class="active">                
+                                @if(isset($projects))
+                                    <a>Edit Projet</a>
+                                @else
+                                    <a>Add Project</a>
+                                @endif
+                        </li>
+                    </ol>
+            </div>
+    
         <div class="container-fluid">
             {{--  <div class="block-header">
             </div>  --}}

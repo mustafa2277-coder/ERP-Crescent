@@ -31,15 +31,22 @@
 
 @section('content')
     <section class="content">
-
-        <a href="{{url('/home')}}">Home >></a><a href="{{url('/categoryList')}}">Product Categories>></a>
-        @if(isset($categories))
-         <a>Subcategory of {{$categories->name}}</a>
-         @elseif(isset($editCategories))
-         <a>Edit Category</a>
-         @else
-         <a>Add Category</a>
-        @endif
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li><a href="{{url('/categoryList')}}">Product Categories>></a></li>
+                        <li class="active">                
+                                @if(isset($categories))
+                                    <a>Subcategory of {{$categories->name}}</a>
+                                @elseif(isset($editCategories))
+                                    <a>Edit Category</a>
+                                @else
+                                    <a>Add Category</a>
+                               @endif 
+                        </li>
+                    </ol>
+            </div>
+    
         <div class="container-fluid">
             {{--  <div class="block-header">
             </div>  --}}
