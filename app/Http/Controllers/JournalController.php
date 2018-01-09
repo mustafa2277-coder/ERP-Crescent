@@ -129,13 +129,13 @@ class JournalController extends Controller
                 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
                 )
                 ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->groupBy('entryDate', 'id','entryNum','journal')
                // ->paginate(20); 
                 ->get(); 
 
@@ -150,13 +150,13 @@ class JournalController extends Controller
           
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
                 )
                 ->where('journalentries.journalId', '=', $journalId)
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->groupBy('entryDate', 'id','entryNum','journal')
                 ->get();
                 $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
 
@@ -173,13 +173,13 @@ class JournalController extends Controller
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
                 )
                 ->where('journalentrydetail.projectId', '=', $projectId)
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->groupBy('entryDate', 'id','entryNum','journal')
                 ->get();
                 $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
 
@@ -193,7 +193,7 @@ class JournalController extends Controller
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
@@ -201,7 +201,7 @@ class JournalController extends Controller
                 ->where('journalentrydetail.projectId', '=', $projectId)
                 ->where('journalentries.journalId', '=', $journalId)
                 ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->groupBy('entryDate', 'id','entryNum','journal')
                 ->get();
                 $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
 
@@ -217,7 +217,7 @@ class JournalController extends Controller
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
@@ -225,7 +225,7 @@ class JournalController extends Controller
                 
                 ->where('journalentries.journalId', '=', $journalId)
                 ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->groupBy('entryDate', 'id','entryNum','journal')
                 ->get();
                 $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
  
@@ -237,7 +237,7 @@ class JournalController extends Controller
 
                 $journalentries = DB::table('journalentries')
                 ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-                ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
                 ->join('journal', 'journalentries.journalId', '=', 'journal.id')
                 ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
@@ -245,7 +245,7 @@ class JournalController extends Controller
                 
                 ->where('journalentrydetail.projectId', '=', $projectId)
                 ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
-                ->groupBy('entryDate', 'id','entryNum','project','journal')
+                ->groupBy('entryDate', 'id','entryNum','journal')
                 ->get();
                 $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
 
@@ -481,22 +481,27 @@ class JournalController extends Controller
 
         $journal = DB::table('journal')->where('id',$request->journalId)->first();
 
-        $entryNumber =  strtoupper($journal->voucherPrefix);
+        $entryNumber =  $this->GenerateJournalEntryNum(strtoupper($journal->voucherPrefix));
+ 
+
+         
 
         $journalEntry = new JournalEntries;
        
         $journalEntry->journalId = $request->journalId;
         $journalEntry->date_post = date("Y-m-d",strtotime(str_replace('/', '-', $request->datePost))); 
         $journalEntry->reference = $request->reference;
+        $journalEntry->entryNum  = $entryNumber;
+        $journalEntry->projectid = $request->projectId;
         $journalEntry->save();
 
         // generate entry number  or voucher number    
-        $entryNumber.="/".date('Y')."/".$journalEntry->id;
+        //$entryNumber.="/".date('Y')."/".$journalEntry->id;
 
-        JournalEntries::where('id','=',$journalEntry->id)->update([
-        'entryNum'         => $entryNumber
+        // JournalEntries::where('id','=',$journalEntry->id)->update([
+        // 'entryNum'         => $entryNumber
         
-        ]);
+        // ]);
 
          for ($i=0; $i <sizeof($request->entryDetail) ; $i++) { 
             if($request->entryDetail[$i]['debit'] == 0){
@@ -511,9 +516,8 @@ class JournalController extends Controller
                 
             $dataSet[$i] = [
                             'amount'         => $amount,
-                            'projectId'      => $request->entryDetail[$i]['projectId'],
+                            
                             'journalEntryid' => $journalEntry->id,
-
                             'accHeadId'      => $request->entryDetail[$i]['accountId'],
                             'isDebit'        => $isDebit
                         ];
@@ -540,14 +544,11 @@ class JournalController extends Controller
         //             join accounthead ac on ac.id= jed.accHeadId
         //             "));
         //======= End Raw query =========//  
-        
-
-
-      
-   $journalItems = DB::table('journalentries')
+    
+    $journalItems = DB::table('journalentries')
 
         ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
-        ->leftJoin('project', 'journalentrydetail.projectId', '=', 'project.id')
+        ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
         ->join('journal', 'journalentries.journalId', '=', 'journal.id')
         ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
 
@@ -582,7 +583,7 @@ class JournalController extends Controller
 
     
 
-      protected function paginate($items, $perPage = 12)
+    protected function paginate($items, $perPage = 12)
     {
         //Get current page form url e.g. &page=1
         $currentPage =  LengthAwarePaginator::resolveCurrentPage();
@@ -593,6 +594,42 @@ class JournalController extends Controller
         //Create our paginator and pass it to the view
         return new LengthAwarePaginator($currentPageItems, count($items), $perPage);
     }
+
+
+    public function GenerateJournalEntryNum($prefix)
+    {
+
+
+    $currentMonth  = date('m');
+    $currentYear   = date('Y');
+    $currentPrefix = $prefix;
+
+
+    $estmEntryNum  =  $currentPrefix."/".$currentMonth."/".$currentYear;
+
+    $journalEntry =  DB::table('journalentries')
+                        ->select('journalentries.entryNum')
+                         ->where('entryNum','LIKE','%'.$estmEntryNum.'%')
+                         ->orderby('id','desc')
+                         ->first(); 
+
+    if($journalEntry != null){
+        $rest = substr($journalEntry->entryNum, 12);
+        $genEntryNum = $estmEntryNum."/".(intVal($rest) + 1);
+
+    }
+
+    else
+    {
+
+        $genEntryNum =  $estmEntryNum."/1";  
+    }
+    
+    return $genEntryNum;
+
+    }
+
+    
 
 
 }

@@ -32,7 +32,7 @@
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="{{asset('public/css/themes/all-themes.css')}}" rel="stylesheet" />
-    
+ 
 @endsection
 
 @section('content')
@@ -91,13 +91,13 @@
                                         </div>
                                     </div>
                                         
-                                 <!--    <div class="col-md-3" id="div_journal">
+                                    <div class="col-md-3" id="div_account">
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <select id="filter_journal" name="filter_journal" class="form-control show-tick" data-live-search="true">
-                                                    <option value="0" selected="selected"  >All Journals</option>
-                                                    @foreach ($journals as $journal)    
-                                                    <option value="{{$journal->id}}">{{$journal->name}}</option>
+                                                <select id="filter_account" name="filter_account" class="form-control show-tick" data-live-search="true">
+                                                    <option value="0" selected="selected"  >All Accounts</option>
+                                                    @foreach ($accounts as $account)    
+                                                    <option value="{{$account->id}}">{{$account->name}}</option>
                                                     @endforeach
                                                 </select>
 
@@ -117,7 +117,8 @@
 
                                             </div>
                                         </div>
-                                    </div> -->
+                                    </div>
+
                                 </div>
                                 <div class="row clearfix">
                                    
@@ -155,6 +156,7 @@
                 <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
+                        <div id="printInv">
                         <div class="modal-header">
                             <!-- <h4 class="modal-title" id="defaultModalLabel">Journal Entry</h4> -->
                              <div class="header">
@@ -163,18 +165,26 @@
                                       <span id="modal_entrynum"></span>
                                 </h2>       
                             </div>
-                               <div class="row clearfix">
+                            <div class="row clearfix">
                                 <div class="col-sm-1">
-                                  <strong>DATE</strong>
+                                  <strong>DATE:</strong>
                                 </div>
                                 <div class="col-sm-3">
                                     <span id="modal_date"></span>
                                 </div>
                                 <div class="col-sm-2">
-                                  <strong>JOURNAL</strong>
+                                  <strong>JOURNAL:</strong>
                                 </div>
                                 <div class="col-sm-6">
                                     <span id="modal_journal"></span>
+                                </div>
+                            </div>
+                            <div class="row clearfix">    
+                                <div class="col-sm-2">
+                                    <strong>Refrences:</strong>
+                                </div>
+                                <div class="col-sm-10">
+                                    <span id="modal_ref"></span>
                                 </div>
                             </div>
                         </div>
@@ -201,9 +211,12 @@
 
                             
                         </div>
+                    </div>
+                    <div>
                         <div class="modal-footer">
-                            
-                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                            <button type="button" id="btnPrint" class="btn btn-primary waves-effect">Print</button>
+                           
+                            <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">CLOSE</button>
                         </div>
                     </div>
                 </div>
@@ -233,6 +246,8 @@
 
     <!-- Select Plugin Js -->
     <script src="{{asset('public/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
+
+
 
     <!-- Jquery DataTable Plugin Js -->
 <!--     <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
@@ -286,9 +301,9 @@
 
             }).done(function(data){
 
-            $('.result').html(data);
+            //$('.result').html(data);
           
-            //console.log(data);
+            console.log(data);
 
         });
 
