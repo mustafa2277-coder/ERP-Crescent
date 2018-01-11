@@ -1,4 +1,5 @@
-﻿<table id="example"  class="table  table-striped table-hover dataTable js-exportable">
+﻿<a href="{{url('/getJournalPdf')}}?end={{$end}}&start={{$start}}&journalId={{$journalId}}&projectId={{$projectId}}" target='_blank'>Download PDf</a>
+<table id="example"  class="table  table-striped table-hover dataTable js-exportable">
     <thead>
         <tr style="background: #f44336;color: #fff;">
             <th style="text-align:center">DATE</th>

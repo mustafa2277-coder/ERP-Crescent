@@ -1,4 +1,5 @@
 ﻿<table id="example"  class="table  table-striped table-hover dataTable js-exportable">
+    
     <thead>
         <tr style="background: #f44336;color: #fff;">
             <th style="text-align:center">DATE</th>

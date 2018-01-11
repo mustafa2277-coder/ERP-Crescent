@@ -9,6 +9,8 @@ use App\Journal;
 use App\JournalEntries;
 use App\JournalEntryDetail;
 use Response;
+use PdfReport;
+use PDF;
 //use Illuminate\Pagination\Paginator;
 use Redirect;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -253,7 +255,7 @@ class JournalController extends Controller
             
 
         
-        $view =  view('/Journal/journal_entry_View/journal_entry_list',compact('journalentries'))->render();       
+        $view =  view('/Journal/journal_entry_View/journal_entry_list',compact('journalentries','end','start','journalId','projectId'))->render();       
 
         return response($view);
 
@@ -626,6 +628,162 @@ class JournalController extends Controller
     }
     
     return $genEntryNum;
+
+    }
+
+    public function GetJournalPdf(Request $request){
+        //return $request->start;
+        
+
+            $projectId = $request->projectId;
+            $journalId = $request->journalId;
+            $end = $request->end;
+            $start = $request->start;
+            $journalentries = "";
+
+
+            //filter by date
+            if(empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){
+
+                    
+                    $journalentries = DB::table('journalentries')
+                    ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                    ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                    ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                    ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                    )
+                    ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                    ->groupBy('entryDate', 'id','entryNum','journal')
+                // ->paginate(20); 
+                    ->get(); 
+                //$journalentries = $this->paginate($journalentries)->setPath('journalentries');
+                $pdf = PDF::loadView('pdfTemplate',compact('journalentries','end','start'));
+                return $pdf->stream();
+
+                ///return  $journalentries;//new Paginator($journalentries, 20);
+            }
+
+            //  filter by journal only
+
+            if(empty($projectId) && !empty($journalId) && (empty($end)|| empty($start))){
+            
+                    $journalentries = DB::table('journalentries')
+                    ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                    ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                    ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                    ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                    )
+                    ->where('journalentries.journalId', '=', $journalId)
+                    ->groupBy('entryDate', 'id','entryNum','journal')
+                    ->get();
+                   // $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
+                   $pdf = PDF::loadView('pdfTemplate',compact('journalentries','end','start'));
+                    return $pdf->stream();
+
+
+            } 
+
+            //  filter by project only   
+            
+            if(!empty($projectId) && empty($journalId) && (empty($end)|| empty($start))){
+                   
+
+                    $journalentries = DB::table('journalentries')
+                    ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                    ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                    ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                    ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                    )
+                    ->where('journalentrydetail.projectId', '=', $projectId)
+                    ->groupBy('entryDate', 'id','entryNum','journal')
+                    ->get();
+                   // $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
+                   $pdf = PDF::loadView('pdfTemplate',compact('journalentries','end','start'));
+                    return $pdf->stream();
+
+
+            }
+
+            //  filter by jounral,project,date   
+
+            if(!empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){
+
+
+                    $journalentries = DB::table('journalentries')
+                    ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                    ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                    ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                    ->select('journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                    )
+                    ->where('journalentrydetail.projectId', '=', $projectId)
+                    ->where('journalentries.journalId', '=', $journalId)
+                    ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                    ->groupBy('entryDate', 'id','entryNum','journal')
+                    ->get();
+                  //  $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
+                  $pdf = PDF::loadView('pdfTemplate',compact('journalentries','end','start'));
+                    return $pdf->stream();
+
+                    //return $start;
+            }
+
+
+
+
+            //  filter by jounral and date
+
+            if(empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){        
+
+                    $journalentries = DB::table('journalentries')
+                    ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                    ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                    ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                    ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                    )
+                    
+                    ->where('journalentries.journalId', '=', $journalId)
+                    ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                    ->groupBy('entryDate', 'id','entryNum','journal')
+                    ->get();
+                  //  $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
+                  $pdf = PDF::loadView('pdfTemplate',compact('journalentries','end','start'));
+                    return $pdf->stream();
+    
+            }
+
+            //  filter by project and date
+
+            if(!empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){        
+
+                    $journalentries = DB::table('journalentries')
+                    ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                    ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                    ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                    ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
+
+                    )
+                    
+                    ->where('journalentrydetail.projectId', '=', $projectId)
+                    ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                    ->groupBy('entryDate', 'id','entryNum','journal')
+                    ->get();
+                  //  $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
+
+                  $pdf = PDF::loadView('pdfTemplate',compact('journalentries','end','start'));
+                    return $pdf->stream();
+
+            }             
+                
+
+            
+
+        
+        //return 'helo';
 
     }
 

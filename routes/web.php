@@ -68,6 +68,9 @@ Route::get('/editJournal/{id}','JournalController@GetJournalById')->middleware('
 Route::post('/insertJournal','JournalController@InsertJournal')->middleware('auth');
 Route::post('/updateJournal','JournalController@UpdateJournal')->middleware('auth');
 
+Route::get('/getJournalPdf','JournalController@GetJournalPdf')->middleware('auth');
+
+
 /*----------------------------------Journal Entry---------------------------------------*/
 Route::match(['get', 'post'],'/getJournalEntries','JournalController@GetJournalEntries')->middleware('auth');
 Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm')->middleware('auth');
