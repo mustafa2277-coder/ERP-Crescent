@@ -33,13 +33,22 @@
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="{{asset('public/css/themes/all-themes.css')}}" rel="stylesheet" />
  
+    <!-- JQuery Nestable Css -->
+    <link href="{{asset('public/plugins/nestable/jquery-nestable.css')}}" rel="stylesheet" />
+    
 @endsection
 
 @section('content')
   
  
     <section class="content">
-        <a href="{{url('/home')}}">Home >> </a><a>General Ledger</a>
+        
+        <div class="body">
+            <ol class="breadcrumb breadcrumb-bg-red">
+                <li><a href="{{url('/home')}}">Home</a></li>
+                <li class="active"><a>General Ledger</a></li>
+            </ol>
+        </div>
         <div class="container-fluid">
           <!--   <div class="block-header">
                 <h2>
@@ -266,20 +275,27 @@
     <script src="{{asset('public/plugins/momentjs/moment.js')}}"></script>
     <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{asset('public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
+
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
+
+
 <!--     <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script> -->
 
     <!-- <script src="{{asset('public/js/pages/ui/modals.js')}}"></script> -->
+   
+
     <script src="{{asset('public/js/pages/forms/basic-form-elements.js')}}"></script>
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
+    
 
 <script>
     $('#start_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
     $('#end_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
     $(document).ready(function(){
 
+   
        var todayDate = new Date();
        $('#start_date').val( todayDate.getDate() + '/' + (todayDate.getMonth() + 1) + '/' +  todayDate.getFullYear());
        $('#end_date').val( todayDate.getDate() + '/' + (todayDate.getMonth() + 1) + '/' +  todayDate.getFullYear());
@@ -301,9 +317,9 @@
 
             }).done(function(data){
 
-            //$('.result').html(data);
+            $('.result').html(data);
           
-            console.log(data);
+           //  console.log(data);
 
         });
 
@@ -338,11 +354,64 @@
 
 
 
-     }); 
+     });
+$("#filter_customer").change(function () {
+
+$('#div_project .dropdown-menu ul').html('');
+$('#filter_project').html('');
+
+   $.ajax({
+        
+        url: "http://localhost/ERP/erp1/getProjectsByCustomerId",
+        type: "post",
+        headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                         },
+        data: {id:$('#filter_customer').val()},
+        //crossDomain: true,
+        dataType: "json",
+           
+        success: function(data) {
+            //console.log(data);
+
+            if(data.length !=0){ 
+
+                $('#div_project').show();   
+
+                $('#filter_project').append('<option value="0" selected="selected">All Projects</option>');
+                $('#div_project .dropdown-menu ul').append('<li data-original-index="0" class="active selected"><a tabindex="0" class="" style="" data-tokens="null"><span class="text">'+"Select Projects"+'</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li>');
+                $('#div_project').find('span.filter-option').text("Select Projects");
+            
+                $.each(data, function(i, d) {
+                     
+                        var ind = parseInt(i);
+                        ind +=1
+                        
+                        $('#filter_project').append('<option value="' + d.id + '">' + d.title + '</option>');
+                      
+                        $('#div_project .dropdown-menu ul').append('<li data-original-index="'+ind+'" class=""><a tabindex="0" class="" style="" data-tokens="null"><span class="text">'+d.title+'</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li>');
+                         
+                 });
+            }
+            else{
+
+            $('#div_project').hide();  
+            //swal("There is no project!");
+
+            }
+
+        }
+
+    });
+   
+
+});      
 
     
 
       
 
 </script>
+
+
 @endsection
