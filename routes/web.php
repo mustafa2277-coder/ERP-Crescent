@@ -89,5 +89,7 @@ Route::get('/getGeneralLedgerView','ReportController@GetGeneralLedgerView')->mid
 Route::get('/getFilterGeneralLedgerList' ,'ReportController@GetFilterGeneralLedgerList')->middleware('auth');
 
 
+Route::get('/getFilterGeneralLedgerList2' ,'ReportController@GetFilterGeneralLedgerList2')->middleware('auth');
+
 
 
