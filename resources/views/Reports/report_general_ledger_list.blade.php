@@ -16,16 +16,21 @@
                 <td colspan="8">
                     <div class="panel-group" id="accordion_4" role="tablist" aria-multiselectable="true">
                     @foreach ($ledgerAccounts as $ledgerAccount)
-                    <?php $sumDebit=$sumCredit=0; $balance=0;?>        
+                    <?php $sumDebit=$sumCredit=0; $balance=0;?> 
+                        @if($parentAccounts[$ledgerAccount->id])
+                        <ol class="breadcrumb breadcrumb-col-teal">
+                                @foreach ($parentAccounts[$ledgerAccount->id] as $parentAccount)
+                                
+                                <li><a id='{{$parentAccount->id}}'>{{$parentAccount->code}}  {{$parentAccount->name}}</a></li>
+                                                             
+                               @endforeach
+                        </ol>       
+                        @endif    
                         <div class="panel">
                              <div class="panel-heading" role="tab" id="{{$ledgerAccount->id}}">
-                                <!-- <h4 class="panel-title"> -->
+                                <h4 class="panel-title">
                                     <a  role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapse_{{$ledgerAccount->id}}" aria-expanded="false" aria-controls="collapse_{{$ledgerAccount->id}}">
                                         <span class="glyphicon glyphicon-plus"></span>
-                                        
-                                        @foreach ($parentAccounts[$ledgerAccount->id] as $parentAccount)
-                                        <span id='{{$parentAccount->id}}'> {{$parentAccount->code}}  {{$parentAccount->name}} </span> &nbsp;<strong>></strong> &nbsp;
-                                        @endforeach
                                         
                                         <span id='{{$ledgerAccount->id}}' class="headspan">{{$ledgerAccount->code}}  {{$ledgerAccount->name}}</span>
                                         <span id="bal" style="float: right;border-left solid: 1px;border-left: solid #b9b6b6 1px;width: 14%; display: inline-block;text-align: center; font-size: 12px;"></span>
@@ -34,7 +39,7 @@
                                         <span id="deb" style="float: right;border-left: solid #b9b6b6 1px;width: 13%;display: inline-block;
                                         text-align: center;font-size: 12px;"></span>
                                     </a>
-                                <!-- </h4> -->
+                                </h4>
                             </div>
 
                             <div id="collapse_{{$ledgerAccount->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{$ledgerAccount->id}}">
@@ -354,7 +359,10 @@ $('div#printInv').printArea(options);
 
 });
 
-
+// This must be a hyperlink
+$("a").on('click', function (event) {
+        alert($(this).attr('id'));
+});
    
 
       
