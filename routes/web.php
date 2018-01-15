@@ -61,6 +61,11 @@ Route::get('/editAccountHead/{id}','AccountHeadController@GetAccountHeadById')->
 Route::post('/insertAccountHead','AccountHeadController@InsertAccountHead')->middleware('auth');
 Route::post('/updateAccountHead','AccountHeadController@UpdateAccountHead')->middleware('auth');
 
+    /*----------------------------------Print Account Heads  ---------------------------------------*/
+    Route::get('/getAccountHeadsPdf','AccountHeadController@GetAccountHeadsPdf')->middleware('auth');
+    /*-----------------------------------End Account Heads -----------------------------------------*/
+
+
 /*----------------------------------Journal---------------------------------------*/
 Route::get('/getJournals','JournalController@GetJournals')->middleware('auth');
 Route::get('/addJournal' ,'JournalController@GetJournalForm')->middleware('auth');
@@ -68,7 +73,10 @@ Route::get('/editJournal/{id}','JournalController@GetJournalById')->middleware('
 Route::post('/insertJournal','JournalController@InsertJournal')->middleware('auth');
 Route::post('/updateJournal','JournalController@UpdateJournal')->middleware('auth');
 
-Route::get('/getJournalPdf','JournalController@GetJournalPdf')->middleware('auth');
+    /*------------------------------------Print Journal-----------------------------------------*/
+    Route::get('/getJournalPdf','JournalController@GetJournalPdf')->middleware('auth');
+    Route::get('/getJournalItemsPdf','JournalController@GetJournalItemsPdf')->middleware('auth');
+    /*----------------------------------End Print Journal ---------------------------------------*/
 
 
 /*----------------------------------Journal Entry---------------------------------------*/
@@ -93,6 +101,11 @@ Route::get('/getFilterGeneralLedgerList' ,'ReportController@GetFilterGeneralLedg
 
 
 Route::get('/getFilterGeneralLedgerList2' ,'ReportController@GetFilterGeneralLedgerList2')->middleware('auth');
+
+    /*----------------------------------Print Report  ---------------------------------------*/
+    Route::get('/getBalanceSheetPdf','ReportController@GetBalanceSheetPdf')->middleware('auth');
+    Route::get('/getProfitLossPdf','ReportController@GetProfitLossPdf')->middleware('auth');
+    /*----------------------------------End Print Report --------------------------------------*/
 
 
 

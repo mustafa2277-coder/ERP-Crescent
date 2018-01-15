@@ -22,22 +22,23 @@
 
 @section('content')
      <section class="content">
-        @if($customerList[0]->isVendor=="on")
-        <div class="body">
-                <ol class="breadcrumb breadcrumb-bg-red">
-                    <li><a href="{{url('/home')}}">Home</a></li>
-                    <li class="active"><a>Vendors</a></li>
-                </ol>
-        </div>
-        @else
-        <div class="body">
-                <ol class="breadcrumb breadcrumb-bg-red">
-                    <li><a href="{{url('/home')}}">Home</a></li>
-                    <li class="active"><a>Customers</a></li>
-                </ol>
-        </div>
+        @if(sizeof($customerList)>0)
+            @if($customerList[0]->isVendor=="on")
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li class="active"><a>Vendors</a></li>
+                    </ol>
+            </div>
+            @else
+            <div class="body">
+                    <ol class="breadcrumb breadcrumb-bg-red">
+                        <li><a href="{{url('/home')}}">Home</a></li>
+                        <li class="active"><a>Customers</a></li>
+                    </ol>
+            </div>
+            @endif
         @endif
-       
         <div class="container-fluid">
             <div class="block-header">
 

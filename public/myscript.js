@@ -122,7 +122,7 @@
         //console.log(tableData);
           e.preventDefault();
           $.ajax({
-            url: "http://localhost/ERP/erp1/insertJournalEntry",
+            url: "http://localhost/ERP/insertJournalEntry",
             type: "POST",
             headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -132,7 +132,7 @@
             dataType: "json",
            
             success: function(data) {
-             window.location = "http://localhost/ERP/erp1/getJournalEntriesListView";
+             window.location = "http://localhost/ERP/getJournalEntriesListView";
            
 
             }

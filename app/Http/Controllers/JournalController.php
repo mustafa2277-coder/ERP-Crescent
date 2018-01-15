@@ -630,7 +630,7 @@ class JournalController extends Controller
     return $genEntryNum;
 
     }
-
+/*--------------------------------------------------------------------Print Journal Entries PDF--------------------------------------------------------------------------- */
     public function GetJournalPdf(Request $request){
         //return $request->start;
         
@@ -786,8 +786,32 @@ class JournalController extends Controller
         //return 'helo';
 
     }
-
+/*--------------------------------------------------------------------End Print Journal Entries PDF--------------------------------------------------------------------------- */
     
+/*--------------------------------------------------------------------Print Journal Items PDF--------------------------------------------------------------------------- */
+public function GetJournalItemsPdf(Request $request){
+
+    $journalItems = DB::table('journalentries')
+
+        ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+        ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+        ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+        ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+
+        ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','accounthead.name as account','journalentrydetail.isDebit as isDebit'
+
+            )
+        ->get();
+
+        $pdf = PDF::loadView('pdfJournalItem',compact('journalItems'));
+        return $pdf->stream();
+
+       // return view('/Journal/journal_item_list')->with('journalItems',$journalItems);
+
+}
+
+/*--------------------------------------------------------------------End Print Journal Items PDF--------------------------------------------------------------------------- */
+
 
 
 }

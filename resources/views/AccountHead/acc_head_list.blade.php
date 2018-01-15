@@ -63,6 +63,7 @@
                             <i class="material-icons" title="Create New Account Head">add</i>
                            </a>
                                 </h2>
+                                <a href="{{url('/getAccountHeadsPdf')}}" target="_blank" style="float:right;">Downlaod PDF</a>   
 
                         </div>
                         <div class="body">
