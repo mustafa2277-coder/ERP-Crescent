@@ -35,7 +35,7 @@
 
 @section('content')
   
- 
+    
     <section class="content">
             <div class="body">
                     <ol class="breadcrumb breadcrumb-bg-red">
@@ -60,7 +60,8 @@
                            
                                 <h2>
                                     Profit and Loss 
-                                </h2>       
+                                </h2> 
+                                <a href="{{url('/getProfitLossPdf')}}" target="_blank" style="float:right;">Downlaod PDF</a>       
                             </div>
                         <div class="body">
                             <div class="table-responsive">    

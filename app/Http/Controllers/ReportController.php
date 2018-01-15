@@ -10,6 +10,7 @@ use App\AccountHead;
 use App\Journal;
 use App\JournalEntries;
 use App\JournalEntryDetail;
+use PDF;
 use Response;
 use Redirect;
 
@@ -679,7 +680,164 @@ class ReportController extends Controller
 
 
     }
-    
-    
+   /*--------------------------------------------------------------------Print Balance Sheet PDF--------------------------------------------------------------------------- */ 
+    public function GetBalanceSheetPDF(){
+
+        $assetAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id` FROM journalentrydetail jed
+                                JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                                JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                                JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                                LEFT JOIN project pj ON pj.id = je.projectId  
+                                WHERE acct.id IN(1,2,4,3,14,15)
+                                GROUP BY acct.type,acch.`name`,acct.`id`
+                                ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
+                            );
+
+
+        $assetAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
+                            SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
+                            SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
+                            FROM journalentrydetail jed
+                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                            JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                            LEFT JOIN project pj ON pj.id = je.projectId  
+                            WHERE acct.id IN(1,2,4,3,14,15)
+                            GROUP BY acct.type,acch.`name`,acct.`id`
+                            ORDER BY acct.type")
+                            );
+
+        $liaAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id` FROM journalentrydetail jed
+                                JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                                JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                                JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                                LEFT JOIN project pj ON pj.id = je.projectId  
+                                WHERE acct.id IN(6,7,8)
+                                GROUP BY acct.type,acch.`name`,acct.`id`
+                                ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
+                            );
+
+        $liabilitiesAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
+                            SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
+                            SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
+                            FROM journalentrydetail jed
+                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                            JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                            LEFT JOIN project pj ON pj.id = je.projectId  
+                            WHERE acct.id IN(6,7,8)
+                            GROUP BY acct.type,acch.`name`,acct.`id`
+                            ORDER BY acct.type")
+                            );
+
+        $equityAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id` FROM journalentrydetail jed
+                                JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                                JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                                JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                                LEFT JOIN project pj ON pj.id = je.projectId  
+                                WHERE acct.id IN(12,13)
+                                GROUP BY acct.type,acch.`name`,acct.`id`
+                                ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
+                            );
+
+        $equityAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
+                            SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
+                            SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
+                            FROM journalentrydetail jed
+                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                            JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                            LEFT JOIN project pj ON pj.id = je.projectId  
+                            WHERE acct.id IN(12,13)
+                            GROUP BY acct.type,acch.`name`,acct.`id`
+                            ORDER BY acct.type")
+                            );
+     
+                            $pdf = PDF::loadView('pdfTemplateBalanceSheet',compact('assetAccounts','liabilitiesAccounts','equityAccounts','assetAcctypes','liaAcctypes','equityAcctypes'));
+
+                            return $pdf->stream();
+    }
+
+     /*--------------------------------------------------------------------Print Profit Loss PDF--------------------------------------------------------------------------- */ 
+     public function GetProfitLossPdf(){
+
+        $incomeAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id`
+                            FROM journalentrydetail jed
+                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                            JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                            LEFT JOIN project pj ON pj.id = je.projectId  
+                            WHERE acct.id IN(5,9,10)
+                            GROUP BY acct.type,acch.`name`,acct.`id`
+                            ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
+                            );
+
+        $incomeAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
+                            SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
+                            SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
+                            FROM journalentrydetail jed
+                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                            JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                            LEFT JOIN project pj ON pj.id = je.projectId  
+                            WHERE acct.id IN(5,9,10)
+                            GROUP BY acct.type,acch.`name`,acct.`id`
+                            ORDER BY acct.type")
+                            );    
+
+
+
+
+
+
+        $expenseAcctypes =  DB::select( DB::raw("SELECT acch2.id,acch2.type FROM `accountheadtypes` acch2
+                                WHERE acch2.id IN(SELECT acct.`id`
+                            FROM journalentrydetail jed
+                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                            JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                            LEFT JOIN project pj ON pj.id = je.projectId  
+                            WHERE acct.id IN(11)
+                            GROUP BY acct.type,acch.`name`,acct.`id`
+                            ORDER BY acct.type)
+                                    GROUP BY acch2.id,acch2.type
+                                    ORDER BY acch2.type")
+                            );
+
+
+        $expenseAccounts =  DB::select( DB::raw("SELECT acct.`type`,acch.`name`,acct.`id`,
+                            SUM(CASE WHEN jed.isDebit = 1 THEN jed.`amount` ELSE 0 END) AS Debit,
+                            SUM(CASE WHEN jed.isDebit = 0 THEN jed.`amount` ELSE 0 END) AS Credit
+                            FROM journalentrydetail jed
+                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                            JOIN `accountheadtypes` acct ON acct.`id`=acch.`accHeadTypeId`
+                            LEFT JOIN project pj ON pj.id = je.projectId  
+                            WHERE acct.id IN(11)
+                            GROUP BY acct.type,acch.`name`,acct.`id`
+                            ORDER BY acct.type")
+                            );
+     
+
+        $pdf = PDF::loadView('pdfTemplateProfitLoss',compact('incomeAcctypes','incomeAccounts','expenseAcctypes','expenseAccounts'));
+
+        return $pdf->stream();
+       
+
+
+     }
+
 
 }
