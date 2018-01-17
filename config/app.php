@@ -170,6 +170,7 @@ return [
         Jimmyjs\ReportGenerator\ServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+       
 
         /*
          * Application Service Providers...
@@ -231,6 +232,7 @@ return [
         'PdfReport'=>Jimmyjs\ReportGenerator\Facades\PdfReportFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        
 
     ],
 

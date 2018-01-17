@@ -10,7 +10,8 @@
         "barryvdh/laravel-snappy": "^0.4.0",
         "jimmyjs/laravel-report-generator": "^1.0",
         "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "setasign/fpdf": "1.8.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

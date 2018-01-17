@@ -63,6 +63,8 @@ Route::post('/updateAccountHead','AccountHeadController@UpdateAccountHead')->mid
 
     /*----------------------------------Print Account Heads  ---------------------------------------*/
     Route::get('/getAccountHeadsPdf','AccountHeadController@GetAccountHeadsPdf')->middleware('auth');
+    Route::get('/GetTestPdf','AccountHeadController@GetTestPdf')->middleware('auth');//Test with FPDF
+    
     /*-----------------------------------End Account Heads -----------------------------------------*/
 
 

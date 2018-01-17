@@ -7,6 +7,7 @@ use DB;
 use App\User;
 use App\AccountHead;
 use PDF;
+use App\Providers\fpdf;
 use Illuminate\Support\Facades\Route;
 class AccountHeadController extends Controller
 {
@@ -229,9 +230,9 @@ class AccountHeadController extends Controller
                             ->where('accounthead.code', 'like', '0%')
                             ->orWhere('accounthead.code', 'like', '1%')
                             ->orWhere('accounthead.code', 'like', '2%')
-                            ->orWhere('accounthead.code', 'like', '3%')
+                            /* ->orWhere('accounthead.code', 'like', '3%')
                             ->orWhere('accounthead.code', 'like', '4%')
-                            ->orWhere('accounthead.code', 'like', '6%')
+                            ->orWhere('accounthead.code', 'like', '6%') */
                             /*->where('accounthead.code', 'like', '7%')
                             ->where('accounthead.code', 'like', '8%')
                             ->where('accounthead.code', 'like', '9%') */
@@ -255,7 +256,7 @@ class AccountHeadController extends Controller
         //return $arr;
         $pdf = PDF::loadView('pdfTemplateAccountHead',compact('arr'));
         /* return $pdf->download('pdfTemplateAccountHead.pdf'); */
-        return $pdf->stream();
+        return $pdf->download('pdfTemplateAccountHead.pdf');
 
        // return view('/AccountHead/acc_head_list',compact('arr'));//,'accountHeads3'));
 
@@ -298,6 +299,41 @@ class AccountHeadController extends Controller
     
     }
 
+
+
+
+
+
+
+    /*-------------------------------------------Testing PDF with FPDF-------------------------------------------------*/
+
+    public function GetTestPdf(Request $request){
+
+        //$pdf = new Fpdf::();
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(40,10,'Hello World!');
+        $pdf->Output();
+        
+        /* $journalItems = DB::table('journalentries')
+    
+            ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+            ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+            ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+            ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+    
+            ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','accounthead.name as account','journalentrydetail.isDebit as isDebit'
+    
+                )
+            ->get();
+    
+            $pdf = PDF::loadView('pdfJournalItem',compact('journalItems'));
+            return $pdf->stream(); */
+    
+           // return view('/Journal/journal_item_list')->with('journalItems',$journalItems);
+    
+    }
 
 
 }
