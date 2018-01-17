@@ -271,6 +271,13 @@ class ReportController extends Controller
             $ledgers = "";
             $ledgerAccounts = "";
             
+
+            $accountHeads2 =  AccountHead::where('accounthead.id', '=', $parentId)
+                                         ->where('accounthead.parentId','=',0)->get();
+
+            // return count($accountHeads2);                            
+
+            if(count($accountHeads2)==0){
            
 
  
@@ -313,7 +320,49 @@ class ReportController extends Controller
                                    ")
                                     );
 
-             
+             }
+            else
+            {
+
+                $end   = date("Y-m-d",strtotime(str_replace('/', '-', $end)));
+                $start = date("Y-m-d",strtotime(str_replace('/', '-', $start)));
+
+                    
+                $ledgers =  DB::select( DB::raw("SELECT jed.`isDebit`,je.`entryNum`,je.`date_post`,pj.title project,acch3.id,acch3.name,
+                                            ( CASE WHEN jed.isDebit = 1 THEN jed.`amount` END) AS Debit,
+                                            ( CASE WHEN jed.isDebit = 0 THEN jed.`amount` END) AS Credit
+                                            FROM journalentrydetail jed
+                                            JOIN `accounthead` acch ON acch.`id`=jed.`accHeadId`
+                                            JOIN `accounthead` acch2 ON acch2.`id`= acch.parentId
+                                            JOIN `accounthead` acch3 ON acch3.`id`= acch2.parentId
+                                            JOIN `journalentries` je ON je.`id`=jed.`journalEntryId`
+                                            LEFT JOIN project pj ON pj.id = je.projectId
+                                            WHERE je.`date_post` >= '$start' AND je.`date_post` <= '$end'
+                                            GROUP BY jed.`isDebit`,je.`entryNum`,je.`date_post`,Debit,Credit,project,acch.id
+                                            ORDER BY je.date_post,je.`entryNum`") 
+                                );
+
+               
+
+                $ledgerAccounts =  DB::select( DB::raw("SELECT acch4.name,acch4.id,acch4.code,acch4.parentId
+                                     ,(SUM(CASE WHEN jj.isDebit = 1 THEN jj.`amount` ELSE 0  END)-
+                                     SUM(CASE WHEN jj.isDebit = 0 THEN jj.`amount`   ELSE 0  END)) AS Balance  
+                                      
+                                    FROM `accounthead` acch2
+                                    LEFT JOIN 
+                                    (SELECT jed.amount,jed.`accHeadId`,jed.`isDebit` FROM  journalentrydetail  jed
+                                    LEFT JOIN journalentries je2 ON jed.`journalEntryId`=je2.`id` 
+                                    WHERE je2.`date_post` < '$start') 
+                                    jj ON jj.accHeadId = acch2.id
+                                    JOIN `accounthead` acch3 ON acch3.id=acch2.`parentId` 
+                                    JOIN `accounthead` acch4 ON acch4.id=acch3.`parentId` 
+                                    WHERE  acch4.id='$parentId'
+                                    GROUP BY acch4.name,acch4.id,acch4.code
+                                    ORDER BY acch4.code
+                                   ")
+                                    );
+
+            }
             
             // }
 

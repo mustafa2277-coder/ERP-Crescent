@@ -432,7 +432,7 @@ $('body').on('click','.parentacc' ,function (event) {
         }).done(function(data){
 
           $('.result').html(data);
-           console.log(data);
+          // console.log(data);
 
         });
 
