@@ -1,7 +1,7 @@
 
 
 <div class="table-responsive">
-    <a href="#" class="exportcsv">Export Table data into Excel</a>                             
+    <!-- <a href="#" class="exportcsv">Export Table data into Excel</a>                              -->
     <table id="example"  class="table  table-striped table-hover">
         <thead>
             <tr style="background: #f44336;color: #fff;">
