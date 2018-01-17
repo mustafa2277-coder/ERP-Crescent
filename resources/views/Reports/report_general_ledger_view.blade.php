@@ -291,6 +291,7 @@
     
 
 <script>
+
     $('#start_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
     $('#end_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
     $(document).ready(function(){
@@ -362,7 +363,7 @@ $('#filter_project').html('');
 
    $.ajax({
         
-        url: "http://localhost/ERP/getProjectsByCustomerId",
+        url: "http://localhost/ERP/erp1/getProjectsByCustomerId",
         type: "post",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -405,8 +406,38 @@ $('#filter_project').html('');
     });
    
 
-});      
+}); 
 
+
+   
+// This must be a hyperlink
+
+
+$('body').on('click','.parentacc' ,function (event) {
+
+      var url  = "http://localhost/ERP/erp1/getGeneralLedgerListByParentId";  
+      var data = $('#form_filter').serializeArray();  
+      var get  = $('#form_filter').attr('method');
+      data.push({name:"parentId",value:$(this).attr('id')});
+      console.log(data);
+        $.ajax({
+
+            type:get,
+            url:url,
+            data:data,
+            beforeSend: function() { $('.page-loader-wrapper').fadeIn();},
+            complete: function() { $('.page-loader-wrapper').fadeOut();},
+
+
+        }).done(function(data){
+
+          $('.result').html(data);
+           console.log(data);
+
+        });
+
+        
+});
     
 
       

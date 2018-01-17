@@ -17,15 +17,29 @@
                     <div class="panel-group" id="accordion_4" role="tablist" aria-multiselectable="true">
                     @foreach ($ledgerAccounts as $ledgerAccount)
                     <?php $sumDebit=$sumCredit=0; $balance=0;?> 
-                        @if($parentAccounts[$ledgerAccount->id])
+                       
+                      
+                        @if($parentAccounts[$ledgerAccount->id] && is_array($parentAccounts[$ledgerAccount->id]))
                         <ol class="breadcrumb breadcrumb-col-teal">
                                 @foreach ($parentAccounts[$ledgerAccount->id] as $parentAccount)
                                 
-                                <li><a id='{{$parentAccount->id}}'>{{$parentAccount->code}}  {{$parentAccount->name}}</a></li>
+                                <li><a class="parentacc" id='{{$parentAccount->id}}'>{{$parentAccount->code}}  {{$parentAccount->name}}</a></li>
                                                              
                                @endforeach
                         </ol>       
-                        @endif    
+                       
+                        @endif
+
+                        @if($parentAccounts[$ledgerAccount->id] && !is_array($parentAccounts[$ledgerAccount->id]))
+                        <ol class="breadcrumb breadcrumb-col-teal">
+                                
+                                <li><a class="parentacc" id='{{$parentAccounts[$ledgerAccount->id]->id}}'>{{$parentAccounts[$ledgerAccount->id]->code}}  {{$parentAccounts[$ledgerAccount->id]->name}}</a></li>
+                                                             
+                               
+                        </ol>       
+                       
+                        @endif
+
                         <div class="panel">
                              <div class="panel-heading" role="tab" id="{{$ledgerAccount->id}}">
                                 <h4 class="panel-title">
@@ -342,12 +356,6 @@
     });
 
 
-$("span").on('click', function (event) {
-
-        console.log($(this).attr('id'));
-       
-});
-
        
 $("#btnPrint").click(function(){
 
@@ -359,11 +367,7 @@ $('div#printInv').printArea(options);
 
 });
 
-// This must be a hyperlink
-$("a").on('click', function (event) {
-        alert($(this).attr('id'));
-});
-   
+
 
       
 
