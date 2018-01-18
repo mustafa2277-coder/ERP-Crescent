@@ -41,7 +41,7 @@
 
     <section class="content">
 
-        <a href="{{url('/home')}}">Home >> </a><a href="{{url('/getJournalEntriesListView')}}">Journal Entries >> </a><a>New Journal Entries</a>
+       
 
             <div class="body">
                     <ol class="breadcrumb breadcrumb-bg-red">

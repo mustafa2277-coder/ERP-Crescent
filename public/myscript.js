@@ -133,7 +133,7 @@
             dataType: "json",
            
             success: function(data) {
-             window.location = "http://localhost/ERP/erp1/getJournalEntriesListView";
+             window.location = "http://localhost/ERP/getJournalEntriesListView";
            
 
             }

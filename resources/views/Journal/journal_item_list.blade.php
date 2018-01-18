@@ -60,7 +60,8 @@
                            
                                 <h2>
                                      Journal Items
-                                </h2>       
+                                </h2>
+                                <a href="{{url('/getJournalItemsPdf')}}" target="_blank" style="float:right;">Downlaod PDF</a>       
                         </div>
                         <div class="body">
                             <div class="table-responsive">

@@ -60,7 +60,8 @@
                            
                                 <h2>
                                     Balance Sheet
-                                </h2>       
+                                </h2> 
+                                <a href="{{url('/getBalanceSheetPdf')}}" target="_blank" style="float:right;">Downlaod PDF</a>     
                             </div>
                         <div class="body">
                             <div class="table-responsive">    

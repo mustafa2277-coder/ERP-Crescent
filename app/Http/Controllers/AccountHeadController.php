@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\User;
 use App\AccountHead;
+use PDF;
 use Illuminate\Support\Facades\Route;
 class AccountHeadController extends Controller
 {
@@ -210,6 +211,91 @@ class AccountHeadController extends Controller
 
 
 
+    }
+    public function GetAccountHeadsPdf(){
+
+        $arr=null;
+
+        //======= Start Raw query =========//
+
+            // $accountHeads2 = DB::select( DB::raw("
+            //             SELECT aha.name,aha.code code ,aha.id id,aha.isTransactional isTrans  FROM accounthead aha
+            //             WHERE aha.`parentId` = 0 OR aha.`parentId`IS NULL"));
+
+        //======= End Raw query =========//
+        $accountHeads2 =  DB::table('accounthead')
+                            ->select('accounthead.*','accounthead.name as name','accounthead.code as code','accounthead.id as id','accounthead.isTransactional as isTrans')
+                            /* ->where('accounthead.parentId', '=', 0) */
+                            ->where('accounthead.code', 'like', '0%')
+                            ->orWhere('accounthead.code', 'like', '1%')
+                            ->orWhere('accounthead.code', 'like', '2%')
+                            ->orWhere('accounthead.code', 'like', '3%')
+                            ->orWhere('accounthead.code', 'like', '4%')
+                            ->orWhere('accounthead.code', 'like', '6%')
+                            /*->where('accounthead.code', 'like', '7%')
+                            ->where('accounthead.code', 'like', '8%')
+                            ->where('accounthead.code', 'like', '9%') */
+                            /* ->orWhere('accounthead.parentId', '=', NULL) */
+                            ->orderBy('code','asc')
+                            ->get(); 
+
+        foreach($accountHeads2 as $item){
+
+            if($item->isTrans!=1)    
+
+                $addNew = '<a   style="float: right; " id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"  title="Add Sub Head">add_circle_outline</i></a>';
+                else
+                $addNew = "";    
+
+                $edit = '<a  style="float: right; " href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons" title="Edit Head">mode_edit</i></a>';
+               
+                $arr.='<li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->code." " .$item->name.'  </div>'.$this->GetTreeAccountHeadsPdf($item).'</li>';
+
+        }
+        //return $arr;
+        $pdf = PDF::loadView('pdfTemplateAccountHead',compact('arr'));
+        /* return $pdf->download('pdfTemplateAccountHead.pdf'); */
+        return $pdf->stream();
+
+       // return view('/AccountHead/acc_head_list',compact('arr'));//,'accountHeads3'));
+
+    }
+
+    public function GetTreeAccountHeadsPdf($parent){
+
+        $arr=null;  
+        //======= Start Raw query =========//
+    
+             // $accountHeads2 = DB::select( DB::raw("
+                        // SELECT * from accounthead where parentId=".$parent->id));
+        
+        //======= End Raw query =========//
+        $accountHeads2 =  DB::table('accounthead')->where('accounthead.parentId', '=', $parent->id)->get();
+    
+        if(count($accountHeads2)!=0){
+    
+            foreach($accountHeads2 as $item){
+    
+            if($item->isTransactional!=1)
+            $addNew = '<a style="float:  right;" id="addew" href="'. URL('/addAccountHead').'/'.$item->id.'"> <i class="material-icons"   title="Add Sub Head">add_circle_outline</i></a>';
+            else
+            $addNew = "";    
+    
+            $edit = '<a style="float:  right;" href="'.URL('/editAccountHead').'/'.$item->id.'"><i class="material-icons" title="Edit Head">mode_edit</i></a>';    
+            
+             $arr .= '<ul class="dd-list"><li class="dd-item" data-id="'.$item->id.'"><div class="dd-handle">'.$item->code." " .$item->name.'</div>'.$this->GetTreeAccountHeadsPdf($item).'</li></ul>';
+    
+            }
+            return $arr;
+        }else{
+    
+            return  ; 
+    
+    
+        }
+    
+    
+    
     }
 
 
