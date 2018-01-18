@@ -69,7 +69,7 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <input type="hidden"  name="journal_id" value='{{$record->id}}'> 
-                                            <input type="text" class="form-control" id="journal_name" value='{{$record->name}}' name="journal_name" required>
+                                            <input type="text" class="form-control" id="journal_name" value='{{$record->name}}' name="journal_name" autofocus required>
                                             <label class="form-label">Name</label>
                                         </div>
                                 @if ($errors->has('journal_name'))
@@ -128,7 +128,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" id="journal_name"  name="journal_name" required>
+                                            <input type="text" class="form-control" id="journal_name"  name="journal_name"  autofocus required>
                                             <label class="form-label">Name</label>
                                         </div>
                                 @if ($errors->has('journal_name'))

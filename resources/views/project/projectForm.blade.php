@@ -67,7 +67,7 @@
                                 <input type="hidden" name="id" value="{{$projects[0]->id}}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="code" value="{{$projects[0]->code}}" required>
+                                        <input type="text" class="form-control" name="code" value="{{$projects[0]->code}}" autofocus required>
                                         <label class="form-label">Project Code*</label>
                                     </div>
                                     @if ($errors->has('code'))
@@ -102,11 +102,11 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="form-label">Start Date*</label>
-                                    <input type="text" id="date_post1" name="start" class="datepicker form-control" placeholder="Please choose Start Date..." value="{{date('d/m/Y', strtotime($projects[0]->start))}}" required>
+                                    <input type="text" id="date_post1" name="start" class="stDate form-control" placeholder="dd/mm/yyyy" value="{{date('d/m/Y', strtotime($projects[0]->start))}}" required>
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="form-label">End Date*</label>
-                                    <input type="text" name="end" id="date_post" class="datepicker form-control" placeholder="Please choose End Date..."  value="{{date('d/m/Y', strtotime($projects[0]->end))}}" required>
+                                    <input type="text" name="end" id="date_post" class="edDate form-control" placeholder="dd/mm/yyyy"  value="{{date('d/m/Y', strtotime($projects[0]->end))}}" required>
                                 </div>
                                 
                                 <div class="form-group form-float">
@@ -167,7 +167,7 @@
                                 {{ csrf_field() }}
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" maxlength="20" class="form-control"  name="code" required>
+                                        <input type="text" maxlength="20" class="form-control"  name="code" autofocus required>
                                         <label class="form-label">Project Code*</label>
                                     </div>
                                     @if ($errors->has('code'))
@@ -203,11 +203,11 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="form-label">Start Date*</label>
-                                    <input type="text" id="start" name="start" class="datepicker form-control" placeholder="Please choose Start Date..." required>
+                                    <input type="text"  name="start" class="stDate form-control" placeholder="dd/mm/yyyy" required>
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="form-label">End Date*</label>
-                                    <input type="text" name="end" id="end" class="datepicker form-control" placeholder="Please choose End Date..." required>
+                                    <input type="text" name="end"  class="edDate form-control" placeholder="dd/mm/yyyy" required>
                                 </div>
                                 
                                 <div class="form-group form-float">
@@ -335,7 +335,8 @@
    
      $(document).ready(function() {
             $('#cost').inputmask({mask: "9{1,40}.99"});
-            
+            $('.stDate').inputmask({ mask: "99/99/9999"});
+            $('.edDate').inputmask({ mask: "99/99/9999"});
         });
 
     </script>

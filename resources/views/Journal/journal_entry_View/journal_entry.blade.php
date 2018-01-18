@@ -69,7 +69,7 @@
                            
                                 <h2>
                                      Journal Entries
-                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournalEntry')}}" style="float:right;"> 
+                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournalEntry')}}" accesskey="+" tabindex='1' style="float:right;"> 
                             <i class="material-icons" title="Create New">add</i>
                            </a>
                                 </h2>

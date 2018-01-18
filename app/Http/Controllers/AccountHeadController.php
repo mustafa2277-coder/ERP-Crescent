@@ -112,23 +112,29 @@ class AccountHeadController extends Controller
      // for inserting a record   used for add new record
 
     public function InsertAccountHead(Request $request){
-        
+        $tt=$request->acchead_code;
+        $res1 = trim($tt,'_');
+        $res2  = trim($res1,'-');
+        $res3 = trim($res2,'_-');
+       /*  $request->acchead_code=$res3; */
+        //return $request->acchead_code;
+        if(AccountHead::where('code','=',$res3)->exists())
+        {
 
+
+        return redirect()->back()->with('error','Code Already Exist');
+            
+        }
         $this->validate($request, [
-            'acchead_code'=>'required|unique:accounthead,code',
             'acchead_name'=>'required',
             'type_id'=>'required'
-            ],
-
-            ['acchead_name.unique'=>'Name Already exist',
-             'acchead_code.unique'=>'Code Already exist',
-                ]
+            ]
         );
 
        // $user=Auth::user();
         $insert= new AccountHead;
         $insert->name=trim($request->acchead_name,"_");
-        $insert->code=$request->acchead_code;
+        $insert->code=$res3;
         $insert->accHeadTypeId=$request->type_id;
         $insert->isTransactional=$request->is_tran=="on"?1:0;
         $insert->parentId=$request->parent_id;

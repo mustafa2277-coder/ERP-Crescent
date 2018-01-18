@@ -479,7 +479,7 @@ class JournalController extends Controller
     }
 
     public function InsertJournalEntry(Request $request){
-        
+        //return $request;
 
         $journal = DB::table('journal')->where('id',$request->journalId)->first();
 

@@ -72,7 +72,7 @@
                                     <input type="hidden" name="pid" value="{{$categories->id}}">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="sub" value="" maxlength="100" required>
+                                            <input type="text" class="form-control" name="sub" value="" maxlength="100" autofocus required>
                                             <label class="form-label">Sub Category</label>
                                         </div>
                                     </div>
@@ -86,7 +86,7 @@
                                     <input type="hidden" name="id" value="{{$editCategories->id}}">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="cat" maxlength="100" value="{{$editCategories->name}}" required>
+                                            <input type="text" class="form-control" name="cat" maxlength="100" value="{{$editCategories->name}}" autofocus required>
                                             <label class="form-label">Sub Category</label>
                                         </div>
                                     </div>
@@ -99,7 +99,7 @@
                                     {{ csrf_field() }}
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="name" maxlength="100" required>
+                                            <input type="text" class="form-control" name="name" maxlength="100" autofocus required>
                                             <label class="form-label">Category</label>
                                         </div>
                                     </div>

@@ -42,7 +42,7 @@
         <div class="container-fluid">
             <div class="block-header">
 
-                <a href="{{ url('/getAddCustomer') }}" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float" title="Add New" ><i class="material-icons">add</i></a>
+                <a href="{{ url('/getAddCustomer') }}" type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float" accesskey="+" title="Add New" ><i class="material-icons">add</i></a>
                      
             </div>
             

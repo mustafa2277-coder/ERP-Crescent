@@ -35,7 +35,7 @@
                         <div class="header">
                             <h2>
                                 Projects
-                                <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" href="{{ url('/getAddProject')}}"> 
+                                <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" accesskey="+" href="{{ url('/getAddProject')}}"> 
                                     <i class="material-icons" title="Create New">add</i>
                                 </a>
                             </h2>

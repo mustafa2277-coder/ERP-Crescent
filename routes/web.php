@@ -100,6 +100,7 @@ Route::get('/getBalanceSheet','ReportController@GetBalanceSheet')->middleware('a
 Route::get('/getProfitLoss','ReportController@GetProfitLoss')->middleware('auth');
 Route::get('/getGeneralLedgerView','ReportController@GetGeneralLedgerView')->middleware('auth');
 Route::get('/getFilterGeneralLedgerList' ,'ReportController@GetFilterGeneralLedgerList')->middleware('auth');
+Route::get('/getGeneralLedgerListByParentId' ,'ReportController@GetGeneralLedgerListByParentId')->middleware('auth');
 
 
 Route::get('/getFilterGeneralLedgerList2' ,'ReportController@GetFilterGeneralLedgerList2')->middleware('auth');

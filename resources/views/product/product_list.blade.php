@@ -35,7 +35,7 @@
                         <div class="header">
                             <h2>
                                 Products
-                                <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" href="{{ url('/getAddProduct')}}"> 
+                                <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" accesskey="+" tabindex='1' id="add_new" href="{{ url('/getAddProduct')}}"> 
                                     <i class="material-icons" title="Create New">add</i>
                                 </a>
                             </h2>

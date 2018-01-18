@@ -25,7 +25,7 @@
      });
 
     $(document).on('click', 'form button[type=submit]', function(e) {
-
+        
          e.preventDefault();
            
         if($('#journal_id').find(":selected").val() == 0) {
@@ -51,7 +51,13 @@
             e.preventDefault(); //prevent the default action
             return false;
         }
-
+       
+        var chkdate=$('.date').val();
+        if(moment(chkdate, 'DD/MM/YYYY',true).isValid()==false) {
+            swal("Enter Date Properly");
+            e.preventDefault(); //prevent the default action
+            return false;
+        }
 
         if($('#reference').val() == "") {
             swal("Empty Reference Field!");
@@ -116,7 +122,7 @@
         submitEntry.entryDetail = tableData;
         submitEntry.journalId =  $('#journal_id').find(":selected").val();
         submitEntry.projectId =  $('#project_id').find(":selected").val();
-        submitEntry.datePost =  $('#date_post').val();
+        submitEntry.datePost =  $('#pdate').val();
         submitEntry.reference =  $('#reference').val();
 
         //console.log(tableData);

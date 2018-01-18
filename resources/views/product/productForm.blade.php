@@ -63,7 +63,7 @@
                                 <input type="hidden" name="id" value="{{$products->id}}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" maxlength="20" accesskey="c" name="code" value="{{$products->code}}"required>
+                                        <input type="text" class="form-control" maxlength="20" accesskey="c" name="code" value="{{$products->code}}" autofocus required>
                                         <label class="form-label">Code</label>
                                     </div>
                                      @if ($errors->has('code'))
@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="name" maxlength="100" value="{{$products->name}}" required>
+                                        <input type="text" class="form-control" name="name" maxlength="100" value="{{$products->name}}"  required>
                                         <label class="form-label">Name</label>
                                     </div>
                                 </div>
@@ -142,7 +142,7 @@
                                 {{ csrf_field() }}
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="code"  value="{{ old('code') }}" maxlength="20" required>
+                                        <input type="text" class="form-control" name="code"  value="{{ old('code') }}" maxlength="20" autofocus required>
                                         <label class="form-label">Code*</label>
                                     </div>
                                     @if ($errors->has('code'))

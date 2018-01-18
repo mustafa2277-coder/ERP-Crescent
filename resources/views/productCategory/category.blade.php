@@ -41,7 +41,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
                     <div class="card">
                             <div class="header">
-                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style=" float:right; margin-bottom: 4px;" id="add_new" href="{{ url('/getAddCategory')}}"> 
+                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style=" float:right; margin-bottom: 4px;" accesskey="+" tabindex='1' id="add_new" href="{{ url('/getAddCategory')}}"> 
                                     <i class="material-icons" title="Create New">add</i>
                             </a>                     
                                 <h2>

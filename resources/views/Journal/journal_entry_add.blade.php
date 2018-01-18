@@ -41,7 +41,7 @@
 
     <section class="content">
 
-        <a href="{{url('/home')}}">Home >> </a><a href="{{url('/getJournalEntriesListView')}}">Journal Entries >> </a><a>New Journal Entries</a>
+       
 
             <div class="body">
                     <ol class="breadcrumb breadcrumb-bg-red">
@@ -77,7 +77,7 @@
                                  {{ csrf_field() }}
                              <div class="row clearfix">
                                 <div class="col-sm-6">
-                                    <select  id="journal_id" name="journal_id" class="form-control show-tick" data-live-search="true" required>
+                                    <select  id="journal_id" name="journal_id" class="form-control show-tick" data-live-search="true"  tabindex="1" required>
                                          <option value="0" selected="selected" disabled="disabled"><strong>Select Journal</strong></option>
                                         @foreach ($journals as $journal)    
                                         <option value="{{$journal->id}}">{{$journal->name}}</option>
@@ -87,7 +87,7 @@
                                 <div class="col-sm-6" id="div_project">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                    <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" required>
+                                    <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" tabindex="2"  required>
                                          <option value="0" selected="selected" disabled="disabled">Select Project</option>
                                         @foreach ($projects as $project)    
                                         <option value="{{$project->id}}">{{$project->title}}</option>
@@ -100,8 +100,8 @@
                                     <div class="col-sm-6">
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                            <input type="text" id="date_post" name="date_post" class="datepicker form-control">
-                                            <label class="form-label">Start Date</label>
+                                            <input type="text"  name="date_post" id="pdate" tabindex="3" class="form-control date" >
+                                            <label class="form-label">Date (dd/mm/yyyy)</label>
                                             </div>
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                   <div class="col-sm-6">
                                     <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" id="reference"  name="reference" required>
+                                        <input type="text" class="form-control" id="reference" tabindex="4" name="reference" required>
                                         <label class="form-label">Reference</label>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                                     <tbody>
                                         <tr>
                                             <td colspan="5" >
-                                                <a class="btn btn-default waves-effect" data-toggle="modal" data-target="#New-Entry-Modal" style="float: left;"> 
+                                                <a class="btn btn-default waves-effect" data-toggle="modal" data-target="#New-Entry-Modal" tabindex="5" accesskey="+" style="float: left;"> 
                                                 <i class="material-icons">add</i>
                                                </a>    
                                               
@@ -150,7 +150,7 @@
                                     </tbody>
                                 </table>
                             <!-- </div> -->
-                            <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
+                            <button class="btn btn-primary waves-effect" type="submit" accesskey="s">SUBMIT</button>
 
                             </form>
 
@@ -159,8 +159,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">New</h4>
+                    {{--  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>  --}}
+                    <h4 class="modal-title">New</h4>
                 </div>
                 <div class="modal-body">
 
@@ -264,6 +264,8 @@
     <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{asset('public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
 
+    <!-- Input Mask  Plugin Js -->
+    <script src="{{asset('public/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script> 
 
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
@@ -274,5 +276,11 @@
 
     <script src="{{asset('public/myscript.js')}}"></script>
   
-
+    <script type="text/javascript">
+        $(document).ready(function() {
+               $('.date').inputmask({ mask: "99/99/9999"});
+               
+       });
+   
+       </script>
 @endsection

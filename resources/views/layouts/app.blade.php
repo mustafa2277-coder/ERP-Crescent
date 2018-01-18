@@ -373,7 +373,7 @@
                                 <a href="{{url('/getJournalItems')}}">Journal Items</a>
                             </li>
                             <li>
-                                <a href="{{url('/getJournalEntriesListView')}}">Journal Entries</a>
+                                <a href="{{url('/getJournalEntriesListView')}}" accesskey="j">Journal Entries</a>
                             </li>
 
                              <li>
@@ -449,14 +449,14 @@
 
 
                     <li>
-                        <a href="{{url('/customerList')}}">
+                        <a href="{{url('/customerList')}}" accesskey="c">
                             <i class="material-icons">account_box</i>
                             <span>Customers</span>
 
                         </a>
                     </li>
                     <li>
-                        <a href="{{url('/vendorList')}}">
+                        <a href="{{url('/vendorList')}}" accesskey="v">
                             <i class="material-icons">text_fields</i>
                             <span>Vendors</span>
 
@@ -464,7 +464,7 @@
                     </li>
                     
                     <li>
-                        <a href="{{url('/projectList')}}">
+                        <a href="{{url('/projectList')}}" accesskey="p">
                             <i class="material-icons">view_quilt</i>
                             <span>Projects</span>
 
