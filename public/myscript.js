@@ -3,6 +3,7 @@
     var tableData = [];
     $('#date_post').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
     $('#date_post1').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
+    
     // for changing dateformat
     $(document).ready(function() {
      

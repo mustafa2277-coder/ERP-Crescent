@@ -96,3 +96,18 @@ Route::get('/getFilterGeneralLedgerList2' ,'ReportController@GetFilterGeneralLed
 
 
 
+/*----------------------------------Inventory---------------------------------------*/
+Route::get('/warehouse' ,'InventoryController@warehouse_list')->middleware('auth');
+Route::get('/warehouseAdd' ,'InventoryController@warehouse_add')->middleware('auth');
+Route::post('/addWarehouse', 'InventoryController@addWarehouse')->middleware('auth');
+Route::get('/getEditWarehouse/{id}', 'InventoryController@getEditWarehouse')->middleware('auth');
+Route::post('/editWarehouse', 'InventoryController@editWarehouse')->middleware('auth');
+
+
+Route::get('/grn', 'InventoryController@grn_list')->middleware('auth');
+Route::get('/grnAdd' ,'InventoryController@grn_add')->middleware('auth');
+Route::post('/insertGrn','InventoryController@insertGrn')->middleware('auth');
+Route::get('/getEditGrn/{id}', 'InventoryController@getEditGrn')->middleware('auth');
+Route::get('/editGrnDetail', 'InventoryController@editGrnDetail')->middleware('auth');
+Route::post('/updateGrn','InventoryController@updateGrn')->middleware('auth');
+Route::get('/deleteGrnDetail', 'InventoryController@deleteGrnDetail')->middleware('auth');
