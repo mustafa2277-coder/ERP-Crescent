@@ -121,7 +121,7 @@
                                    <thead>
                                         <tr>
                                             <th>ACCOUNT</th>
-                                            <th>PROJECT</th>
+                                            <th></th>
                                             <th style='text-align:center'>DEBIT</th>
                                             <th style='text-align:center'>CREDIT</th>
                                             <th></th>
@@ -211,8 +211,8 @@
                 </div>
                 <div class="modal-footer">
               
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="AddData()">Save</button>
+                    <button type="button" class="btn btn-default" accesskey="x" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" accesskey="a" onclick="AddData()">Add</button>
                 </div>
             </div>
              </div>
