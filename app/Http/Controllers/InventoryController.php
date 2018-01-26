@@ -134,7 +134,7 @@ class InventoryController extends Controller
          for ($i=0; $i <sizeof($request->grnDetail) ; $i++) {  
             $dataSet[$i] = [
                             'grn_id' => $invgrn->id,
-                            'product_id'         => $request->grnDetail[$i]['productName'],
+                            'product_id'         => $request->grnDetail[$i]['productId'],
                             'product_quantity'         => $request->grnDetail[$i]['ProductQuantity'],
                             'purchased_price'         => $request->grnDetail[$i]['ProductPrice'],
                             'purchased_currency'         => $request->grnDetail[$i]['PurchasedCurrency'],
@@ -145,19 +145,19 @@ class InventoryController extends Controller
             }
             for ($i=0; $i <sizeof($request->grnDetail) ; $i++) { 
 
-                $product=warehouseProduct::where('product_id', $request->grnDetail[$i]['productName'])->get();
+                $product=warehouseProduct::where('product_id', $request->grnDetail[$i]['productId'])->get();
                 // $totalQuantity=$request->grnDetail[$i]['ProductQuantity']+$product->quantity_in_hand;
                 if (count($product)) {
                     
                     $totalQuantity=$request->grnDetail[$i]['ProductQuantity']+$product[0]->quantity_in_hand;
                     DB::table('warehouseproduct')
-                    ->where('product_id', $request->grnDetail[$i]['productName'])
+                    ->where('product_id', $request->grnDetail[$i]['productId'])
                     ->update(['quantity_in_hand' =>$totalQuantity]);
                     // DB::table('warehouseproduct')->increment('quantity_in_hand', $request->grnDetail[$i]['ProductQuantity'] , ['product_id' => $request->grnDetail[$i]['productName']]);
                 }else {
                     $dataSetQ = [
                             'warehouse_id' => $request->warehouse,
-                            'product_id'         => $request->grnDetail[$i]['productName'],
+                            'product_id'         => $request->grnDetail[$i]['productId'],
                             'quantity_in_hand'         => $request->grnDetail[$i]['ProductQuantity'],
                             
                         ];
@@ -231,7 +231,7 @@ class InventoryController extends Controller
          for ($i=0; $i <sizeof($request->grnDetail) ; $i++) {  
             $dataSet[$i] = [
                             'grn_id' => $invgrn->id,
-                            'product_id'         => $request->grnDetail[$i]['productName'],
+                            'product_id'         => $request->grnDetail[$i]['productId'],
                             'product_quantity'         => $request->grnDetail[$i]['ProductQuantity'],
                             'purchased_price'         => $request->grnDetail[$i]['ProductPrice'],
                             'purchased_currency'         => $request->grnDetail[$i]['PurchasedCurrency'],
@@ -241,26 +241,9 @@ class InventoryController extends Controller
                         ];
             }
 
-
-            // $grn = DB::table('inv_grn_detail')
-            // ->select('inv_grn_detail.*')
-            // ->where('inv_grn_detail.grn_id','=',$invgrn->id)
-            // ->get();
-            // $totalQuantity=0;
-            // for ($i=0; $i <sizeof($grn) ; $i++) { 
-            //     $product=warehouseProduct::where('product_id', $grn[$i]->product_id)->get();
-            //     $totalQuantity=$product[0]->quantity_in_hand-$grn[$i]->product_quantity;
-            //     DB::table('warehouseproduct')
-            //     ->where('product_id', $grn[$i]->product_id)
-            //     ->update(['quantity_in_hand' =>$totalQuantity]);
-            //     // $temp1=$temp1+$grn[$i]->product_quantity;
-            // }
-            // var_dump($temp1);
-            // print_r($grn);
-            // die();
             for ($i=0; $i <sizeof($request->grnDetail) ; $i++) { 
 
-                $product=warehouseProduct::where('product_id', $request->grnDetail[$i]['productName'])->get();
+                $product=warehouseProduct::where('product_id', $request->grnDetail[$i]['productId'])->get();
                 // $totalQuantity=$request->grnDetail[$i]['ProductQuantity']+$product->quantity_in_hand;
                 if (count($product)) {
                     
@@ -268,13 +251,13 @@ class InventoryController extends Controller
                     // var_dump($totalQuantity);
                     // die();
                     DB::table('warehouseproduct')
-                    ->where('product_id', $request->grnDetail[$i]['productName'])
+                    ->where('product_id', $request->grnDetail[$i]['productId'])
                     ->update(['quantity_in_hand' =>$totalQuantity1]);
                     // DB::table('warehouseproduct')->increment('quantity_in_hand', $request->grnDetail[$i]['ProductQuantity'] , ['product_id' => $request->grnDetail[$i]['productName']]);
                 }else {
                     $dataSetQ = [
                             'warehouse_id' => $request->warehouse,
-                            'product_id'         => $request->grnDetail[$i]['productName'],
+                            'product_id'         => $request->grnDetail[$i]['productId'],
                             'quantity_in_hand'         => $request->grnDetail[$i]['ProductQuantity'],
                             
                         ];

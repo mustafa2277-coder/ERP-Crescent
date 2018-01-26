@@ -142,6 +142,17 @@ function addGrnDetail(){
     }
 
 
+
+    $.each(tableDataInv,function(e,val){
+        if(val.productId == $('#product_id').find(":selected").val()){
+            swal("Product is already added !");
+            e.preventDefault();
+            return false;
+        }   
+    });
+
+
+
     var rows = "";
     rowindex=1+rowindex;
     var productName=$('#product_id option:selected').text();
@@ -158,7 +169,8 @@ function addGrnDetail(){
      
     tableDataInv.push({
         tableindex : rowindex,    
-        productName : $('#product_id option:selected').val() ,
+        productId : $('#product_id option:selected').val() ,
+        productName : $('#product_id option:selected').text() ,
         ProductQuantity: modalProductQuantity,
         ProductPrice: modalProductPrice,
         PurchasedCurrency: modalPurchasedCurrency,
@@ -407,6 +419,20 @@ function addGrnDetailEditTime(){
     }
 
 
+    var table = $("#exampleInvEdit tbody");
+    table.find('tr').each(function (i, el) {
+        var $tds = $(this).find('td');
+        // console.log($tds.eq(0).text());
+        
+        if($tds.eq(0).text()== $('#product_id').find(":selected").val()){
+            swal("Product is already added !");
+            e.preventDefault();
+            return false;
+        }   
+    });
+
+
+
     var rows = "";
     rowindex=1+rowindex;
     var productName=$('#product_id option:selected').text();
@@ -416,14 +442,15 @@ function addGrnDetailEditTime(){
     var modalExchangeRate = $('#modal_exchange_rate').val();
     var modalPriceInPkr = $('#modal_price_in_pkr').val();
 
-    rows += "<tr id="+rowindex+"><td>" + productName + "</td><td>" + modalProductQuantity + "</td><td >" + modalProductPrice + "</td><td>" + modalPurchasedCurrency + "</td><td>" + modalExchangeRate + "</td><td>" + modalPriceInPkr + '</td><td style="text-align:center"><a id="icon-toggle-deleteInvRow" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td></tr>' ;
+    rows += "<tr id="+rowindex+"><td style='display:none'>"+$('#product_id option:selected').val()+"<td>" + productName + "</td><td>" + modalProductQuantity + "</td><td >" + modalProductPrice + "</td><td>" + modalPurchasedCurrency + "</td><td>" + modalExchangeRate + "</td><td>" + modalPriceInPkr + '</td><td style="text-align:center"><a id="icon-toggle-deleteInvRow" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td></tr>' ;
 
     var tbody = $("#exampleInvEdit tbody");
     tbody.prepend(rows);
      
     tableDataInv.push({
         tableindex : rowindex,    
-        productName : $('#product_id option:selected').val() ,
+        productId : $('#product_id option:selected').val() ,
+        productName : $('#product_id option:selected').text() ,
         ProductQuantity: modalProductQuantity,
         ProductPrice: modalProductPrice,
         PurchasedCurrency: modalPurchasedCurrency,

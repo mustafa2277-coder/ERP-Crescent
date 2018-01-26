@@ -131,6 +131,7 @@
                                     <tbody>
                                         @foreach ($grn as $grn)
                                         <tr id='{{$grn->id}}'>
+                                            <td style="display:none">{{ $grn->product_id}}</td>
                                             <td >{{ $grn->pName}}</td>
                                             <td >{{ $grn->product_quantity}}</td>
                                             <td >{{ $grn->purchased_price}}</td>
