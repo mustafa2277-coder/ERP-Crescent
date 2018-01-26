@@ -84,11 +84,13 @@ Route::post('/updateJournal','JournalController@UpdateJournal')->middleware('aut
 /*----------------------------------Journal Entry---------------------------------------*/
 Route::match(['get', 'post'],'/getJournalEntries','JournalController@GetJournalEntries')->middleware('auth');
 Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm')->middleware('auth');
-Route::post('/insertJournalEntry','JournalController@InsertJournalEntry')->middleware('auth');
+Route::post('/insertJournalEntry','JournalController@InsertJournalEntry')->middleware('auth');//OLD INSERTION ROUTE
+Route::post('/insertNJournalEntry','JournalController@InsertNJournalEntry')->middleware('auth');//New INSERTION ROUTE
 Route::post('/getJournalEntriesByDate','JournalController@GetJournalEntriesByDate')->middleware('auth');
 Route::post('getProjectsByCustomerId' ,'JournalController@GetProjectsByCustomerId')->middleware('auth');
 Route::get('/getJournalEntriesListView' ,'JournalController@GetJournalEntriesListView')->middleware('auth');
 Route::get('/getFilterJournalEntriesList' ,'JournalController@GetFilterJournalEntriesList')->middleware('auth');
+Route::post('journalEntry/print' ,'JournalController@Print')->middleware('auth');
 
 /*----------------------------------Journal Item----------------------------*/
 Route::get('/getJournalItems','JournalController@GetJournalItems')->middleware('auth');

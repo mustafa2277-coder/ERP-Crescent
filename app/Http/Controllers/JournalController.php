@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use DB;
 use App\User;
 use App\Journal;
+use App\Project;
+use App\AccountHead;
 use App\JournalEntries;
 use App\JournalEntryDetail;
+use Auth;
 use Response;
 use PdfReport;
 use PDF;
@@ -477,7 +480,7 @@ class JournalController extends Controller
         return view('/Journal/journal_entry_add', compact('journals','accounts','projects'));
         
     }
-
+/*-----------------------------------------------------------------------OLD INSERTION FUNCTION------------------------------------------------------------------*/
     public function InsertJournalEntry(Request $request){
         //return $request;
 
@@ -531,6 +534,89 @@ class JournalController extends Controller
         return Response::json(['message'=>'inserted'],201);
        
     }
+/*-----------------------------------------------------------------------END OLD INSERTION FUNCTION--------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------NEW INSERTION FUNCTION----------------------------------------------------------------*/
+public function InsertNJournalEntry(Request $request){
+
+        $journal = DB::table('journal')->where('id',$request->journalId)->first();
+
+        $entryNumber =  $this->GenerateJournalEntryNum(strtoupper($journal->voucherPrefix));
+ 
+
+         
+
+        $journalEntry = new JournalEntries;
+       
+        $journalEntry->journalId = $request->journalId;
+        $journalEntry->date_post = date("Y-m-d",strtotime(str_replace('/', '-', $request->datePost))); 
+        $journalEntry->reference = $request->reference;
+        $journalEntry->entryNum  = $entryNumber;
+        $journalEntry->projectid = $request->projectId;
+        $journalEntry->save();
+
+        // generate entry number  or voucher number    
+        //$entryNumber.="/".date('Y')."/".$journalEntry->id;
+
+        // JournalEntries::where('id','=',$journalEntry->id)->update([
+        // 'entryNum'         => $entryNumber
+        
+        // ]);
+            //return $request->credit;
+            for ($i=0; $i <$request->rowTotal; $i++){
+                if($request->debit[$i]== 0){
+                    $isDebit = false;
+                    $amount = $request->credit[$i];
+                 }
+                
+                if($request->credit[$i]== 0){
+                    $isDebit = true;
+                    $amount = $request->debit[$i];
+                 }
+                $account=$request->acc[$i];
+
+                $dataSet[$i] = [
+                    'amount'         => $amount,
+                    
+                    'journalEntryid' => $journalEntry->id,
+                    'accHeadId'      => $account,
+                    'isDebit'        => $isDebit
+                ];
+    
+                
+            }
+            
+            JournalEntryDetail::insert($dataSet); 
+        
+         /* for ($i=0; $i <sizeof($request->entryDetail) ; $i++) { 
+            if($request->entryDetail[$i]['debit'] == 0){
+               $isDebit = false;
+               $amount = $request->entryDetail[$i]['credit'];
+            }
+            else{
+               $isDebit = true;
+               $amount = $request->entryDetail[$i]['debit'];
+               
+            }
+                
+            $dataSet[$i] = [
+                            'amount'         => $amount,
+                            
+                            'journalEntryid' => $journalEntry->id,
+                            'accHeadId'      => $request->entryDetail[$i]['accountId'],
+                            'isDebit'        => $isDebit
+                        ];
+            }
+        
+            JournalEntryDetail::insert($dataSet);
+         */
+
+        return Response::json(['message'=>'inserted'],201);
+   
+}
+
+
+/*-----------------------------------------------------------------------END NEW INSERTION FUNCTION--------------------------------------------------------------*/
 
 /*----------------------------------Journal Item-------------------------------*/
 
@@ -608,17 +694,19 @@ class JournalController extends Controller
 
 
     $estmEntryNum  =  $currentPrefix."/".$currentMonth."/".$currentYear;
-
+    
     $journalEntry =  DB::table('journalentries')
                         ->select('journalentries.entryNum')
                          ->where('entryNum','LIKE','%'.$estmEntryNum.'%')
                          ->orderby('id','desc')
                          ->first(); 
+/* return $journalEntry; */
 
     if($journalEntry != null){
         $rest = substr($journalEntry->entryNum, 12);
         $genEntryNum = $estmEntryNum."/".(intVal($rest) + 1);
-
+       /*  var_dump($journalEntry);
+        exit(); */
     }
 
     else
@@ -812,6 +900,52 @@ public function GetJournalItemsPdf(Request $request){
 
 /*--------------------------------------------------------------------End Print Journal Items PDF--------------------------------------------------------------------------- */
 
+/*---------------------------------------------------------------Print Journal Entries before submission-------------------------------------------------------------------- */
+public function Print(Request $request){
+
+    $user=Auth::user();
+    $user=$user->name;
+    $debit=[];
+    $credit=[];
+    $acc=[];
+    $accCode=[];
+    $journal="";
+    $project="";
+    $date="";
+    $ref="";
+    $totalCredit="";
+    $totalDebit="";
+    /* return $request->creditAmt; */
+
+    $rows=$request->rowTotal;
+
+    for($i=1;$i<=$rows;$i++){
+        $account=AccountHead::where('id',$request->acc[$i])->get();
+        $acc[$i-1]=$account[0]->name;
+        $accCode[$i-1]=$account[0]->code;
+        $debit[$i-1]=$request->debit[$i];
+        $credit[$i-1]=$request->credit[$i];
+    }
+    $proj=Project::find($request->project_id);
+    $project=$proj->title;
+
+    $jour=Journal::find($request->journal_id);
+    $journal=$jour->name;
+
+    $date=$request->pdate;
+    $ref=$request->reference;
+    $totalCredit=$request->creditAmt;
+    $totalDebit=$request->debitAmt;
+
+    //return $proj;
+    //return [$debit,$credit,$acc,$journal,$project,$date,$ref,$totalCredit,$totalDebit];
+    //return $rows;
+    $pdf = PDF::loadView('/Journal/printBlade/jEPrint',compact('debit','credit','acc','journal','project','date','ref','totalCredit','totalDebit','rows','accCode','user'));
+                    return $pdf->stream();
+    //return view('/Journal/printBlade/jEPrint',compact('debit','credit','acc','journal','project','date','ref','totalCredit','totalDebit','rows','accCode'));
+}
+
+/*----------------------------------------------------------End Print Journal Entries before submission---------------------------------------------------------------------- */
 
 
 }

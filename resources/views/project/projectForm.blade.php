@@ -101,12 +101,12 @@
                                         </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="form-label">Start Date*</label>
-                                    <input type="text" id="date_post1" name="start" class="stDate form-control" placeholder="dd/mm/yyyy" value="{{date('d/m/Y', strtotime($projects[0]->start))}}" required>
+                                    <label class="form-label">Start Date</label>
+                                    <input type="text" id="date_post1" name="start" class="stDate form-control" placeholder="dd/mm/yyyy" value="{{date('d/m/Y', strtotime($projects[0]->start))}}">
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="form-label">End Date*</label>
-                                    <input type="text" name="end" id="date_post" class="edDate form-control" placeholder="dd/mm/yyyy"  value="{{date('d/m/Y', strtotime($projects[0]->end))}}" required>
+                                    <label class="form-label">End Date</label>
+                                    <input type="text" name="end" id="date_post" class="edDate form-control" placeholder="dd/mm/yyyy"  value="{{date('d/m/Y', strtotime($projects[0]->end))}}">
                                 </div>
                                 
                                 <div class="form-group form-float">
@@ -120,7 +120,7 @@
                                     </select>
                                     </div>
                                 </div>
-                                <div class="form-group form-float">
+                                {{--  <div class="form-group form-float">
                                     <div class="col-sm-6">
                                         <label class="form-label">Receiveable Account Head*</label>
                                         <select  id="type_id" name="debit" class="form-control show-tick" data-live-search="true" required>
@@ -141,7 +141,7 @@
                                         @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div>  --}}
                                 {{--  <div class="form-group form-float">
                                     <div class="form-line">
                                         <textarea name="description" cols="30" rows="5" class="form-control no-resize" required></textarea>
@@ -202,12 +202,12 @@
                                         </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="form-label">Start Date*</label>
-                                    <input type="text"  name="start" class="stDate form-control" placeholder="dd/mm/yyyy" required>
+                                    <label class="form-label">Start Date</label>
+                                    <input type="text"  name="start" class="stDate form-control" placeholder="dd/mm/yyyy" >
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="form-label">End Date*</label>
-                                    <input type="text" name="end"  class="edDate form-control" placeholder="dd/mm/yyyy" required>
+                                    <label class="form-label">End Date</label>
+                                    <input type="text" name="end"  class="edDate form-control" placeholder="dd/mm/yyyy" >
                                 </div>
                                 
                                 <div class="form-group form-float">
@@ -221,7 +221,7 @@
                                     </select>
                                     </div>
                                 </div>
-                                <div class="form-group form-float">
+                                {{--  <div class="form-group form-float">
                                     <div class="col-sm-6">
                                         <label class="form-label">Receiveable Account Head*</label>
                                         <select  id="type_id" name="debit" class="form-control show-tick" data-live-search="true" required>
@@ -243,7 +243,7 @@
                                     </select>
                                     </div>
                                 </div>
-                                
+                                  --}}
                                 
                                 
                                 {{--  <div class="form-group form-float">

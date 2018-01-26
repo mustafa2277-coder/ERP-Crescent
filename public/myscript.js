@@ -77,17 +77,18 @@
         var creditTotal = 0;
         var invalidentry = 0; 
         var countAcc = 1; // for checking there are more than two accounts
+       
 
         $.each(tableData,function(e,val){
-
+            
             if((parseFloat(val.debit) !=0 && parseFloat(val.credit) ==0) || (parseFloat(val.debit) ==0 && parseFloat(val.credit) !=0 )){
-
+                
             debitTotal += parseFloat(val.debit);  
             creditTotal += parseFloat(val.credit); 
 
             } 
             else{
-
+                
                 invalidentry = 1; return false;      
             }
 
@@ -95,7 +96,7 @@
 
         // for checking there are more than two accounts
         $.each(tableData,function(e,val){
-
+            alert('parseFloat(val.credit)');
             $.each(tableData,function(e2,val2){
             if(val.accountId != val2.accountId){
                 countAcc +=1;
@@ -254,7 +255,7 @@ $('#New-Entry-Modal').on('hidden.bs.modal', function () {
 
                 //
             //document.getElementById("person").reset();
-            $('#New-Entry-Modal').modal('hide');    
+            /* $('#New-Entry-Modal').modal('hide');  */   
             calculate();
 
         }
