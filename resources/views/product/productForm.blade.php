@@ -124,15 +124,35 @@
                                     </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label">Manufacture Lead Time</label>
-                                    <input type="text" id="date_post1" name="mlt" class="datepicker form-control" placeholder="Choose Date..." value="{{date('d/m/Y', strtotime($products->manfLeadTime))}}" >
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label">Customer Lead Time</label>
-                                    <input type="text" name="clt" id="date_post" class="datepicker form-control" placeholder="Choose Date..."  value="{{date('d/m/Y', strtotime($products->custLeadTime))}}" >
-                                </div>
                                 
+                                <div class="col-sm-12 form-group form-float">
+                                    <div class="col-sm-6">
+                                        <div class="form-line">
+                                            <input type="text" value="{{$products->manfLeadTime}}"  class="form-control" maxlength="20" name="mlt"  >
+                                            <label class="form-label">Manufacture Lead Time (Days)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-line">
+                                            <input type="text" value="{{$products->custLeadTime}}"  class="form-control" maxlength="20" name="clt"  >
+                                            <label class="form-label">Customer Lead Time (Days)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 form-group form-float">
+                                    <div class="col-sm-6">
+                                        <div class="form-line">
+                                            <input type="text" value="{{$products->reorder_level}}"  class="form-control" maxlength="20" name="rol"  >
+                                            <label class="form-label">Re-Order Level</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-line">
+                                            <input type="text" value="{{$products->reorder_quantity}}"  class="form-control" maxlength="20" name="roq"  >
+                                            <label class="form-label">Re-Order Quantity</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 
                                 <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
                             </form>
@@ -173,7 +193,7 @@
                                 <div class="form-group form-float">
                                     <div class="col-sm-12">
                                         <label class="form-label">Unit</label>
-                                        <select  id="type_id" name="unit" class="form-control show-tick" data-live-search="true">
+                                        <select  id="type_id" name="unit" class="form-control show-tick" data-live-search="true" required>
                                         <option value="" selected="selected" disabled="disabled">Select Unit</option>
                                         @foreach ($units as $unit)    
                                             <option value="{{$unit->id}}" >{{$unit->name}}</option>
@@ -204,16 +224,36 @@
                                     </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label">Manufacture Lead Time</label>
-                                    <input type="text" id="date_post1" name="mlt" class="datepicker form-control" placeholder="Choose Date..." value="" >
-                                </div>
-                                <div class="col-sm-6">
-                                    <label class="form-label">Customer Lead Time</label>
-                                    <input type="text" name="clt" id="date_post" class="datepicker form-control" placeholder="Choose Date..."  value="" >
-                                </div>
+
                                 
-                                
+                                <div class="col-sm-12 form-group form-float">
+                                    <div class="col-sm-6">
+                                        <div class="form-line">
+                                            <input type="text" value="{{ old('mlt') }}"  class="form-control" maxlength="20" name="mlt"  >
+                                            <label class="form-label">Manufacture Lead Time (Days)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-line">
+                                            <input type="text" value="{{ old('clt') }}"  class="form-control" maxlength="20" name="clt"  >
+                                            <label class="form-label">Customer Lead Time (Days)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 form-group form-float">
+                                    <div class="col-sm-6">
+                                        <div class="form-line">
+                                            <input type="text" value="{{ old('rol') }}"  class="form-control" maxlength="20" name="rol"  >
+                                            <label class="form-label">Re-Order Level</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-line">
+                                            <input type="text" value="{{ old('roq') }}"  class="form-control" maxlength="20" name="roq"  >
+                                            <label class="form-label">Re-Order Quantity</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
                             </form>
 

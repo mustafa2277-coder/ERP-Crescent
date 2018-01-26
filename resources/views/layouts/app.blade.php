@@ -495,6 +495,20 @@
                 
                                         </a>
                                 </li>
+                                <li>
+                                        <a href="{{url('/challan')}}">
+                                            <i class="material-icons">border_left</i>
+                                            <span>Delivery Challan</span>
+                
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="{{url('/stock')}}">
+                                            <i class="material-icons">border_left</i>
+                                            <span>Stock Taking</span>
+                
+                                        </a>
+                                </li>
                                 
                                 
                             </ul>

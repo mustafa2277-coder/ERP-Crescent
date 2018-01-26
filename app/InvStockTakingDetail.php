@@ -18,5 +18,6 @@ class InvStockTakingDetail extends Model
         'reason_of_diff',
         'user_created',
         'user_updated',
+        'stock_taking_id',
         );
 }

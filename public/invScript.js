@@ -52,11 +52,7 @@ $(document).on('click', 'form button[type=submit]', function(e) {
         e.preventDefault(); //prevent the default action
         return false;
     }
-    if($('#isValidated').val() == "") {
-        swal("Please select Date!");
-        e.preventDefault(); //prevent the default action
-        return false;
-    }
+    
 
 
     var rowCount = $('#exampleInv tbody tr').length;
@@ -208,28 +204,70 @@ function editGrnDetail(id){
 
 
 function deleteGrnDetail(id){
-
-     $.ajax({
-        url: "http://localhost/ERP/deleteGrnDetail?id="+id,
+    $.ajax({
+        url: "http://localhost/ERP/getGrnDetailBeforeDelete?id="+id,
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-        // data: id,
+        
         //crossDomain: true,
-        // dataType: "json",
+        dataType: "json",
            
         success: function(data) {
-            if (data) {
-                alert(id);
-                $("#"+id).remove();
-                console.log("deleted");
+            if (data.success=="true") {
+                $.ajax({
+                    url: "http://localhost/ERP/deleteGrnDetail?id="+id,
+                    type: "GET",
+                    headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                    // data: id,
+                    //crossDomain: true,
+                    // dataType: "json",
+                       
+                    success: function(data) {
+                        if (data) {
+                            //alert(id);
+                            $("#"+id).remove();
+                            console.log("deleted");
+                        }
+                        
+                    }
+
+                });   
             }
             
         }
 
-    });  
+    });
+
 }
+
+
+function deleteGrnDetailPlus(id){
+    $.ajax({
+                    url: "http://localhost/ERP/deleteGrnDetail?id="+id,
+                    type: "GET",
+                    headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                    // data: id,
+                    //crossDomain: true,
+                    // dataType: "json",
+                       
+                    success: function(data) {
+                        if (data) {
+                            //alert(id);
+                            $("#"+id).remove();
+                            console.log("deleted");
+                        }
+                        
+                    }
+
+                });
+}
+
 
 
 function updateGrnDetail(id){
@@ -297,11 +335,32 @@ function updateGrnDetail(id){
         PriceInPkr: modalPriceInPkr, 
     });
 
-    deleteGrnDetail(id);
+    
     var tbody = $("#exampleInvEdit tbody");
     tbody.prepend(rows);
-     $('#inventryDetailEditModal').modal('hide');
-     $('#invPopupFormEdit')[0].reset(); 
+    $.ajax({
+        url: "http://localhost/ERP/getGrnDetailBeforeDelete?id="+id,
+        type: "GET",
+        headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+        
+        //crossDomain: true,
+        dataType: "json",
+           
+        success: function(data) {
+            if (data.success=="true") {
+                deleteGrnDetailPlus(id);
+                $('#inventryDetailEditModal').modal('hide');
+                $('#invPopupFormEdit')[0].reset(); 
+            }
+            
+        }
+
+    });
+
+
+     
 }
 
 
@@ -381,7 +440,7 @@ function addGrnDetailEditTime(){
 
 
 function updateGrn(id){
-    alert(id);
+    //alert(id);
     if($('#bill_no_edit').val() == "") {
         swal("Please select Bill No!");
         e.preventDefault(); //prevent the default action

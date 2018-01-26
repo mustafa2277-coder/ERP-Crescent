@@ -18,17 +18,19 @@ class ProductController extends Controller
          $productList = DB::table('products')
         
             ->join('units', 'products.unitId', '=', 'units.id')
+
+            ->leftJoin('warehouseproduct', 'warehouseproduct.product_id', '=', 'products.id')
             
             ->join('productcategories', 'productcategories.id', '=', 'products.categoryId')
 
-            ->select( 'products.*','units.name as unit','productcategories.name as category')
+            ->select( 'products.*','warehouseproduct.quantity_in_hand','units.name as unit','productcategories.name as category')
             
             //->distinct()
 
             //->get();
 
             ->get();
-            //return $productList;
+            // return $productList;
             //return $productList;
         return view('product/product_list')->with('productList',$productList);
     }
@@ -59,8 +61,10 @@ class ProductController extends Controller
         $product->categoryId=$request->categoryId;
         $product->unitId=$request->unit;
         $product->type=$request->type;
-        $product->manfLeadTime=date("Y-m-d",strtotime(str_replace('/', '-', $request->mlt)));
-        $product->custLeadTime=date("Y-m-d",strtotime(str_replace('/', '-', $request->clt)));
+        $product->reorder_level=$request->rol;
+        $product->reorder_quantity=$request->roq;
+        $product->manfLeadTime=$request->mlt;
+        $product->custLeadTime=$request->clt;
         
         $product->save();
        
@@ -98,10 +102,11 @@ class ProductController extends Controller
                 'unitId'=>$request->unit,
                 'categoryId'=>$request->categoryId,
                 'type'=>$request->type,
-                'manfLeadTime'=>date("Y-m-d",strtotime(str_replace('/', '-', $request->mlt))),
-                'custLeadTime'=>date("Y-m-d",strtotime(str_replace('/', '-', $request->clt)))
+                'reorder_level'=>$request->rol,
+                'reorder_quantity'=>$request->roq,
+                'manfLeadTime'=>$request->mlt,
+                'custLeadTime'=>$request->clt
                 ]);
        return redirect('productList');
-        
     }
 }
