@@ -55,7 +55,7 @@
                            
                                 <h2>
                                      Journals
-                                     <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournal')}}" style="float:  right;"> 
+                                     <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new"  accesskey="+" tabindex="1" href="{{ url('/addJournal')}}" style="float:  right;"> 
                                         <i class="material-icons" title="Create New Account Head">add</i>
                                     </a>
                                 </h2>

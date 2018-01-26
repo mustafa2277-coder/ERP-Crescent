@@ -64,7 +64,7 @@
                                 <input type="hidden" name="id" value="{{$customer[0]->id}}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="name" maxlength="100" value="{{$customer[0]->name}}" required>
+                                        <input type="text" class="form-control" name="name" maxlength="100" value="{{$customer[0]->name}}" autofocus required>
                                         <label class="form-label">Name</label>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                                 {{ csrf_field() }}
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="name" required>
+                                        <input type="text" class="form-control" name="name" autofocus required>
                                         <label class="form-label">Name</label>
                                     </div>
                                 </div>

@@ -42,7 +42,6 @@
                     <li class="active"><a>Update Account Heads</a></li>
                 </ol>
             </div>
-            <a href="{{url('/home')}}">Home >></a><a href="{{url('/getAccountHeads')}}">Account Heads>></a><a>Update Account Heads</a>
             
         <div class="container-fluid">
           
@@ -71,7 +70,7 @@
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="hidden"  name="acchead_id" value='{{$record->id}}'> 
-                                        <input type="text" class="form-control" id="acchead_code" value='{{$record->code}}' name="acchead_code" required>
+                                        <input type="text" class="form-control" id="acchead_code" value='{{$record->code}}' name="acchead_code" autofocus required>
                                         <label class="form-label">Code</label>
                                     </div>
                                     @if ($errors->has('acchead_code'))
@@ -82,7 +81,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" id="acchead_name" value='{{$record->name}}' name="acchead_name" maxlength="100" required>
+                                        <input type="text" class="form-control" id="acchead_name" value='{{$record->name}}' name="acchead_name" maxlength="100"  required>
                                         <label class="form-label">Name</label>
                                     </div>
                                     @if ($errors->has('acchead_name'))
@@ -165,14 +164,14 @@
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="hidden"  name="parent_id" value='{{$parentId}}'> 
-                                        <input type="text" class="form-control" id="acchead_code"  name="acchead_code" required>
+                                        <input type="text" class="form-control" id="acchead_code"  name="acchead_code" autofocus required>
                                         <label class="form-label">Code</label>
                                     </div>
-                                      @if ($errors->has('acchead_code'))
+                                    @if ($message = Session::get('error'))
                                     <span class="help-block" style="color: red; font-size: 12px;">
-                                        * {{ $errors->first('acchead_code') }}
+                                        * {{$message}}
                                     </span>
-                                @endif
+                                    @endif
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">

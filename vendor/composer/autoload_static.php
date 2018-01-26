@@ -105,6 +105,8 @@ class ComposerStaticInit216780efb1225662dd30737fca60e071
         'C' => 
         array (
             'Cron\\' => 5,
+            'Crabbly\\FPDF\\' => 13,
+            'Codedge\\Fpdf\\' => 13,
             'Carbon\\' => 7,
         ),
         'B' => 
@@ -281,6 +283,14 @@ class ComposerStaticInit216780efb1225662dd30737fca60e071
         array (
             0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
         ),
+        'Crabbly\\FPDF\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/crabbly/fpdf-laravel/src',
+        ),
+        'Codedge\\Fpdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/codedge/laravel-fpdf/src',
+        ),
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
@@ -414,7 +424,11 @@ class ComposerStaticInit216780efb1225662dd30737fca60e071
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
+        'Codedge\\Fpdf\\Facades\\Fpdf' => __DIR__ . '/..' . '/codedge/laravel-fpdf/src/Facades/Fpdf.php',
+        'Codedge\\Fpdf\\FpdfServiceProvider' => __DIR__ . '/..' . '/codedge/laravel-fpdf/src/FpdfServiceProvider.php',
+        'Codedge\\Fpdf\\Fpdf\\Fpdf' => __DIR__ . '/..' . '/codedge/laravel-fpdf/src/Fpdf/Fpdf.php',
         'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
+
         'CreateInvDcDetailTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_11_165603_create_inv_dc_detail_table.php',
         'CreateInvDeliveryChallanTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_11_165300_create_inv_delivery_challan_table.php',
         'CreateInvGrnDetailTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_11_163915_create_inv_grn_detail_table.php',
@@ -422,6 +436,11 @@ class ComposerStaticInit216780efb1225662dd30737fca60e071
         'CreateInvStockTakingDetailTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_11_165932_create_inv_stock_taking_detail_table.php',
         'CreateInvStockTakingTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_11_165758_create_inv_stock_taking_table.php',
         'CreateInvWarehouseTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_11_162850_create_inv_warehouse_table.php',
+
+        'Crabbly\\FPDF\\Exception' => __DIR__ . '/..' . '/crabbly/fpdf-laravel/src/Exception.php',
+        'Crabbly\\FPDF\\FPDF' => __DIR__ . '/..' . '/crabbly/fpdf-laravel/src/Fpdf.php',
+        'Crabbly\\FPDF\\FpdfServiceProvider' => __DIR__ . '/..' . '/crabbly/fpdf-laravel/src/FpdfServiceProvider.php',
+
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateUnitsTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_28_172049_create_units_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
@@ -547,6 +566,7 @@ class ComposerStaticInit216780efb1225662dd30737fca60e071
         'Dotenv\\Loader' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Loader.php',
         'Dotenv\\Validator' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Validator.php',
         'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
+        'FPDF' => __DIR__ . '/..' . '/setasign/fpdf/fpdf.php',
         'Faker\\Calculator\\Iban' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Iban.php',
         'Faker\\Calculator\\Inn' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Inn.php',
         'Faker\\Calculator\\Luhn' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Luhn.php',

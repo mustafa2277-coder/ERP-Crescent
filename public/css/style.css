@@ -4033,8 +4033,8 @@ section.content {
   -moz-border-radius: 0;
   -ms-border-radius: 0;
   border-radius: 0; }
-  .bootstrap-select .dropdown-toggle:focus, .bootstrap-select .dropdown-toggle:active {
-    outline: none !important; }
+  /* .bootstrap-select .dropdown-toggle:focus, .bootstrap-select .dropdown-toggle:active {
+    outline: none !important; } */
   .bootstrap-select .bs-searchbox,
   .bootstrap-select .bs-actionsbox,
   .bootstrap-select .bs-donebutton {
@@ -4068,7 +4068,7 @@ section.content {
     background-color: #eee !important;
     color: #555 !important; }
   .bootstrap-select .dropdown-menu .active a {
-    background-color: transparent;
+    background-color: #eeeeee;
     color: #333 !important; }
   .bootstrap-select .dropdown-menu .notify {
     background-color: #F44336 !important;
@@ -5087,7 +5087,7 @@ section.content {
       -o-transition: 0.25s ease-in;
       -webkit-transition: 0.25s ease-in;
       transition: 0.25s ease-in;
-      border-bottom: 2px solid #1f91f3; }
+      border-bottom: 1px solid transparent; }
     .form-group .form-line .form-label {
       font-weight: normal;
       color: #aaa;

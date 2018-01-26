@@ -73,11 +73,11 @@
                               
                         </div>
                         <div class="body">
-                            <form id="form_validation" name = "form" method="POST">
+                            <form id="form_validation" name ="form" action="{{ url('/journalEntry/print') }}" method="POST">
                                  {{ csrf_field() }}
                              <div class="row clearfix">
                                 <div class="col-sm-6">
-                                    <select  id="journal_id" name="journal_id" class="form-control show-tick" data-live-search="true" required>
+                                    <select  id="journal_id" name="journal_id" class="form-control show-tick" data-live-search="true"  tabindex="1" required>
                                          <option value="0" selected="selected" disabled="disabled"><strong>Select Journal</strong></option>
                                         @foreach ($journals as $journal)    
                                         <option value="{{$journal->id}}">{{$journal->name}}</option>
@@ -87,7 +87,7 @@
                                 <div class="col-sm-6" id="div_project">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                    <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" required>
+                                    <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" tabindex="2"  required>
                                          <option value="0" selected="selected" disabled="disabled">Select Project</option>
                                         @foreach ($projects as $project)    
                                         <option value="{{$project->id}}">{{$project->title}}</option>
@@ -100,8 +100,8 @@
                                     <div class="col-sm-6">
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                            <input type="text" id="date_post" name="date_post" class="datepicker form-control">
-                                            <label class="form-label">Start Date</label>
+                                            <input type="text"  name="pdate" id="pdate" tabindex="3" class="form-control date" >
+                                            <label class="form-label">Date (dd/mm/yyyy)</label>
                                             </div>
                                         </div>
                                     </div>
@@ -109,22 +109,23 @@
                                   <div class="col-sm-6">
                                     <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" id="reference"  name="reference" required>
+                                        <input type="text" class="form-control" id="reference" tabindex="4" name="reference" required>
                                         <label class="form-label">Reference</label>
                                     </div>
                                 </div>
                                     </div>    
                             </div>
+                            <input type="hidden" class="form-control" id="rowTotal" name="rowTotal">
                             <!-- <div class="table-responsive"> -->
 
                                 <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
                                    <thead>
                                         <tr>
                                             <th>ACCOUNT</th>
-                                            <th>PROJECT</th>
+                                            <th></th>
                                             <th style='text-align:center'>DEBIT</th>
                                             <th style='text-align:center'>CREDIT</th>
-                                            <th></th>
+                                            
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -137,9 +138,16 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td colspan="5" >
-                                                <a class="btn btn-default waves-effect" data-toggle="modal" data-target="#New-Entry-Modal" style="float: left;"> 
+                                         <tr>
+                                           {{-- <td colspan="5" >
+                                                <a class="btn btn-default waves-effect" data-toggle="modal" data-target="#New-Entry-Modal" tabindex="5" accesskey="+" style="float: left;"> 
+                                                <i class="material-icons">add</i>
+                                               </a>    
+                                              
+                                            </td>  --}}
+
+                                             <td colspan="5" >
+                                                <a class="btn btn-default waves-effect" id ="appendRow" accesskey="a" style="float: left;"> 
                                                 <i class="material-icons">add</i>
                                                </a>    
                                               
@@ -150,81 +158,10 @@
                                     </tbody>
                                 </table>
                             <!-- </div> -->
-                            <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
+                            <button class="btn btn-primary waves-effect" id="submit" accesskey="s">SUBMIT</button>
+                            <button class="btn btn-primary waves-effect" type="submit" id="download" >Print</button>
 
                             </form>
-
-    
-<div class="modal fade" id="New-Entry-Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">New</h4>
-                </div>
-                <div class="modal-body">
-
-                    <div id="data">
-                             <form id="person">
-                                 <div class="col-sm-12" id="div_account">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                    <select  id="acc_id" name="acc_id" class="form-control show-tick" data-live-search="true" required>
-                                         <option value="0" selected="selected" disabled="disabled">Select Account</option>
-                                        @foreach ($accounts as $account)    
-                                        <option value="{{$account->id}}">{{$account->name}}</option>
-                                        @endforeach
-                                    </select>
-                                         </div>
-                                    </div>
-                                </div>
-                               <!--  <div class="col-sm-6" id="div_project">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                    <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" required>
-                                         <option value="0" selected="selected" disabled="disabled">Select Project</option>
-                                        @foreach ($projects as $project)    
-                                        <option value="{{$project->id}}">{{$project->title}}</option>
-                                        @endforeach
-                                    </select>
-                                         </div>
-                                    </div>
-                                </div> -->
-                                <div class="col-sm-6">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <input type="text" class="form-control" id="modal_debit"  name="modal_debit" required>
-                                            <label class="form-label">Debit</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <input type="text" class="form-control" id="modal_credit"  name="modal_credit" required>
-                                            <label class="form-label">Credit</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </form>
-                </div>
-                <div class="modal-footer">
-              
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="AddData()">Save</button>
-                </div>
-            </div>
-             </div>
-              </div>
-               </div>
-
-
-
-
-
-
-
 
                         </div>
                     </div>
@@ -264,6 +201,8 @@
     <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{asset('public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
 
+    <!-- Input Mask  Plugin Js -->
+    <script src="{{asset('public/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script> 
 
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
@@ -272,7 +211,107 @@
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
 
-    <script src="{{asset('public/myscript.js')}}"></script>
+    {{--  <script src="{{asset('public/myscript.js')}}"></script>  --}}
+    <script src="{{asset('public/Ejournal.js')}}"></script>
   
+    <script type="text/javascript">
+        var selectOpt = ""; 
+        var ndata=0;
+        $(document).ready(function() {
+               $('.date').inputmask({ mask: "99/99/9999"});
+                 
+                @foreach ($accounts as $account)    
+                selectOpt += "<option value='{{$account->id}}'>{{$account->name}}</option>";
+                @endforeach
+            
+                
+       });
 
+        
+        $('#appendRow').on('click', function () {
+            var i=$('#rowTotal').val();
+            if(i>0){
+                var debit=$("#debit"+i).val();
+                var credit=$("#credit"+i).val();
+                //alert(debit);
+                //alert(credit);
+                if(debit==""&&credit=="" || debit=='0'&&credit=='0'){
+                    swal("PLease Enter the values Properly");
+                   
+                    return false;
+                }
+                if(debit=="0"&&credit=="" || debit==''&&credit=='0'){
+                    swal("PLease Enter the values Properly");
+                   
+                    return false;
+                }
+               /* if(debit!=null&&credit!=null || debit='0'&&credit='0' ){
+                    swal("Invalid Entry");
+                    
+                    return false;
+                }*/
+            }
+
+            ndata++;
+         
+         
+
+
+        row = "<tr><td> <select  id='acc"+ndata+"' name='acc["+ndata+"]' class='form-control show-tick' data-live-search='true'  required>"
+                                   +selectOpt+
+                                    "</select></td><td></td><td style='text-align:center'><input type='number' name='debit["+ndata+"]' id='debit"+ndata+"' class='form-control debit key' value='0' ></td><td style='text-align:center'><input type='number' name='credit["+ndata+"]' id='credit"+ndata+"' class='form-control credit key' value='0'></td><td style='text-align:center'><a id='icon-toggle-delete2' class='removebutton'>  <span class='glyphicon glyphicon-trash' aria-hidden='true'></span> </a></td></tr>";
+                            $('#example tbody').append(row);
+
+                            $('#rowTotal').val(ndata);
+        });
+
+        /*$( ".key" ).keypress(function() {
+            var entry=$('#rowTotal').val();
+            if ( event.which == 13 ) {
+                event.preventDefault();
+                
+             }
+          });*/
+
+
+        
+        $('body').on('change','.debit,.credit',function(event){
+            calculate2(); 
+        });
+        function calculate2(){
+
+            var debitAmt = 0;
+            var creditAmt = 0;
+
+
+            var table = $("table tbody");
+            var rowCount = $('#example tbody tr').length;
+            //console.log(rowCount);
+            table.find('tr').each(function (i) {
+                if(i>0){
+                  
+                   var $tds = $(this).find('td');
+        
+                    debit = $tds.eq(2).find("input").val();
+                    
+                    debitAmt = parseFloat(debit) + debitAmt;
+
+                    credit = $tds.eq(3).find("input").val();
+                    creditAmt = parseFloat(credit) + creditAmt;
+
+                }
+            });
+            $('#total').closest('tr').remove();
+            var tbody = $("#example tfoot");
+            var row = "<tr id='total'><th colspan='2' style='text-align:center'>    Total</th><th style='text-align:center' id='debitAmt'>" + debitAmt +"</th><th style='text-align:center' id='creditAmt'>" + creditAmt +"</th><th><input type='hidden' name='debitAmt' class='form-control ' value='" + debitAmt +"' ><input type='hidden' name='creditAmt' class='form-control ' value='" + creditAmt +"' ></th></tr>";
+                tbody.append(row);
+            //debitTotal=$('#debitAmt').text();
+            //creditTotal=$('#creditAmt').text();
+            
+
+        }
+
+         
+        
+       </script>
 @endsection

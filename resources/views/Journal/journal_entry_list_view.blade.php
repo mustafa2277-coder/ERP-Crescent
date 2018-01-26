@@ -70,7 +70,7 @@
                            
                                 <h2>
                                      Journal Entries
-                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournalEntry')}}" style="float:right;"> 
+                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addJournalEntry')}}" accesskey="+"  style="float:right;"> 
                             <i class="material-icons" title="Create New">add</i>
                            </a>
                                 </h2>
@@ -105,7 +105,7 @@
                                                 <i class="material-icons">date_range</i>
                                             </span>
                                             <div class="form-line">
-                                            <input type="text" id="start_date" name="start_date" class="datepicker form-control">
+                                            <input type="text" id="start_date" name="start_date" class="form-control" placeholder="Start date (dd/mm/yyyy)" tabindex='1'>
                                             </div>
                                         </div>
 
@@ -118,7 +118,7 @@
                                                  
                                             </span>
                                             <div class="form-line">
-                                            <input type="text" id="end_date" name="end_date" class="datepicker form-control date">
+                                            <input type="text" id="end_date" name="end_date" class="form-control" placeholder="End date (dd/mm/yyyy)" tabindex='2' >
                                            
                                             </div>
                                         </div>
@@ -127,7 +127,7 @@
                                     <div class="col-md-3" id="div_journal">
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <select id="filter_journal" name="filter_journal" class="form-control show-tick" data-live-search="true">
+                                                <select id="filter_journal" name="filter_journal" class="form-control show-tick" data-live-search="true" tabindex='3'>
                                                     <option value="0" selected="selected"  >All Journals</option>
                                                     @foreach ($journals as $journal)    
                                                     <option value="{{$journal->id}}">{{$journal->name}}</option>
@@ -141,7 +141,7 @@
                                     <div class="col-md-3" id="div_customer">
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                                <select id="filter_customer" name="filter_customer" class="form-control show-tick" data-live-search="true">
+                                                <select id="filter_customer" name="filter_customer" class="form-control show-tick" data-live-search="true" tabindex='4'>
                                                     <option value="0" selected="selected" >All Customers</option>
                                                     @foreach ($customers as $customer)    
                                                     <option value="{{$customer->id}}">{{$customer->name}}</option>
@@ -227,6 +227,8 @@
     <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{asset('public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
 
+    <!-- Input Mask  Plugin Js -->
+    <script src="{{asset('public/plugins/jquery-inputmask/jquery.inputmask.bundle.js')}}"></script>
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
 
@@ -239,8 +241,10 @@
     $(document).ready(function() {
 
        var todayDate = new Date();
-       $('#start_date').val( todayDate.getDate() + '/' + (todayDate.getMonth() + 1) + '/' +  todayDate.getFullYear());
-       $('#end_date').val( todayDate.getDate() + '/' + (todayDate.getMonth() + 1) + '/' +  todayDate.getFullYear());
+       $('#start_date').inputmask({ mask: "99/99/9999"});
+       $('#end_date').inputmask({ mask: "99/99/9999"});
+       //$('#start_date').val( todayDate.getDate() + '/' + (todayDate.getMonth() + 1) + '/' +  todayDate.getFullYear());
+       //$('#end_date').val( todayDate.getDate() + '/' + (todayDate.getMonth() + 1) + '/' +  todayDate.getFullYear());
        $('#div_project').hide();
 
       var url  = $('#form_filter').attr('action');  
@@ -265,8 +269,8 @@
 
     });
 
-    $('#start_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
-    $('#end_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
+    //$('#start_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
+    //$('#end_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});  // for changing dateformat
      
     $('#form_filter').on('submit',function(e){
       e.preventDefault();
@@ -274,6 +278,18 @@
       var url  = $(this).attr('action');  
       var data = $(this).serializeArray();  
       var get  = $(this).attr('method');
+      var stdate=$('#start_date').val();
+      var eddate=$('#end_date').val();
+      if(moment(stdate, 'DD/MM/YYYY',true).isValid()==false) {
+          swal("Enter Start Date Properly");
+          e.preventDefault(); //prevent the default action
+          return false;
+      }
+      if(moment(eddate, 'DD/MM/YYYY',true).isValid()==false) {
+        swal("Enter End Date Properly");
+        e.preventDefault(); //prevent the default action
+        return false;
+    }
       //alert(data);
      // return false;
         $.ajax({

@@ -59,7 +59,7 @@
                                 <h2>
                                      Chart of Accounts
 
-                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new" href="{{ url('/addAccountHead/0')}}" style="float:  right;"> 
+                            <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" id="add_new" accesskey="+" tabindex="1"  href="{{ url('/addAccountHead/0')}}" style="float:  right;"> 
                             <i class="material-icons" title="Create New Account Head">add</i>
                            </a>
                                 </h2>

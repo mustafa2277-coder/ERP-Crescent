@@ -26,7 +26,7 @@
      });
 
     $(document).on('click', 'form button[type=submit]', function(e) {
-
+        
          e.preventDefault();
            
         if($('#journal_id').find(":selected").val() == 0) {
@@ -52,7 +52,13 @@
             e.preventDefault(); //prevent the default action
             return false;
         }
-
+       
+        var chkdate=$('.date').val();
+        if(moment(chkdate, 'DD/MM/YYYY',true).isValid()==false) {
+            swal("Enter Date Properly");
+            e.preventDefault(); //prevent the default action
+            return false;
+        }
 
         if($('#reference').val() == "") {
             swal("Empty Reference Field!");
@@ -72,17 +78,18 @@
         var creditTotal = 0;
         var invalidentry = 0; 
         var countAcc = 1; // for checking there are more than two accounts
+       
 
         $.each(tableData,function(e,val){
-
+            
             if((parseFloat(val.debit) !=0 && parseFloat(val.credit) ==0) || (parseFloat(val.debit) ==0 && parseFloat(val.credit) !=0 )){
-
+                
             debitTotal += parseFloat(val.debit);  
             creditTotal += parseFloat(val.credit); 
 
             } 
             else{
-
+                
                 invalidentry = 1; return false;      
             }
 
@@ -90,7 +97,7 @@
 
         // for checking there are more than two accounts
         $.each(tableData,function(e,val){
-
+            alert('parseFloat(val.credit)');
             $.each(tableData,function(e2,val2){
             if(val.accountId != val2.accountId){
                 countAcc +=1;
@@ -117,13 +124,13 @@
         submitEntry.entryDetail = tableData;
         submitEntry.journalId =  $('#journal_id').find(":selected").val();
         submitEntry.projectId =  $('#project_id').find(":selected").val();
-        submitEntry.datePost =  $('#date_post').val();
+        submitEntry.datePost =  $('#pdate').val();
         submitEntry.reference =  $('#reference').val();
 
         //console.log(tableData);
           e.preventDefault();
           $.ajax({
-            url: "http://localhost/ERP/erp1/insertJournalEntry",
+            url: "http://localhost/ERP/insertJournalEntry",
             type: "POST",
             headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -249,7 +256,7 @@ $('#New-Entry-Modal').on('hidden.bs.modal', function () {
 
                 //
             //document.getElementById("person").reset();
-            $('#New-Entry-Modal').modal('hide');    
+            /* $('#New-Entry-Modal').modal('hide');  */   
             calculate();
 
         }
