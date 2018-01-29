@@ -114,3 +114,43 @@ Route::get('/getFilterGeneralLedgerList2' ,'ReportController@GetFilterGeneralLed
 
 
 
+/*----------------------------------Inventory---------------------------------------*/
+Route::get('/warehouse' ,'InventoryController@warehouse_list')->middleware('auth');
+Route::get('/warehouseAdd' ,'InventoryController@warehouse_add')->middleware('auth');
+Route::post('/addWarehouse', 'InventoryController@addWarehouse')->middleware('auth');
+Route::get('/getEditWarehouse/{id}', 'InventoryController@getEditWarehouse')->middleware('auth');
+Route::post('/editWarehouse', 'InventoryController@editWarehouse')->middleware('auth');
+
+
+Route::get('/grn', 'InventoryController@grn_list')->middleware('auth');
+Route::get('/grnAdd' ,'InventoryController@grn_add')->middleware('auth');
+Route::post('/insertGrn','InventoryController@insertGrn')->middleware('auth');
+Route::get('/getEditGrn/{id}', 'InventoryController@getEditGrn')->middleware('auth');
+Route::get('/editGrnDetail', 'InventoryController@editGrnDetail')->middleware('auth');
+Route::post('/updateGrn','InventoryController@updateGrn')->middleware('auth');
+Route::get('/deleteGrnDetail', 'InventoryController@deleteGrnDetail')->middleware('auth');
+Route::get('/getGrnDetailBeforeDelete', 'InventoryController@getGrnDetailBeforeDelete')->middleware('auth');
+
+
+Route::get('/challan', 'InventoryController@challan_list')->middleware('auth');
+Route::get('/challanAdd' ,'InventoryController@challan_add')->middleware('auth');
+Route::post('/insertChallan','InventoryController@insertChallan')->middleware('auth');
+Route::get('/getEditChallan/{id}', 'InventoryController@getEditChallan')->middleware('auth');
+Route::get('/editChallanDetail', 'InventoryController@editChallanDetail')->middleware('auth');
+Route::get('/deleteChallanDetail', 'InventoryController@deleteChallanDetail')->middleware('auth');
+Route::post('/updateChallan','InventoryController@updateChallan')->middleware('auth');
+Route::get('/getChallanDetailBeforeDelete', 'InventoryController@getChallanDetailBeforeDelete')->middleware('auth');
+
+
+
+
+
+Route::get('/editStockDetail', 'InventoryController@editStockDetail')->middleware('auth');
+Route::get('/deleteStockDetail', 'InventoryController@deleteStockDetail')->middleware('auth');
+Route::post('/updateStock','InventoryController@updateStock')->middleware('auth');
+
+Route::get('/getEditStock/{id}', 'InventoryController@getEditStock')->middleware('auth');
+Route::get('/stockAdd' ,'InventoryController@stock_add')->middleware('auth');
+Route::get('/stock', 'InventoryController@stock_list')->middleware('auth');
+Route::get('/getStockDetail', 'InventoryController@getStockDetail')->middleware('auth');
+Route::post('/insertStock','InventoryController@insertStock')->middleware('auth');

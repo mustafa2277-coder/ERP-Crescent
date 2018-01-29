@@ -19,12 +19,12 @@
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="{{asset('public/css/themes/all-themes.css')}}" rel="stylesheet" />
 @endsection
-@section('content')
-    <section class="content">
+@section("content")
+<section class="content">
             <div class="body">
                     <ol class="breadcrumb breadcrumb-bg-red">
                         <li><a href="{{url('/home')}}">Home</a></li>
-                        <li class="active"><a>Products</a></li>
+                        <li class="active"><a>Warehouse</a></li>
                     </ol>
             </div>
             
@@ -34,8 +34,8 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Products
-                                <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" accesskey="+" tabindex='1' id="add_new" href="{{ url('/getAddProduct')}}"> 
+                                Warehouse
+                                <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" href="{{ url('/warehouseAdd')}}"> 
                                     <i class="material-icons" title="Create New">add</i>
                                 </a>
                             </h2>
@@ -50,25 +50,33 @@
                                         <th>#</th>
                                         <th>Code</th>
                                         <th>Name</th>
-                                        <th>Weight</th>
-                                        <th>Category</th>
-                                        <th>Quantity in Hand</th>
+                                        <th>Address</th>
+                                        <th>Address Two</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Country</th>
+                                        <th>Phone</th>
+                                        <th>Mobile</th>
                                 
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($productList as $product)
+                                @foreach($warehouseList as $warehouse)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td>{{$product->code}}</td>
-                                        <td>{{$product->name}}</td>
-                                        <td>{{$product->weight}} {{$product->unit}}</td>
-                                        <td>{{$product->category}}</td>
-                                        <td>{{$product->quantity_in_hand}}</td>
+                                        <td>{{$warehouse->warehouse_code}}</td>
+                                        <td>{{$warehouse->warehouse_name}}</td>
+                                        <td>{{$warehouse->warehouse_address}}</td>
+                                        <td>{{$warehouse->warehouse_address2}}</td>
+                                        <td>{{$warehouse->warehouse_cityid}}</td>
+                                        <td>{{$warehouse->warehouse_stateid}}</td>
+                                        <td>{{$warehouse->warehouse_countryid}}</td>
+                                        <td>{{$warehouse->warehouse_ph}}</td>
+                                        <td>{{$warehouse->warehouse_mobile}}</td>
                                         
                                         <td>
-                                            <a href="{{ url('/getEditProduct') }}/{{$product->id}}" ><i class="material-icons">edit</i></a>
+                                            <a href="{{ url('/getEditWarehouse') }}/{{$warehouse->id}}" ><i class="material-icons">edit</i></a>
                                         </td>
                                     </tr>
                                 @endforeach  
@@ -80,7 +88,8 @@
             </div>
         <!-- #END# Bordered Table -->
     </section>
-@endsection
+            @stop
+
 @section('js')
     <!-- Jquery Core Js -->
     <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>

@@ -470,6 +470,52 @@
 
                         </a>
                     </li>
+
+
+                    <li>
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">store</i>
+                                <span>Inventory Management</span>
+    
+                            </a>
+    
+                            <ul class="ml-menu">
+                                    
+                                <li>
+                                            <a href="{{url('/warehouse')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Warehouse</span>
+                    
+                                            </a>
+                                </li>
+                                <li>
+                                        <a href="{{url('/grn')}}">
+                                            <i class="material-icons">border_left</i>
+                                            <span>GRN</span>
+                
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="{{url('/challan')}}">
+                                            <i class="material-icons">border_left</i>
+                                            <span>Delivery Challan</span>
+                
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="{{url('/stock')}}">
+                                            <i class="material-icons">border_left</i>
+                                            <span>Stock Taking</span>
+                
+                                        </a>
+                                </li>
+                                
+                                
+                            </ul>
+    
+    
+                        </li>
+
                 </ul>
             </div>
             <!-- #Menu -->
