@@ -73,7 +73,7 @@
                               
                         </div>
                         <div class="body">
-                            <form id="form_validation" name ="form" action="{{ url('/journalEntry/print') }}" method="POST">
+                            <form id="form_validation" name ="form" action="{{ url('/journalEntry/print') }}" target="_blank" method="POST">
                                  {{ csrf_field() }}
                              <div class="row clearfix">
                                 <div class="col-sm-6">
@@ -159,7 +159,7 @@
                                 </table>
                             <!-- </div> -->
                             <button class="btn btn-primary waves-effect" id="submit" accesskey="s">SUBMIT</button>
-                            <button class="btn btn-primary waves-effect" type="submit" id="download" >Print</button>
+                            <button class="btn btn-primary waves-effect" type="submit"  id="download" >Print</button>
 
                             </form>
 
