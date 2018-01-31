@@ -77,6 +77,7 @@ Route::post('/updateJournal','JournalController@UpdateJournal')->middleware('aut
 
     /*------------------------------------Print Journal-----------------------------------------*/
     Route::get('/getJournalPdf','JournalController@GetJournalPdf')->middleware('auth');
+    Route::get('/getVoucherPdf','JournalController@GetVoucherPdf')->middleware('auth');
     Route::get('/getJournalItemsPdf','JournalController@GetJournalItemsPdf')->middleware('auth');
     /*----------------------------------End Print Journal ---------------------------------------*/
 
@@ -90,7 +91,7 @@ Route::post('/getJournalEntriesByDate','JournalController@GetJournalEntriesByDat
 Route::post('getProjectsByCustomerId' ,'JournalController@GetProjectsByCustomerId')->middleware('auth');
 Route::get('/getJournalEntriesListView' ,'JournalController@GetJournalEntriesListView')->middleware('auth');
 Route::get('/getFilterJournalEntriesList' ,'JournalController@GetFilterJournalEntriesList')->middleware('auth');
-Route::post('journalEntry/print' ,'JournalController@Print')->middleware('auth');
+Route::post('journalEntry/print' ,'JournalController@jprint')->middleware('auth');
 
 /*----------------------------------Journal Item----------------------------*/
 Route::get('/getJournalItems','JournalController@GetJournalItems')->middleware('auth');

@@ -538,6 +538,7 @@ class JournalController extends Controller
 
 /*-------------------------------------------------------------------------NEW INSERTION FUNCTION----------------------------------------------------------------*/
 public function InsertNJournalEntry(Request $request){
+    $user=Auth::user();
 
         $journal = DB::table('journal')->where('id',$request->journalId)->first();
 
@@ -553,6 +554,7 @@ public function InsertNJournalEntry(Request $request){
         $journalEntry->reference = $request->reference;
         $journalEntry->entryNum  = $entryNumber;
         $journalEntry->projectid = $request->projectId;
+        $journalEntry->createdBy = $user->name;
         $journalEntry->save();
 
         // generate entry number  or voucher number    
@@ -875,6 +877,160 @@ public function InsertNJournalEntry(Request $request){
 
     }
 /*--------------------------------------------------------------------End Print Journal Entries PDF--------------------------------------------------------------------------- */
+
+/*--------------------------------------------------------------------Print Journal Vouchers PDF--------------------------------------------------------------------------- */
+public function GetVoucherPdf(Request $request){
+    //return $request->start;
+    
+
+        $projectId = $request->projectId;
+        $journalId = $request->journalId;
+        $end = $request->end;
+        $start = $request->start;
+        $journalentries = "";
+
+
+        //filter by date
+        if(empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){
+
+                
+
+                
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->select('accounthead.name as head','accounthead.code','journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','journalentrydetail.isDebit as isDebit')
+                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                /* ->groupBy('entryDate', 'id','entryNum','journal') */
+            // ->paginate(20); 
+                ->get(); 
+            //return view('/Journal/printBlade/jEPrint',compact('journalentries','end','start'));
+            //$journalentries = $this->paginate($journalentries)->setPath('journalentries');
+            $pdf = PDF::loadView('/Journal/printBlade/jEPrint',compact('journalentries','end','start'));
+            return $pdf->stream();
+
+            ///return  $journalentries;//new Paginator($journalentries, 20);
+        }
+
+        //  filter by journal only
+
+        if(empty($projectId) && !empty($journalId) && (empty($end)|| empty($start))){
+        
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->select('accounthead.name as head','accounthead.code','journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','journalentrydetail.isDebit as isDebit')
+                ->where('journalentries.journalId', '=', $journalId)
+                /* ->groupBy('entryDate', 'id','entryNum','journal') */
+                ->get();
+               // $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
+               $pdf = PDF::loadView('/Journal/printBlade/jEPrint',compact('journalentries','end','start'));
+                return $pdf->stream();
+
+
+        } 
+
+        //  filter by project only   
+        
+        if(!empty($projectId) && empty($journalId) && (empty($end)|| empty($start))){
+               
+            $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->select('accounthead.name as head','accounthead.code','journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','journalentrydetail.isDebit as isDebit')
+                ->where('journalentrydetail.projectId', '=', $projectId)
+                /* ->groupBy('entryDate', 'id','entryNum','journal') */
+                ->get();
+               // $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
+               $pdf = PDF::loadView('/Journal/printBlade/jEPrint',compact('journalentries','end','start'));
+                return $pdf->stream();
+
+
+        }
+
+        //  filter by jounral,project,date   
+
+        if(!empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){
+
+
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->select('accounthead.name as head','accounthead.code','journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','journalentrydetail.isDebit as isDebit')
+                ->where('journalentrydetail.projectId', '=', $projectId)
+                ->where('journalentries.journalId', '=', $journalId)
+                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                /* ->groupBy('entryDate', 'id','entryNum','journal') */
+                ->get();
+              //  $journalentries = $this->paginate($journalentries)->setPath('journalentries'); 
+              $pdf = PDF::loadView('/Journal/printBlade/jEPrint',compact('journalentries','end','start'));
+                return $pdf->stream();
+
+                //return $start;
+        }
+
+
+
+
+        //  filter by jounral and date
+
+        if(empty($projectId) && !empty($journalId) && (!empty($end)|| !empty($start))){        
+            $journalentries = DB::table('journalentries')
+            ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+            ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+            ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+            ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+            ->select('accounthead.name as head','accounthead.code','journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','journalentrydetail.isDebit as isDebit')
+                
+                ->where('journalentries.journalId', '=', $journalId)
+                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                /* ->groupBy('entryDate', 'id','entryNum','journal') */
+                ->get();
+              //  $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
+              $pdf = PDF::loadView('/Journal/printBlade/jEPrint',compact('journalentries','end','start'));
+                return $pdf->stream();
+
+        }
+
+        //  filter by project and date
+
+        if(!empty($projectId) && empty($journalId) && (!empty($end)|| !empty($start))){        
+
+                $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->join('accounthead', 'journalentrydetail.accHeadId', '=', 'accounthead.id')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->select('accounthead.name as head','accounthead.code','journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount','journalentrydetail.isDebit as isDebit')
+                
+                ->where('journalentrydetail.projectId', '=', $projectId)
+                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                /* ->groupBy('entryDate', 'id','entryNum','journal') */
+                ->get();
+              //  $journalentries = $this->paginate($journalentries)->setPath('journalentries');  
+
+              $pdf = PDF::loadView('/Journal/printBlade/jEPrint',compact('journalentries','end','start'));
+                return $pdf->stream();
+
+        }             
+            
+
+        
+
+    
+    //return 'helo';
+
+}
+/*--------------------------------------------------------------------End Print Journal Vouchers PDF--------------------------------------------------------------------------- */
+
     
 /*--------------------------------------------------------------------Print Journal Items PDF--------------------------------------------------------------------------- */
 public function GetJournalItemsPdf(Request $request){
@@ -901,7 +1057,7 @@ public function GetJournalItemsPdf(Request $request){
 /*--------------------------------------------------------------------End Print Journal Items PDF--------------------------------------------------------------------------- */
 
 /*---------------------------------------------------------------Print Journal Entries before submission-------------------------------------------------------------------- */
-public function Print(Request $request){
+public function jprint(Request $request){
 
     $user=Auth::user();
     $user=$user->name;
@@ -918,14 +1074,25 @@ public function Print(Request $request){
     /* return $request->creditAmt; */
 
     $rows=$request->rowTotal;
-
+    //return $rows;
     for($i=1;$i<=$rows;$i++){
-        $account=AccountHead::where('id',$request->acc[$i])->get();
-        $acc[$i-1]=$account[0]->name;
-        $accCode[$i-1]=$account[0]->code;
-        $debit[$i-1]=$request->debit[$i];
-        $credit[$i-1]=$request->credit[$i];
+        if(isset($request->acc[$i])){
+
+            $account=AccountHead::where('id',$request->acc[$i])->get();
+            $acc[$i-1]=$account[0]->name;
+            $accCode[$i-1]=$account[0]->code;
+            $debit[$i-1]=$request->debit[$i];
+            $credit[$i-1]=$request->credit[$i];
+        }
+        else{
+            
+            $acc[$i-1]="none";
+            $accCode[$i-1]="none";
+            $debit[$i-1]="none";
+            $credit[$i-1]="none";
+        }
     }
+    //return [$debit,$credit,$acc];
     $proj=Project::find($request->project_id);
     $project=$proj->title;
 

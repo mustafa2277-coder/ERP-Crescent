@@ -6765,10 +6765,147 @@
           }
           /*# sourceMappingURL=bootstrap.css.map */
           
-          
+          hr{
+            border: 1px solid black;
+         }
             </style>
         </head>
         <body >
+            @if(isset($journalentries))
+                <center><h3>Journal Voucher</h3></center>
+                <img src="http://localhost/ERP/public/images/logostrongforce.png"  >
+                
+        
+                <div>
+                       <center><strong>Date: </strong>{{$start}} </strong>To</strong> {{$end}}</center>
+                        
+                </div>
+               
+                {{--  <div style="float:left;">
+                        <strong> </strong>From <strong >Date </strong>To<strong > Date</strong> 
+                        
+                </div>  --}}
+                <hr>
+                <?php 
+                    $TotalDebit=0;
+                    $TotalCredit=0;        
+                ?>
+                @for($i=0; $i<sizeof($journalentries);$i++)
+                
+                @if($i!=0&&$journalentries[$i]->id!=$journalentries[$i-1]->id)
+                    </tbody>
+                    <tfoot style="text-align:center">
+                        <th></th>
+                        <th>Total (Rs.)</th>
+                        <th style="text-align:center">{{$TotalDebit}}</th>
+                        <th>{{$TotalCredit}}</th>
+                        <?php 
+                            $TotalDebit=0;
+                            $TotalCredit=0;        
+                        ?>   
+                    </tfoot>
+                </table>
+
+                <br>
+                <b>Refrence:</b>{{$journalentries[$i-1]->reference}}
+                <br><br>
+                <b>Prepared By:</b>{{$journalentries[$i-1]->createdBy}}
+                <hr>
+                <strong >Voucher No.  </strong>{{$journalentries[$i]->entryNum}}
+                <br>
+                <strong>Posted Date: </strong>{{$journalentries[$i]->entryDate}}
+                <br>
+                <strong>Journal: </strong>{{$journalentries[$i]->journal}}
+                <br>
+                <strong>Project: </strong>{{$journalentries[$i]->project}}
+                <br><br>
+                <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
+                    <thead>
+                        <tr style="background: #f44336;color: #fff;">
+                            <th style="text-align:center">AccountHead</th>
+                            <th style="text-align:center">Code No.</th>
+                            <th style="text-align:center">Debit (Rs.)</th>
+                            <th>Credit (Rs.)</th>
+                
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                @elseif($i==0)
+                <strong>Voucher No.  </strong>{{$journalentries[$i]->entryNum}}
+                <br>
+                <strong>Posted Date: </strong>{{$journalentries[$i]->entryDate}}
+                <br>
+                <strong>Journal: </strong>{{$journalentries[$i]->journal}}
+                <br>
+                <strong>Project: </strong>{{$journalentries[$i]->project}}
+                <br><br>
+                <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr style="background: #f44336;color: #fff;">
+                                <th style="text-align:center">AccountHead</th>
+                                <th style="text-align:center">Code No.</th>
+                                <th style="text-align:center">Debit (Rs.)</th>
+                                <th>Credit (Rs.)</th>
+                    
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                @endif                                     
+                        <tr>
+                            <td >{{$journalentries[$i]->head}}</td>
+                            <td style="text-align:center">{{$journalentries[$i]->code}}</td>
+                            <td style="text-align:center">
+                                @if($journalentries[$i]->isDebit=="1")
+                                {{$journalentries[$i]->amount}}
+                                <?php 
+                                    $TotalDebit=$journalentries[$i]->amount+$TotalDebit;
+                                    
+                                ?>
+                                @else
+                                0
+                                @endif
+                            </td>
+                            <td>
+                                @if($journalentries[$i]->isDebit=="0")
+                                    {{$journalentries[$i]->amount}}
+                                    <?php 
+                                       
+                                        $TotalCredit=$journalentries[$i]->amount+$TotalCredit;
+                                    ?>
+                                @else
+                                    0
+                                @endif
+                            </td>
+                        </tr>
+                        
+                @if($i+1==sizeof($journalentries))   
+                        </tbody>
+                        <tfoot style="text-align:center">
+                            <th></th>
+                            <th>Total (Rs.)</th>
+                            <th style="text-align:center">{{$TotalDebit}}</th>
+                            <th>{{$TotalCredit}}</th>
+                            <?php 
+                                $TotalDebit=0;
+                                $TotalCredit=0;        
+                            ?>   
+                        </tfoot>
+                </table>
+
+                <br>
+                <b>Refrence:</b>{{$journalentries[$i]->reference}}
+                <br><br>
+                <b>Prepared By:</b>{{$journalentries[$i]->createdBy}}
+                 
+                    
+                @endif
+                
+                @endfor
+                
+                
+            @else
                 <center><h3>Journal Voucher</h3></center>
                 <img src="http://localhost/ERP/public/images/logostrongforce.png"  >
                 <br>
@@ -6794,13 +6931,15 @@
                         </thead>
                         
                         <tbody>
-                            @for ($i = 1; $i <= $rows; $i++)                                
+                            @for ($i = 1; $i <= $rows; $i++)
+                            @if($acc[$i-1]!="none"){                                
                             <tr>
                                 <td >{{$acc[$i-1]}}</td>
                                 <td style="text-align:center">{{$accCode[$i-1]}}</td>
                                 <td style="text-align:center">{{$debit[$i-1]}}</td>
                                 <td>{{$credit[$i-1]}}</td>
                             </tr>
+                            @endif
                             @endfor
                         
                         </tbody>
@@ -6816,6 +6955,6 @@
                     <b>Refrence:</b> {{$ref}}
                     <br><br>
                     <b>Prepared By:</b> {{$user}}
-        
+            @endif
         </body>
         </html>
