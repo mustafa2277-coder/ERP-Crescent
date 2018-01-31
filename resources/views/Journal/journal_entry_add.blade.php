@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 @extends('layouts.app')
 
 @section('css')
@@ -32,6 +32,12 @@
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="{{asset('public/css/themes/all-themes.css')}}" rel="stylesheet" />
+
+    <style>
+        .download{
+            display:none;
+        }
+    </style>
 
     
 @endsection
@@ -157,9 +163,10 @@
                                       
                                     </tbody>
                                 </table>
+                                        <center><b id="msg" style="color:red; font-size:16px;"></b></center>
                             <!-- </div> -->
                             <button class="btn btn-primary waves-effect" id="submit" accesskey="s">SUBMIT</button>
-                            <button class="btn btn-primary waves-effect" type="submit"  id="download" >Print</button>
+                            <button class="btn btn-primary waves-effect download" type="submit"  id="download" >Print</button>
 
                             </form>
 
@@ -229,10 +236,11 @@
 
         
         $('#appendRow').on('click', function () {
-            var i=$('#rowTotal').val();
-            if(i>0){
-                var debit=$("#debit"+i).val();
-                var credit=$("#credit"+i).val();
+            var i = $('#example tbody tr').length;
+            rdata=$('#rowTotal').val();
+            if(i>1){
+                var debit=$("#debit"+rdata).val();
+                var credit=$("#credit"+rdata).val();
                 //alert(debit);
                 //alert(credit);
                 if(debit==""&&credit=="" || debit=='0'&&credit=='0'){
@@ -272,7 +280,16 @@
                 
              }
           });*/
-
+          $(document).on('click', '#icon-toggle-delete2', function () {
+    
+            $(this).closest('tr').remove();
+            row=$('#rowCount').val()-1;
+            $('#rowCount').val(row);
+            console.log($(this).closest('tr').attr('id'));
+           
+            calculate2();
+             return false;
+         });
 
         
         $('body').on('change','.debit,.credit',function(event){

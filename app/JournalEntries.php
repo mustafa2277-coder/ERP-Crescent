@@ -17,5 +17,6 @@ class JournalEntries extends Model
         'date_post',
         'reference',
         'entryNum',
+        'createdBy',
         );
 }

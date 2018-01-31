@@ -240,9 +240,12 @@
     
     $(document).ready(function() {
 
+        
        var todayDate = new Date();
        $('#start_date').inputmask({ mask: "99/99/9999"});
        $('#end_date').inputmask({ mask: "99/99/9999"});
+       //$('#start_date').val(dd+'/'+mm+'/'+yyyy);
+       //$('#end_date').val();
        //$('#start_date').val( todayDate.getDate() + '/' + (todayDate.getMonth() + 1) + '/' +  todayDate.getFullYear());
        //$('#end_date').val( todayDate.getDate() + '/' + (todayDate.getMonth() + 1) + '/' +  todayDate.getFullYear());
        $('#div_project').hide();
@@ -265,6 +268,18 @@
               //console.log(data);
 
         });
+        var today = new Date();
+        var day = today.getDate();
+        var month = today.getMonth()+1; //January is 0!
+        var year = today.getFullYear();
+        if(day<10){
+            day='0'+day;
+        } 
+        if(month<10){
+            month='0'+month;
+        } 
+        $('#start_date').val(day+'/'+month+'/'+year);
+        $('#end_date').val(day+'/'+month+'/'+year);
         
 
     });

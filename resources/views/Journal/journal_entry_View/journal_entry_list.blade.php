@@ -1,4 +1,5 @@
-﻿<a href="{{url('/getJournalPdf')}}?end={{$end}}&start={{$start}}&journalId={{$journalId}}&projectId={{$projectId}}" target='_blank'>Download PDf</a>
+﻿<a class="btn btn-success waves-effect" href="{{url('/getJournalPdf')}}?end={{$end}}&start={{$start}}&journalId={{$journalId}}&projectId={{$projectId}}" target='_blank'>Download Entries</a>
+<a class="btn btn-success waves-effect" href="{{url('/getVoucherPdf')}}?end={{$end}}&start={{$start}}&journalId={{$journalId}}&projectId={{$projectId}}" target='_blank'>Download Vouchers</a>
 <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
     <thead>
         <tr style="background: #f44336;color: #fff;">
