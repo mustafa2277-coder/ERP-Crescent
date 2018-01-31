@@ -353,7 +353,7 @@ function getJournalEntry(page){
             });
 }
 
-function CalculateTotalFoot(){
+/*function CalculateTotalFoot(){
 
      var Amt = 0;
     var table = $("table tbody");
@@ -383,7 +383,7 @@ function CalculateTotalFoot(){
     tbody.append(row);
 
     }
-}        
+} */       
 
 $("#filter_customer").change(function () {
 

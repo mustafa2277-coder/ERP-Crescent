@@ -619,7 +619,23 @@ public function InsertNJournalEntry(Request $request){
 
 
 /*-----------------------------------------------------------------------END NEW INSERTION FUNCTION--------------------------------------------------------------*/
+public function GetJournalEntries($id){
+//return $id;
+$entry=JournalEntries::find($id);
+/* $journalentries = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.amount as amount'
 
+                )
+                ->whereBetween('journalentries.date_post',[date("Y-m-d",strtotime(str_replace('/', '-', $start))),date("Y-m-d",strtotime(str_replace('/', '-', $end)))])
+                ->groupBy('entryDate', 'id','entryNum','journal')
+               // ->paginate(20); 
+                ->get(); */
+
+return $entry;
+}
 /*----------------------------------Journal Item-------------------------------*/
 
     // for getting all journal items

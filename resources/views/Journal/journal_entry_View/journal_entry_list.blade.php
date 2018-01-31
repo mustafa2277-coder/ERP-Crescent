@@ -11,12 +11,12 @@
 
         </tr>
     </thead>
-    <tfoot>
+    {{--  <tfoot>
       <tr id="total">
         <th colspan="4" style="text-align:right">TOTAL:</th>
         <th></th>
     </tr>
-</tfoot>
+</tfoot>  --}}
 <tbody>
     @foreach ($journalentries as $journalentry)
     <tr>
@@ -24,7 +24,7 @@
         <td style="text-align:center">{{$journalentry->entryNum}} </td>
         <td>{{$journalentry->project}} </td>
         <td>{{$journalentry->journal}} </td>
-        <td style="text-align:center">{{$journalentry->amount}} </td>
+        <td style="text-align:center"><a href="{{ url('/getJournalEntries') }}/{{$journalentry->id}}"><i class="material-icons">edit</i></a> </td>
     </tr>
 
     @endforeach  
