@@ -154,3 +154,23 @@ Route::get('/stockAdd' ,'InventoryController@stock_add')->middleware('auth');
 Route::get('/stock', 'InventoryController@stock_list')->middleware('auth');
 Route::get('/getStockDetail', 'InventoryController@getStockDetail')->middleware('auth');
 Route::post('/insertStock','InventoryController@insertStock')->middleware('auth');
+
+
+        /*----------------------------Inventory Reports-------------------------------*/
+
+
+Route::get('/warehouseReport' ,'InventoryController@warehouseReport')->middleware('auth');
+Route::get('/getWarehouseReport' ,'InventoryController@getWarehouseReport')->middleware('auth');
+Route::get('/ProductsatReorderLevel' ,'InventoryController@ProductsatReorderLevel')->middleware('auth');
+Route::get('/vendorsReport' ,'InventoryController@vendorsReport')->middleware('auth');
+Route::get('/getVendorReport' ,'InventoryController@getVendorReport')->middleware('auth');
+Route::get('/productSummary' ,'InventoryController@productSummary')->middleware('auth');
+Route::get('/productDeatil' ,'InventoryController@productDeatil')->middleware('auth');
+Route::get('/getProductSummaryByCategory' ,'InventoryController@getProductSummaryByCategory')->middleware('auth');
+
+Route::get('/warehouseReportPdf/{id}',array('as'=>'warehouseReportPdf','uses'=>'InventoryController@warehouseReportPdf'));
+Route::get('/productsatReorderLevelPdf',array('as'=>'productsatReorderLevelPdf','uses'=>'InventoryController@productsatReorderLevelPdf'));
+Route::get('/vendorReportPdf/{id}',array('as'=>'vendorReportPdf','uses'=>'InventoryController@vendorReportPdf'));
+Route::get('/productSummaryPdf',array('as'=>'productSummaryPdf','uses'=>'InventoryController@productSummaryPdf'));
+Route::get('/productSummaryByCategoryPdf/{id}',array('as'=>'productSummaryByCategoryPdf','uses'=>'InventoryController@productSummaryByCategoryPdf'));
+Route::get('/productDetailPdf',array('as'=>'productDetailPdf','uses'=>'InventoryController@productDetailPdf'));

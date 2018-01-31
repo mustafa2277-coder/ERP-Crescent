@@ -509,6 +509,37 @@
                 
                                         </a>
                                 </li>
+                                <li>
+                                
+                                <a href="javascript:void(0);" class="menu-toggle">
+                                    <i class="material-icons">insert_chart</i>
+                                    <span>Reports</span>
+
+                                </a>
+
+                                <ul class="ml-menu">
+
+                                    <li>
+                                        <a href="{{url('/warehouseReport')}}">Warehouse</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{url('/ProductsatReorderLevel')}}">Products at Reorder Level</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{url('/vendorsReport')}}">Products by Vendor</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{url('/productSummary')}}">Products summary</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{url('/productDeatil')}}">Products details</a>
+                                    </li>
+                                   
+                                    
+                                </ul>
+
+
+                            </li>
                                 
                                 
                             </ul>

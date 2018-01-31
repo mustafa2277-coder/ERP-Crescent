@@ -12,16 +12,23 @@ $('select[name="stock_warehouse"]').change(function(){
                     },
         
         success: function(data) {
-            if (data) {
+            if(data==1){
+                    var tbody = $("#exampleStock tbody");
+                    tbody.empty();
+                }
+            else {
                 console.log(data);
+                
                 var rows = "";
                 for (var i = 0; i < data.length; i++) {
 
                     rows += "<tr id="+data[i].id+"><td style='display:none'><input type='hidden' value="+data[i].product_id+" name='productId'></td><td class='col-sm-3' style='text-align:center'>" +data[i].pName + "</td><td class='col-sm-3' style='text-align:center'>" + data[i].quantity_in_hand + '</td><td class="col-sm-3" style="text-align:center"><input type="text" name="fname" class="form-control"></td><td class="col-sm-3" style="text-align:center"><input type="text" name="fname" class="form-control"></td></tr>' ;
                 };
                 var tbody = $("#exampleStock tbody");
+                tbody.empty();
                 tbody.prepend(rows);
-                            }
+                }
+                
         }
 
     }); 

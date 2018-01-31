@@ -18,7 +18,10 @@ use App\InvDcDetail;
 use App\InvStockTaking;
 use App\InvStockTakingDetail;
 use App\warehouseProduct;
+use App\Unit;
+use App\Pcategory;
 use Auth;
+use PDF;
 class InventoryController extends Controller
 {
     public function warehouse_list(){
@@ -605,8 +608,224 @@ class InventoryController extends Controller
         $products = DB::table('warehouseproduct')
         ->join('products', 'products.id', '=', 'warehouseproduct.product_id')
         ->select('warehouseproduct.*','products.name as pName')
-        ->get(); 
-        return $products;
+        ->where('warehouseproduct.warehouse_id','=',$request->id)
+        ->get();
+        if ($products) {
+            return $products;
+         } 
+         else{
+            return [1];
+         }
+       
+    }
+    public function warehouseReport(){
+        $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        return view('/inventory/warehouseReport',compact('warehouses'));
+    }
+    public function getWarehouseReport(Request $request){
+        $grnDeatils=[];
+        $products = DB::table('warehouseproduct')
+        ->join('inv_grn','inv_grn.wareshouse_id','=','warehouseproduct.warehouse_id')
+        ->select('warehouseproduct.*','inv_grn.id as GRNID')
+        ->where('warehouseproduct.warehouse_id','=',$request->id)
+        ->get();
+        for ($i=0; $i <sizeof($products) ; $i++) { 
+            $grnDeatils = DB::table('inv_grn_detail')
+            ->join('products','products.id','=','inv_grn_detail.product_id')
+            ->join('units','units.id','=','products.unitId')
+            ->select('products.*','products.name as pName','units.*','inv_grn_detail.*')
+            ->where('inv_grn_detail.grn_id','=',$products[$i]->GRNID)
+            ->get();
+        }
+        
+        if ($products && $grnDeatils ) {
+
+            // $result = array_merge($grnDeatils, $products);
+            return  [$grnDeatils , $products];
+         } 
+         else{
+            return [1];
+         }
+        
+    }
+    public function ProductsatReorderLevel(){
+        $product = DB::table('warehouseproduct')
+        ->join('products','products.id','=','warehouseproduct.product_id')
+        ->select('warehouseproduct.*','products.*')
+        
+        ->get();
+        for ($i=0; $i <sizeof($product) ; $i++) { 
+            $productList = DB::table('warehouseproduct')
+            ->join('products','products.id','=','warehouseproduct.product_id')
+            ->select('warehouseproduct.*','products.*')
+            ->where('warehouseproduct.quantity_in_hand','<=',$product[$i]->reorder_level)
+            ->get();
+        }
+
+        return view('/inventory/ProductsAtReorderLevel',compact('productList'));
+    }
+    public function vendorsReport(){
+        $vendors=Customer::select('customers.id','customers.name')->get();
+        return view('/inventory/vendorReport',compact('vendors'));
+    }
+    public function getVendorReport(Request $request){
+        // $productsQuantity=[];
+        // $products = DB::table('inv_grn')
+        // ->join('inv_grn_detail','inv_grn_detail.grn_id','=','inv_grn.id')
+        // ->join('products','products.id','=','inv_grn_detail.product_id')
+        // ->select('inv_grn_detail.product_quantity','inv_grn_detail.purchased_price','products.name as pName','products.id')
+        // ->where('inv_grn.vendor_id','=',$request->id)
+        // ->groupBy('product_id')
+        // ->get();
+        // for ($i=0; $i <sizeof($products) ; $i++) { 
+        //     $productsQuantity = DB::table('inv_grn_detail')
+        //     ->where('inv_grn_detail.product_id','=',$products[$i]->id)
+        //     // ->groupBy('product_id')
+        //     ->sum('product_quantity');
+        //     // ->get();
+        // }
+        $products = DB::select( DB::raw("SELECT SUM(inv_grn_detail.`product_quantity`) AS 'sumqaunt', inv_grn_detail.*, products.name  FROM inv_grn_detail
+                    JOIN products ON inv_grn_detail.`product_id`= products.`id`
+                    JOIN inv_grn ON inv_grn.`id`=inv_grn_detail.`grn_id`
+                    WHERE inv_grn.`vendor_id`=$request->id
+                    GROUP BY product_id"));
+        if($products){
+            return $products;
+        }
+        else{
+            return "false";
+        }
+        
+    }
+    public function productSummary(){
+        $productsSummery = DB::table('products')
+        ->join('units','units.id','=','products.unitId')
+        ->join('productcategories','productcategories.id','=','products.categoryId')
+        ->select('products.*','units.name as uName','productcategories.name as cName')
+        ->get();
+        $productcategories=Pcategory::select('productcategories.name','productcategories.id')->get();
+        return view('/inventory/productSummary',compact('productsSummery','productcategories'));
+    }
+    public function productDeatil(){
+        $productDeatil = DB::table('inv_grn_detail')
+        ->join('products','products.id','=','inv_grn_detail.product_id')
+        ->join('units','units.id','=','products.unitId')
+        ->join('inv_grn','inv_grn.id','=','inv_grn_detail.grn_id')
+        ->join('customers','customers.id','=','inv_grn.vendor_id')
+        ->join('warehouseproduct','warehouseproduct.product_id','=','inv_grn_detail.product_id')
+        ->select('products.name as pName','products.weight','units.name as uName','warehouseproduct.quantity_in_hand','customers.name as cName')
+        ->get();
+        return view('/inventory/productDeatil',compact('productDeatil'));
+    }
+    public function getProductSummaryByCategory(Request $request){
+        $ProductSummaryByCategory = DB::table('products')
+        ->join('units','units.id','=','products.unitId')
+         ->join('productcategories','productcategories.id','=','products.categoryId')
+        ->select('products.*','products.weight','units.name as uName','productcategories.name as cName')
+        ->where('products.categoryId','=',$request->id)
+        ->get();
+           return $ProductSummaryByCategory;
+        
+        // return view('/inventory/productDeatil',compact('productDeatil'));
+    }
+    public function warehouseReportPdf(Request $request){
+        $warehouseId=$request->id;
+        $warehouse = DB::table('inv_warehouse')  
+        ->select('inv_warehouse.warehouse_name')
+        ->where('inv_warehouse.id','=', $warehouseId)
+        ->get();
+        $grnDeatils=[];
+        $products = DB::table('warehouseproduct')
+        ->join('inv_grn','inv_grn.wareshouse_id','=','warehouseproduct.warehouse_id')
+        ->select('warehouseproduct.*','inv_grn.id as GRNID')
+        ->where('warehouseproduct.warehouse_id','=',$request->id)
+        ->get();
+        for ($i=0; $i <sizeof($products) ; $i++) { 
+            $grnDeatils = DB::table('inv_grn_detail')
+            ->join('products','products.id','=','inv_grn_detail.product_id')
+            ->join('units','units.id','=','products.unitId')
+            ->select('products.*','products.name as pName','units.*','inv_grn_detail.*')
+            ->where('inv_grn_detail.grn_id','=',$products[$i]->GRNID)
+            ->get();
+        }
+        
+        if ($products && $grnDeatils ) {
+            $pdf = PDF::loadView('/inventory/warehouseReportPdf',compact('grnDeatils','products','warehouseId','warehouse'));
+            return $pdf->stream();
+            // $result = array_merge($grnDeatils, $products);
+            return view('',compact('grnDeatils','products','warehouseId'));
+            // view()->share('grnDeatils',$grnDeatils,'products',$products);
+            // return  [ , ];
+         }
+        
+    }
+    public function productsatReorderLevelPdf(){
+        $product = DB::table('warehouseproduct')
+        ->join('products','products.id','=','warehouseproduct.product_id')
+        ->select('warehouseproduct.*','products.*')
+        
+        ->get();
+        for ($i=0; $i <sizeof($product) ; $i++) { 
+            $productList = DB::table('warehouseproduct')
+            ->join('products','products.id','=','warehouseproduct.product_id')
+            ->select('warehouseproduct.*','products.*')
+            ->where('warehouseproduct.quantity_in_hand','<=',$product[$i]->reorder_level)
+            ->get();
+        }
+        $pdf = PDF::loadView('/inventory/productsatReorderLevelPdf',compact('productList'));
+        return $pdf->stream();
+        return view('/inventory/productsatReorderLevelPdf',compact('productList'));
+    }
+    public function vendorReportPdf(Request $request){
+        $vendor = DB::table('customers')  
+        ->select('customers.name')
+        ->where('customers.id','=', $request->id)
+        ->get();
+        $products = DB::select( DB::raw("SELECT SUM(inv_grn_detail.`product_quantity`) AS 'sumqaunt', inv_grn_detail.*, products.name  FROM inv_grn_detail
+                    JOIN products ON inv_grn_detail.`product_id`= products.`id`
+                    JOIN inv_grn ON inv_grn.`id`=inv_grn_detail.`grn_id`
+                    WHERE inv_grn.`vendor_id`=$request->id
+                    GROUP BY product_id"));
+        if($products){
+             $pdf = PDF::loadView('/inventory/vendorReportPdf',compact('products','vendor'));
+            return $pdf->stream();
+        }
+        
+    }
+    public function productSummaryPdf(){
+        $productsSummery = DB::table('products')
+        ->join('units','units.id','=','products.unitId')
+        ->join('productcategories','productcategories.id','=','products.categoryId')
+        ->select('products.*','units.name as uName','productcategories.name as cName')
+        ->get();
+        $pdf = PDF::loadView('/inventory/productSummaryPdf',compact('productsSummery'));
+            return $pdf->stream();
+    }
+    public function productSummaryByCategoryPdf(Request $request){
+        $productsSummery = DB::table('products')
+        ->join('units','units.id','=','products.unitId')
+         ->join('productcategories','productcategories.id','=','products.categoryId')
+        ->select('products.*','products.weight','units.name as uName','productcategories.name as cName')
+        ->where('products.categoryId','=',$request->id)
+        ->get();
+        $category = DB::table('productcategories')  
+        ->select('productcategories.name')
+        ->where('productcategories.id','=', $request->id)
+        ->get();
+        $pdf = PDF::loadView('/inventory/productSummaryPdf',compact('productsSummery','category'));
+            return $pdf->stream();
+    }
+    public function productDetailPdf(){
+        $productDeatil = DB::table('inv_grn_detail')
+        ->join('products','products.id','=','inv_grn_detail.product_id')
+        ->join('units','units.id','=','products.unitId')
+        ->join('inv_grn','inv_grn.id','=','inv_grn_detail.grn_id')
+        ->join('customers','customers.id','=','inv_grn.vendor_id')
+        ->join('warehouseproduct','warehouseproduct.product_id','=','inv_grn_detail.product_id')
+        ->select('products.name as pName','products.weight','units.name as uName','warehouseproduct.quantity_in_hand','customers.name as cName')
+        ->get();
+        $pdf = PDF::loadView('/inventory/productDetailPdf',compact('productDeatil'));
+        return $pdf->stream();
     }
 }
 
