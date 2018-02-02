@@ -44,139 +44,295 @@
 
 @section('content')
 
+    @if(isset($entry))
+        <section class="content">
 
-    <section class="content">
+            
 
-       
+                <div class="body">
+                        <ol class="breadcrumb breadcrumb-bg-red">
+                            <li><a href="{{url('/home')}}">Home</a></li>
+                            <li><a href="{{url('/getJournalEntriesListView')}}">Journal Entries</a></li>
+                            <li class="active"><a>Edit Journal Entries</a></li>
+                        </ol>
+                </div>
+        
 
-            <div class="body">
-                    <ol class="breadcrumb breadcrumb-bg-red">
-                        <li><a href="{{url('/home')}}">Home</a></li>
-                        <li><a href="{{url('/getJournalEntriesListView')}}">Journal Entries</a></li>
-                        <li class="active"><a>New Journal Entries</a></li>
-                    </ol>
-            </div>
-    
-
-        <div class="container-fluid">
-          <!--   <div class="block-header">
-                <h2>
-                    JQUERY DATATABLES
-                    <small>Taken from <a href="https://datatables.net/" target="_blank">datatables.net</a></small>
-                </h2>
-            </div> -->
-            <!-- #END# Basic Examples -->
-            <!-- Exportable Table -->
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
-                    <div class="card">
-                            <div class="header">
-                           
-                                <h2>
-                                   New Journal Entries
-                                </h2>
-                         
-                              
-                        </div>
-                        <div class="body">
-                            <form id="form_validation" name ="form" action="{{ url('/journalEntry/print') }}" target="_blank" method="POST">
-                                 {{ csrf_field() }}
-                             <div class="row clearfix">
-                                <div class="col-sm-6">
-                                    <select  id="journal_id" name="journal_id" class="form-control show-tick" data-live-search="true"  tabindex="1" required>
-                                         <option value="0" selected="selected" disabled="disabled"><strong>Select Journal</strong></option>
-                                        @foreach ($journals as $journal)    
-                                        <option value="{{$journal->id}}">{{$journal->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-6" id="div_project">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                    <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" tabindex="2"  required>
-                                         <option value="0" selected="selected" disabled="disabled">Select Project</option>
-                                        @foreach ($projects as $project)    
-                                        <option value="{{$project->id}}">{{$project->title}}</option>
-                                        @endforeach
-                                    </select>
-                                         </div>
-                                    </div>
-                                </div>
-                                   
+            <div class="container-fluid">
+            <!--   <div class="block-header">
+                    <h2>
+                        JQUERY DATATABLES
+                        <small>Taken from <a href="https://datatables.net/" target="_blank">datatables.net</a></small>
+                    </h2>
+                </div> -->
+                <!-- #END# Basic Examples -->
+                <!-- Exportable Table -->
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
+                        <div class="card">
+                                <div class="header">
+                            
+                                    <h2>
+                                    Edit Journal Entries
+                                    </h2>
+                            
+                                
+                            </div>
+                            <div class="body">
+                                <form id="form_validation" name ="form" action="{{ url('/journalEntry/print') }}" target="_blank" method="POST">
+                                    {{ csrf_field() }}
+                                <div class="row clearfix">
                                     <div class="col-sm-6">
+                                        <select  id="journal_id" name="journal_id" class="form-control show-tick" data-live-search="true"  tabindex="1" required>
+                                            <option value="0" selected="selected" disabled="disabled"><strong>Select Journal</strong></option>
+                                            @foreach ($journals as $journal)    
+                                            <option value="{{$journal->id}}" {{ $entry[0]->journalId == $journal->id ? "selected":"" }}>{{$journal->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6" id="div_project">
                                         <div class="form-group form-float">
                                             <div class="form-line">
-                                            <input type="text"  name="pdate" id="pdate" tabindex="3" class="form-control date" >
-                                            <label class="form-label">Date (dd/mm/yyyy)</label>
+                                        <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" tabindex="2"  required>
+                                            <option value="0" selected="selected" disabled="disabled">Select Project</option>
+                                            @foreach ($projects as $project)    
+                                            <option value="{{$project->id}}" {{ $entry[0]->projectId == $project->id ? "selected":"" }}>{{$project->title}}</option>
+                                            @endforeach
+                                        </select>
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                        <div class="col-sm-6">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                <input type="text"  name="pdate" id="pdate" tabindex="3" class="form-control date" value="{{date("d-m-Y",strtotime($entry[0]->date_post))}}">
+                                                <label class="form-label">Date (dd/mm/yyyy)</label>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                  <div class="col-sm-6">
-                                    <div class="form-group form-float">
-                                    <div class="form-line">
-                                        <input type="text" class="form-control" id="reference" tabindex="4" name="reference" required>
-                                        <label class="form-label">Reference</label>
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" id="reference" tabindex="4" name="reference" value="{{$entry[0]->reference}}" required>
+                                            <label class="form-label">Reference</label>
+                                        </div>
                                     </div>
+                                        </div>    
                                 </div>
-                                    </div>    
+                                <input type="hidden" class="form-control" id="rowTotal" name="rowTotal" value="{{sizeof($entry)}}">
+                                <input type="hidden" class="form-control" id="id" name="id" value="{{$entry[0]->id}}">
+                                <!-- <div class="table-responsive"> -->
+
+                                    <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
+                                    <thead>
+                                            <tr>
+                                                <th>ACCOUNT</th>
+                                                <th></th>
+                                                <th style='text-align:center'>DEBIT</th>
+                                                <th style='text-align:center'>CREDIT</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr id="total">
+                                                <th colspan="2" style="text-align:center">Total</th>
+                                            <th></th>
+                                            <th></th>
+                                                <th></th>
+                                                
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            <tr>
+                                            
+
+                                                <td colspan="5" >
+                                                    <a class="btn btn-default waves-effect" id ="appendRow" accesskey="a" style="float: left;"> 
+                                                    <i class="material-icons">add</i>
+                                                </a>    
+                                                
+                                                </td>
+                                            
+                                            </tr>
+                                            @foreach($entry as $i=>$ent)
+                                            <tr>
+                                                <td>
+                                                    <select id='acc{{$i}}' name='acc[{{$i+1}}]' class='form-control'   required>
+                                                            @foreach ($accounts as $account)    
+                                                                <option value="{{$account->id}}" {{ $ent->head == $account->id}} ? "selected":"" }}>{{$account->name}}</option>
+                                                            @endforeach       
+                                                    </select> 
+                                                </td>
+                                                <td></td>
+                                                @if($ent->isDebit=="1")
+                                                <td><input type='number' name='debit[{{$i+1}}]' id='debit{{$i+1}}' class='form-control debit key' value='{{$ent->amount}}' ></td>
+                                                @else
+                                                <td><input type='number' name='debit[{{$i+1}}]' id='debit{{$i+1}}' class='form-control debit key' value='0' ></td>
+                                                @endif
+                                                @if($ent->isDebit=="0")
+                                                <td><input type='number' name='credit[{{$i+1}}]' id='credit{{$i+1}}' class='form-control credit key' value='{{$ent->amount}}' ></td></td>
+                                                @else
+                                                <td><input type='number' name='credit[{{$i+1}}]' id='credit{{$i+1}}' class='form-control credit key' value='0' ></td></td>
+                                                @endif
+                                                <td style='text-align:center'><a id='icon-toggle-delete2' class='removebutton'>  <span class='glyphicon glyphicon-trash' aria-hidden='true'></span> </a></td>
+                                            </tr>
+                                                
+                                            @endforeach
+                                        
+                                        </tbody>
+                                    </table>
+                                            <center><b id="msg" style="color:red; font-size:16px;"></b></center>
+                                <!-- </div> -->
+                                <button class="btn btn-primary waves-effect" id="submit" accesskey="s">SUBMIT</button>
+                                <button class="btn btn-primary waves-effect download" type="submit"  id="download" >Print</button>
+
+                                </form>
+
                             </div>
-                            <input type="hidden" class="form-control" id="rowTotal" name="rowTotal">
-                            <!-- <div class="table-responsive"> -->
-
-                                <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
-                                   <thead>
-                                        <tr>
-                                            <th>ACCOUNT</th>
-                                            <th></th>
-                                            <th style='text-align:center'>DEBIT</th>
-                                            <th style='text-align:center'>CREDIT</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr id="total">
-                                            <th colspan="2" style="text-align:center">Total</th>
-                                           <th></th>
-                                           <th></th>
-                                            <th></th>
-                                            
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                         <tr>
-                                           {{-- <td colspan="5" >
-                                                <a class="btn btn-default waves-effect" data-toggle="modal" data-target="#New-Entry-Modal" tabindex="5" accesskey="+" style="float: left;"> 
-                                                <i class="material-icons">add</i>
-                                               </a>    
-                                              
-                                            </td>  --}}
-
-                                             <td colspan="5" >
-                                                <a class="btn btn-default waves-effect" id ="appendRow" accesskey="a" style="float: left;"> 
-                                                <i class="material-icons">add</i>
-                                               </a>    
-                                              
-                                            </td>
-                                         
-                                        </tr>
-                                      
-                                    </tbody>
-                                </table>
-                                        <center><b id="msg" style="color:red; font-size:16px;"></b></center>
-                            <!-- </div> -->
-                            <button class="btn btn-primary waves-effect" id="submit" accesskey="s">SUBMIT</button>
-                            <button class="btn btn-primary waves-effect download" type="submit"  id="download" >Print</button>
-
-                            </form>
-
                         </div>
                     </div>
                 </div>
+                <!-- #END# Exportable Table -->
             </div>
-            <!-- #END# Exportable Table -->
-        </div>
-    </section>
+        </section>
+    @else
+        <section class="content">
+
+        
+
+                <div class="body">
+                        <ol class="breadcrumb breadcrumb-bg-red">
+                            <li><a href="{{url('/home')}}">Home</a></li>
+                            <li><a href="{{url('/getJournalEntriesListView')}}">Journal Entries</a></li>
+                            <li class="active"><a>New Journal Entries</a></li>
+                        </ol>
+                </div>
+        
+
+            <div class="container-fluid">
+            <!--   <div class="block-header">
+                    <h2>
+                        JQUERY DATATABLES
+                        <small>Taken from <a href="https://datatables.net/" target="_blank">datatables.net</a></small>
+                    </h2>
+                </div> -->
+                <!-- #END# Basic Examples -->
+                <!-- Exportable Table -->
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
+                        <div class="card">
+                                <div class="header">
+                            
+                                    <h2>
+                                    New Journal Entries
+                                    </h2>
+                            
+                                
+                            </div>
+                            <div class="body">
+                                <form id="form_validation" name ="form" action="{{ url('/journalEntry/print') }}" target="_blank" method="POST">
+                                    {{ csrf_field() }}
+                                <div class="row clearfix">
+                                    <div class="col-sm-6">
+                                        <select  id="journal_id" name="journal_id" class="form-control show-tick" data-live-search="true"  tabindex="1" required>
+                                            <option value="0" selected="selected" disabled="disabled"><strong>Select Journal</strong></option>
+                                            @foreach ($journals as $journal)    
+                                            <option value="{{$journal->id}}">{{$journal->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6" id="div_project">
+                                        <div class="form-group form-float">
+                                            <div class="form-line">
+                                        <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" tabindex="2"  required>
+                                            <option value="0" selected="selected" disabled="disabled">Select Project</option>
+                                            @foreach ($projects as $project)    
+                                            <option value="{{$project->id}}">{{$project->title}}</option>
+                                            @endforeach
+                                        </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="col-sm-6">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                <input type="text"  name="pdate" id="pdate" tabindex="3" class="form-control date" >
+                                                <label class="form-label">Date (dd/mm/yyyy)</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group form-float">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" id="reference" tabindex="4" name="reference" required>
+                                            <label class="form-label">Reference</label>
+                                        </div>
+                                    </div>
+                                        </div>    
+                                </div>
+                                <input type="hidden" class="form-control" id="rowTotal" name="rowTotal">
+                                <input type="hidden" class="form-control" id="id" name="id" value="">
+                                <!-- <div class="table-responsive"> -->
+
+                                    <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
+                                    <thead>
+                                            <tr>
+                                                <th>ACCOUNT</th>
+                                                <th></th>
+                                                <th style='text-align:center'>DEBIT</th>
+                                                <th style='text-align:center'>CREDIT</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr id="total">
+                                                <th colspan="2" style="text-align:center">Total</th>
+                                            <th></th>
+                                            <th></th>
+                                                <th></th>
+                                                
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            <tr>
+                                            {{-- <td colspan="5" >
+                                                    <a class="btn btn-default waves-effect" data-toggle="modal" data-target="#New-Entry-Modal" tabindex="5" accesskey="+" style="float: left;"> 
+                                                    <i class="material-icons">add</i>
+                                                </a>    
+                                                
+                                                </td>  --}}
+
+                                                <td colspan="5" >
+                                                    <a class="btn btn-default waves-effect" id ="appendRow" accesskey="a" style="float: left;"> 
+                                                    <i class="material-icons">add</i>
+                                                </a>    
+                                                
+                                                </td>
+                                            
+                                            </tr>
+                                        
+                                        </tbody>
+                                    </table>
+                                            <center><b id="msg" style="color:red; font-size:16px;"></b></center>
+                                <!-- </div> -->
+                                <button class="btn btn-primary waves-effect" id="submit" accesskey="s">SUBMIT</button>
+                                <button class="btn btn-primary waves-effect download" type="submit"  id="download" >Print</button>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #END# Exportable Table -->
+            </div>
+        </section>
+    @endif
+
 @endsection
 
 @section('js')
@@ -223,13 +379,20 @@
   
     <script type="text/javascript">
         var selectOpt = ""; 
+        @if(isset($entry))
+          var ndata=$('#rowTotal').val();
+        @else
         var ndata=0;
+
+        @endif
+
         $(document).ready(function() {
                $('.date').inputmask({ mask: "99/99/9999"});
                  
                 @foreach ($accounts as $account)    
                 selectOpt += "<option value='{{$account->id}}'>{{$account->name}}</option>";
                 @endforeach
+                calculate2();
             
                 
        });
@@ -293,6 +456,7 @@
 
         
         $('body').on('change','.debit,.credit',function(event){
+            var i = $('#example tbody tr').length;
             calculate2(); 
         });
         function calculate2(){

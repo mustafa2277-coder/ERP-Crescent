@@ -24,7 +24,8 @@
         <td style="text-align:center">{{$journalentry->entryNum}} </td>
         <td>{{$journalentry->project}} </td>
         <td>{{$journalentry->journal}} </td>
-        <td style="text-align:center"><a href="{{ url('/getJournalEntries') }}/{{$journalentry->id}}"><i class="material-icons">edit</i></a> </td>
+        <td style="text-align:center"><a href="{{ url('/getJournalEntries') }}/{{$journalentry->id}}" ><i class="material-icons">edit</i></a>
+        <a href="{{ url('/deleteJournalEntries') }}/{{$journalentry->id}}" ><i class="material-icons">delete</i></a> </td>
     </tr>
 
     @endforeach  
