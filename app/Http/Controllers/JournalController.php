@@ -545,7 +545,72 @@ public function InsertNJournalEntry(Request $request){
         $entryNumber =  $this->GenerateJournalEntryNum(strtoupper($journal->voucherPrefix));
  
 
-         
+         if($request->id!=""){
+            $journalEntry = JournalEntries::find($request->id);
+            //return $journalEntry;
+       
+            $journalEntry->journalId = $request->journalId;
+            $journalEntry->date_post = date("Y-m-d",strtotime(str_replace('/', '-', $request->datePost))); 
+            $journalEntry->reference = $request->reference;
+            $journalEntry->entryNum  = $entryNumber;
+            $journalEntry->projectid = $request->projectId;
+            $journalEntry->createdBy = $user->name;
+            $journalEntry->save();
+
+            JournalEntryDetail::where('journalEntryId',$request->id)->delete();
+
+            for ($i=0; $i <$request->rowTotal; $i++){
+                if($request->debit[$i]== 0){
+                    $isDebit = false;
+                    $amount = $request->credit[$i];
+                 }
+                
+                if($request->credit[$i]== 0){
+                    $isDebit = true;
+                    $amount = $request->debit[$i];
+                 }
+                $account=$request->acc[$i];
+
+                $dataSet[$i] = [
+                    'amount'         => $amount,
+                    
+                    'journalEntryid' => $journalEntry->id,
+                    'accHeadId'      => $account,
+                    'isDebit'        => $isDebit
+                ];
+    
+                
+            }
+            
+            JournalEntryDetail::insert($dataSet); 
+        
+         /* for ($i=0; $i <sizeof($request->entryDetail) ; $i++) { 
+            if($request->entryDetail[$i]['debit'] == 0){
+               $isDebit = false;
+               $amount = $request->entryDetail[$i]['credit'];
+            }
+            else{
+               $isDebit = true;
+               $amount = $request->entryDetail[$i]['debit'];
+               
+            }
+                
+            $dataSet[$i] = [
+                            'amount'         => $amount,
+                            
+                            'journalEntryid' => $journalEntry->id,
+                            'accHeadId'      => $request->entryDetail[$i]['accountId'],
+                            'isDebit'        => $isDebit
+                        ];
+            }
+        
+            JournalEntryDetail::insert($dataSet);
+         */
+
+        return Response::json(['message'=>'inserted'],201);
+             
+         }
+         else{
 
         $journalEntry = new JournalEntries;
        
@@ -614,12 +679,44 @@ public function InsertNJournalEntry(Request $request){
          */
 
         return Response::json(['message'=>'inserted'],201);
-   
+
+   }
 }
 
 
 /*-----------------------------------------------------------------------END NEW INSERTION FUNCTION--------------------------------------------------------------*/
 
+/*-----------------------------------------------------------------------EDIT JOURNAL ENTRIES--------------------------------------------------------------*/
+
+public function GetJournalEntries($id){
+//return $id;
+//$entry=JournalEntries::find($id);
+$entry = DB::table('journalentries')
+                ->join('journalentrydetail', 'journalentries.id', '=', 'journalentrydetail.journalEntryId')
+                ->join('journal', 'journalentries.journalId', '=', 'journal.id')
+                ->leftJoin('project', 'journalentries.projectId', '=', 'project.id')
+                ->select('journalentries.*', 'journalentries.date_post as entryDate', 'journalentries.id as id','journalentries.entryNum as entryNum','project.title as project','journal.name as journal','journalentrydetail.accHeadId as head','journalentrydetail.amount as amount','journalentrydetail.isDebit as isDebit')
+                ->where('journalentries.id',$id)
+               // ->paginate(20); 
+                ->get();
+$projects=Project::all();
+$journals=Journal::all();
+$accounts=AccountHead::where('isTransactional','=',1)->orwhere('isTransactional','=',null)->orderBy('name')->get();
+//return $entry;
+return view('/Journal/journal_entry_add', compact('entry','journals','accounts','projects'));
+}
+/*-----------------------------------------------------------------------END EDIT Journal Entries--------------------------------------------------------------*/
+/*-----------------------------------------------------------------------Delete JOURNAL ENTRIES--------------------------------------------------------------*/
+public function DeletetNJournalEntry($id){
+
+    //return $id;
+    JournalEntryDetail::where('journalEntryId',$id)->delete();
+    JournalEntries::where('id',$id)->delete();
+
+    return redirect()->back();
+
+}
+/*-----------------------------------------------------------------------END EDIT Journal Entries--------------------------------------------------------------*/
 /*----------------------------------Journal Item-------------------------------*/
 
     // for getting all journal items

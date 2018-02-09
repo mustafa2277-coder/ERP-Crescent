@@ -1,6 +1,7 @@
 $(document).on('click', '#submit', function(e) {
 
     e.preventDefault();
+   
     if($('#journal_id').find(":selected").val() == 0) {
         swal("Please select Journal!");
        // e.preventDefault(); //prevent the default action
@@ -31,6 +32,7 @@ $(document).on('click', '#submit', function(e) {
     submitEntry.projectId =  $('#project_id').find(":selected").val();
     submitEntry.datePost =  $('#pdate').val();
     submitEntry.reference =  $('#reference').val();
+    submitEntry.id= $('#id').val();
     var table = $("table tbody");
     var rowCount = $('#example tbody tr').length;
     //alert(rowCount);

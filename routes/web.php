@@ -87,6 +87,8 @@ Route::match(['get', 'post'],'/getJournalEntries','JournalController@GetJournalE
 Route::get('/addJournalEntry' ,'JournalController@GetJournalEntryForm')->middleware('auth');
 Route::post('/insertJournalEntry','JournalController@InsertJournalEntry')->middleware('auth');//OLD INSERTION ROUTE
 Route::post('/insertNJournalEntry','JournalController@InsertNJournalEntry')->middleware('auth');//New INSERTION ROUTE
+Route::get('/deleteJournalEntries/{id}','JournalController@DeletetNJournalEntry')->middleware('auth');//New INSERTION ROUTE
+Route::get('/getJournalEntries/{id}','JournalController@GetJournalEntries')->middleware('auth');
 Route::post('/getJournalEntriesByDate','JournalController@GetJournalEntriesByDate')->middleware('auth');
 Route::post('getProjectsByCustomerId' ,'JournalController@GetProjectsByCustomerId')->middleware('auth');
 Route::get('/getJournalEntriesListView' ,'JournalController@GetJournalEntriesListView')->middleware('auth');

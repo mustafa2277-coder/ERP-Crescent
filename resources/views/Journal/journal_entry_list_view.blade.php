@@ -264,7 +264,7 @@
             }).done(function(data){
 
                $('.result').html(data);
-               CalculateTotalFoot();
+               //CalculateTotalFoot();
               //console.log(data);
 
         });
@@ -317,7 +317,7 @@
         }).done(function(data){
 
           $('.result').html(data);
-          CalculateTotalFoot();
+          //CalculateTotalFoot();
           // console.log(data);
 
         });
@@ -347,7 +347,7 @@ function getJournalEntry(page){
             }).done(function(data){
 
                 $('.result').html(data);
-                CalculateTotalFoot();
+                //CalculateTotalFoot();
                // console.log(data);
 
             });
@@ -383,7 +383,10 @@ function CalculateTotalFoot(){
     tbody.append(row);
 
     }
-}        
+}
+
+
+
 
 $("#filter_customer").change(function () {
 
