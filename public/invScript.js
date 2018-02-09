@@ -339,7 +339,7 @@ function updateGrnDetail(id){
      
     tableDataInv.push({
         tableindex : rowindex,    
-        productName : $('#product_id_edit option:selected').val() ,
+        productId : $('#product_id_edit option:selected').val() ,
         ProductQuantity: modalProductQuantity,
         ProductPrice: modalProductPrice,
         PurchasedCurrency: modalPurchasedCurrency,
@@ -363,6 +363,7 @@ function updateGrnDetail(id){
         success: function(data) {
             if (data.success=="true") {
                 deleteGrnDetailPlus(id);
+                console.log(tableDataInv);
                 $('#inventryDetailEditModal').modal('hide');
                 $('#invPopupFormEdit')[0].reset(); 
             }
@@ -457,6 +458,7 @@ function addGrnDetailEditTime(){
         ExchangeRate: modalExchangeRate,
         PriceInPkr: modalPriceInPkr, 
     });
+   
      $('#inventryModal').modal('hide');
      $('#invPopupForm')[0].reset(); 
 

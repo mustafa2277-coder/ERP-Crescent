@@ -137,7 +137,7 @@ function addChallanDetail(){
     var productName=$('#challan_product_id option:selected').text();
     var modalProductQuantity = $('#challan_modal_product_quantity').val();
 
-    rows += "<tr id="+rowindexcha+"><td>" + productName + "</td><td>" + modalProductQuantity + '</td><td style="text-align:center"><a id="icon-toggle-deleteChallanRow" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td></tr>' ;
+    rows += "<tr id="+rowindexcha+"><td>" + productName + "</td><td>" + modalProductQuantity + '</td></tr>' ;
 
     var tbody = $("#exampleChallan tbody");
     tbody.prepend(rows);
@@ -197,7 +197,7 @@ function addChallanDetailEditTime(){
     var productName=$('#product_id option:selected').text();
     var modalProductQuantity = $('#modal_product_quantity').val();
 
-    rows += "<tr id="+rowindexcha+"><td>" + productName + "</td><td>" + modalProductQuantity + '</td><td style="text-align:center"><a id="icon-toggle-deleteChallanRow" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td></tr>' ;
+    rows += "<tr id="+rowindexcha+"><td>" + productName + "</td><td>" + modalProductQuantity + '</td></tr>' ;
 
     var tbody = $("#exampleChallanEdit tbody");
     tbody.prepend(rows);
@@ -344,7 +344,7 @@ function updateChallanDetail(id){
     var productName=$('#product_id_edit_challan option:selected').text();
     var modalProductQuantity = $('#modal_product_quantity_edit_challan').val();
 
-    rows += "<tr id="+rowindexcha+"><td>" + productName + "</td><td>" + modalProductQuantity + '</td><td style="text-align:center"><a id="icon-toggle-deleteChallanRow" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td></tr>' ;
+    rows += "<tr id="+rowindexcha+"><td>" + productName + "</td><td>" + modalProductQuantity + '</td></tr>' ;
 
     var tbody = $("#exampleChallanEdit tbody");
     tbody.prepend(rows);

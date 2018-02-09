@@ -117,7 +117,7 @@ class InventoryController extends Controller
 
 
     public function insertGrn(Request $request){
-
+        $warehouseId=$request->warehouse;
         $invgrn=new InvGrn;
         $user=Auth::user();
 
@@ -148,14 +148,15 @@ class InventoryController extends Controller
             }
             for ($i=0; $i <sizeof($request->grnDetail) ; $i++) { 
 
-                $product=warehouseProduct::where('product_id', $request->grnDetail[$i]['productId'])->get();
+                $temp =$request->grnDetail[$i]['productId'];
+                $product = DB::select( DB::raw("SELECT * FROM warehouseproduct WHERE warehouse_id=$warehouseId AND product_id=$temp"));
                 // $totalQuantity=$request->grnDetail[$i]['ProductQuantity']+$product->quantity_in_hand;
+                // return $product;
                 if (count($product)) {
                     
                     $totalQuantity=$request->grnDetail[$i]['ProductQuantity']+$product[0]->quantity_in_hand;
-                    DB::table('warehouseproduct')
-                    ->where('product_id', $request->grnDetail[$i]['productId'])
-                    ->update(['quantity_in_hand' =>$totalQuantity]);
+                    DB::statement("UPDATE `warehouseproduct` SET `quantity_in_hand` =$totalQuantity WHERE `warehouse_id` = $warehouseId AND `product_id` = $temp ;");
+
                     // DB::table('warehouseproduct')->increment('quantity_in_hand', $request->grnDetail[$i]['ProductQuantity'] , ['product_id' => $request->grnDetail[$i]['productName']]);
                 }else {
                     $dataSetQ = [
@@ -201,17 +202,23 @@ class InventoryController extends Controller
      public function getGrnDetailBeforeDelete(Request $request){
         //return $request->id;
         $GrnDetail=InvGrnDetail::find($request->id);
-        $product=warehouseProduct::where('product_id', $GrnDetail->product_id)->get();
+        $warehouseId=InvGrn::where('id',$GrnDetail->grn_id)->get();
+        $warehouseId=$warehouseId[0]->wareshouse_id;
+        $temp=$GrnDetail->product_id;
+        $product = DB::select( DB::raw("SELECT * FROM warehouseproduct WHERE warehouse_id=$warehouseId AND product_id=$temp"));
+
         $totalQuantity=$product[0]->quantity_in_hand-$GrnDetail->product_quantity;
-        DB::table('warehouseproduct')
-        ->where('product_id', $GrnDetail->product_id)
-        ->update(['quantity_in_hand' =>$totalQuantity]);
+
+        DB::statement("UPDATE `warehouseproduct` SET `quantity_in_hand` =$totalQuantity WHERE `warehouse_id` = $warehouseId AND `product_id` = $temp ;");
+
         return Response::json(['success'=>'true'],201);
     }
 
 
 
     public function updateGrn(Request $request){
+        // return $request->grnDetail;
+        $warehouseId=$request->warehouse;
         $dataSet=[];
         // $id=$request->GrnId;
         $user=Auth::user();
@@ -245,17 +252,15 @@ class InventoryController extends Controller
             }
 
             for ($i=0; $i <sizeof($request->grnDetail) ; $i++) { 
-
-                $product=warehouseProduct::where('product_id', $request->grnDetail[$i]['productId'])->get();
-                // $totalQuantity=$request->grnDetail[$i]['ProductQuantity']+$product->quantity_in_hand;
+                $temp =$request->grnDetail[$i]['productId'];
+                $product = DB::select( DB::raw("SELECT * FROM warehouseproduct WHERE warehouse_id=$warehouseId AND product_id=$temp"));
+                
                 if (count($product)) {
                     
                     $totalQuantity1=$request->grnDetail[$i]['ProductQuantity']+$product[0]->quantity_in_hand;
                     // var_dump($totalQuantity);
                     // die();
-                    DB::table('warehouseproduct')
-                    ->where('product_id', $request->grnDetail[$i]['productId'])
-                    ->update(['quantity_in_hand' =>$totalQuantity1]);
+                    DB::statement("UPDATE `warehouseproduct` SET `quantity_in_hand` =$totalQuantity1 WHERE `warehouse_id` = $warehouseId AND `product_id` = $temp ;");
                     // DB::table('warehouseproduct')->increment('quantity_in_hand', $request->grnDetail[$i]['ProductQuantity'] , ['product_id' => $request->grnDetail[$i]['productName']]);
                 }else {
                     $dataSetQ = [
@@ -305,6 +310,7 @@ class InventoryController extends Controller
 
 
     public function insertChallan(Request $request){
+        $warehouseId=$request->warehouse;
         $quantityCheck=0;
             for ($i=0; $i <sizeof($request->challanDetail) ; $i++) { 
                 $temp=0;
@@ -353,16 +359,15 @@ class InventoryController extends Controller
             InvDcDetail::insert($dataSet);
 
             for ($i=0; $i <sizeof($request->challanDetail) ; $i++) { 
+                $temp=$request->challanDetail[$i]['productId'];
                 $remainingQuantity=0;
-                $product=warehouseProduct::where('product_id', $request->challanDetail[$i]['productId'])->get();
+                $product = DB::select( DB::raw("SELECT * FROM warehouseproduct WHERE warehouse_id=$warehouseId AND product_id=$temp"));
                 // $totalQuantity=$request->grnDetail[$i]['ProductQuantity']+$product->quantity_in_hand;
                 if (count($product)) {
                     
                     $remainingQuantity=$product[0]->quantity_in_hand-$request->challanDetail[$i]['ProductQuantity'];
+                    DB::statement("UPDATE `warehouseproduct` SET `quantity_in_hand` =$remainingQuantity WHERE `warehouse_id` = $warehouseId AND `product_id` = $temp ;");
 
-                    DB::table('warehouseproduct')
-                    ->where('product_id', $request->challanDetail[$i]['productId'])
-                    ->update(['quantity_in_hand' =>$remainingQuantity]);
                     // DB::table('warehouseproduct')->increment('quantity_in_hand', $request->grnDetail[$i]['ProductQuantity'] , ['product_id' => $request->grnDetail[$i]['productName']]);
                 }else {
                     $dataSetQ = [
@@ -416,12 +421,21 @@ class InventoryController extends Controller
 
     public function getChallanDetailBeforeDelete(Request $request){
         //return $request->id;
+        // $ChallanDetail=InvDcDetail::find($request->id);
+        // $product=warehouseProduct::where('product_id', $ChallanDetail->product_id)->get();
+        // $totalQuantity=$product[0]->quantity_in_hand+$ChallanDetail->product_quantity;
+        // DB::table('warehouseproduct')
+        // ->where('product_id', $ChallanDetail->product_id)
+        // ->update(['quantity_in_hand' =>$totalQuantity]);
+
         $ChallanDetail=InvDcDetail::find($request->id);
-        $product=warehouseProduct::where('product_id', $ChallanDetail->product_id)->get();
+        $warehouseId=InvDeliveryChallan::where('id',$ChallanDetail->delivery_challan_id)->get();
+        $warehouseId=$warehouseId[0]->wareshouse_id;
+        $temp=$ChallanDetail->product_id;
+        $product = DB::select( DB::raw("SELECT * FROM warehouseproduct WHERE warehouse_id=$warehouseId AND product_id=$temp"));
         $totalQuantity=$product[0]->quantity_in_hand+$ChallanDetail->product_quantity;
-        DB::table('warehouseproduct')
-        ->where('product_id', $ChallanDetail->product_id)
-        ->update(['quantity_in_hand' =>$totalQuantity]);
+
+        DB::statement("UPDATE `warehouseproduct` SET `quantity_in_hand` =$totalQuantity WHERE `warehouse_id` = $warehouseId AND `product_id` = $temp ;");
         return Response::json(['success'=>'true'],201);
     }
 
@@ -431,6 +445,7 @@ class InventoryController extends Controller
 
     public function updateChallan(Request $request){
         //return $request->ChallanId;
+        $warehouseId=$request->warehouse;
         $quantityCheck=0;
         $dataSet=[];
             for ($i=0; $i <sizeof($request->challanDetail) ; $i++) { 
@@ -475,16 +490,16 @@ class InventoryController extends Controller
         
             
             for ($i=0; $i <sizeof($request->challanDetail) ; $i++) { 
+                $temp=$request->challanDetail[$i]['productId'];
                 $remainingQuantity=0;
-                $product=warehouseProduct::where('product_id', $request->challanDetail[$i]['productId'])->get();
-                // $totalQuantity=$request->grnDetail[$i]['ProductQuantity']+$product->quantity_in_hand;
+                $product = DB::select( DB::raw("SELECT * FROM warehouseproduct WHERE warehouse_id=$warehouseId AND product_id=$temp"));
+                                                    
                 if (count($product)) {
                     
                     $remainingQuantity=$product[0]->quantity_in_hand-$request->challanDetail[$i]['ProductQuantity'];
 
-                    DB::table('warehouseproduct')
-                    ->where('product_id', $request->challanDetail[$i]['productId'])
-                    ->update(['quantity_in_hand' =>$remainingQuantity]);
+                    DB::statement("UPDATE `warehouseproduct` SET `quantity_in_hand` =$remainingQuantity WHERE `warehouse_id` = $warehouseId AND `product_id` = $temp ;");
+
                     // DB::table('warehouseproduct')->increment('quantity_in_hand', $request->grnDetail[$i]['ProductQuantity'] , ['product_id' => $request->grnDetail[$i]['productName']]);
                 }else {
                     $dataSetQ = [
@@ -623,29 +638,18 @@ class InventoryController extends Controller
         return view('/inventory/warehouseReport',compact('warehouses'));
     }
     public function getWarehouseReport(Request $request){
-        $grnDeatils=[];
+        // $grnDeatils=[];
         $products = DB::table('warehouseproduct')
-        ->join('inv_grn','inv_grn.wareshouse_id','=','warehouseproduct.warehouse_id')
-        ->select('warehouseproduct.*','inv_grn.id as GRNID')
-        ->where('warehouseproduct.warehouse_id','=',$request->id)
-        ->get();
-        for ($i=0; $i <sizeof($products) ; $i++) { 
-            $grnDeatils = DB::table('inv_grn_detail')
-            ->join('products','products.id','=','inv_grn_detail.product_id')
-            ->join('units','units.id','=','products.unitId')
-            ->select('products.*','products.name as pName','units.*','inv_grn_detail.*')
-            ->where('inv_grn_detail.grn_id','=',$products[$i]->GRNID)
-            ->get();
-        }
-        
-        if ($products && $grnDeatils ) {
+        ->join('inv_grn_detail','inv_grn_detail.product_id','=','warehouseproduct.product_id')
+        ->join('products','products.id','=','warehouseproduct.product_id')
+        ->join('units','units.id','=','products.unitId')
 
-            // $result = array_merge($grnDeatils, $products);
-            return  [$grnDeatils , $products];
-         } 
-         else{
-            return [1];
-         }
+        ->select('products.weight','products.name as pName','warehouseproduct.*','inv_grn_detail.purchased_price','units.name as uName','products.id as pId' )
+        ->where('warehouseproduct.warehouse_id','=',$request->id)
+        ->groupBy('warehouseproduct.id')
+        ->get();
+
+        return $products;
         
     }
     public function ProductsatReorderLevel(){
@@ -654,12 +658,15 @@ class InventoryController extends Controller
         ->select('warehouseproduct.*','products.*')
         
         ->get();
+        // return sizeof($product);
         for ($i=0; $i <sizeof($product) ; $i++) { 
             $productList = DB::table('warehouseproduct')
             ->join('products','products.id','=','warehouseproduct.product_id')
-            ->select('warehouseproduct.*','products.*')
+            ->select('warehouseproduct.*','products.*',DB::raw('SUM(quantity_in_hand) as quantity_in_hand'))
             ->where('warehouseproduct.quantity_in_hand','<=',$product[$i]->reorder_level)
+            ->groupBy('warehouseproduct.id')
             ->get();
+
         }
 
         return view('/inventory/ProductsAtReorderLevel',compact('productList'));
@@ -708,13 +715,17 @@ class InventoryController extends Controller
     }
     public function productDeatil(){
         $productDeatil = DB::table('inv_grn_detail')
-        ->join('products','products.id','=','inv_grn_detail.product_id')
-        ->join('units','units.id','=','products.unitId')
         ->join('inv_grn','inv_grn.id','=','inv_grn_detail.grn_id')
         ->join('customers','customers.id','=','inv_grn.vendor_id')
-        ->join('warehouseproduct','warehouseproduct.product_id','=','inv_grn_detail.product_id')
+        ->join('warehouseproduct','warehouseproduct.warehouse_id','=','inv_grn.wareshouse_id')
+        ->join('products','products.id','=','warehouseproduct.product_id')
+        ->join('units','units.id','=','products.unitId')
         ->select('products.name as pName','products.weight','units.name as uName','warehouseproduct.quantity_in_hand','customers.name as cName')
+        // ->groupBy('inv_grn_detail.id')
+        ->groupBy('warehouseproduct.id')
+        
         ->get();
+        // return $productDeatil;
         return view('/inventory/productDeatil',compact('productDeatil'));
     }
     public function getProductSummaryByCategory(Request $request){
@@ -734,28 +745,21 @@ class InventoryController extends Controller
         ->select('inv_warehouse.warehouse_name')
         ->where('inv_warehouse.id','=', $warehouseId)
         ->get();
-        $grnDeatils=[];
         $products = DB::table('warehouseproduct')
-        ->join('inv_grn','inv_grn.wareshouse_id','=','warehouseproduct.warehouse_id')
-        ->select('warehouseproduct.*','inv_grn.id as GRNID')
+        ->join('inv_grn_detail','inv_grn_detail.product_id','=','warehouseproduct.product_id')
+        ->join('products','products.id','=','warehouseproduct.product_id')
+        ->join('units','units.id','=','products.unitId')
+
+        ->select('products.weight','products.name as pName','warehouseproduct.*','inv_grn_detail.purchased_price','units.name as uName','products.id as pId' )
         ->where('warehouseproduct.warehouse_id','=',$request->id)
+        ->groupBy('warehouseproduct.id')
         ->get();
-        for ($i=0; $i <sizeof($products) ; $i++) { 
-            $grnDeatils = DB::table('inv_grn_detail')
-            ->join('products','products.id','=','inv_grn_detail.product_id')
-            ->join('units','units.id','=','products.unitId')
-            ->select('products.*','products.name as pName','units.*','inv_grn_detail.*')
-            ->where('inv_grn_detail.grn_id','=',$products[$i]->GRNID)
-            ->get();
-        }
+
+        // return $products;
         
-        if ($products && $grnDeatils ) {
-            $pdf = PDF::loadView('/inventory/warehouseReportPdf',compact('grnDeatils','products','warehouseId','warehouse'));
+        if ($products) {
+            $pdf = PDF::loadView('/inventory/warehouseReportPdf',compact('products','warehouseId','warehouse'));
             return $pdf->stream();
-            // $result = array_merge($grnDeatils, $products);
-            return view('',compact('grnDeatils','products','warehouseId'));
-            // view()->share('grnDeatils',$grnDeatils,'products',$products);
-            // return  [ , ];
          }
         
     }
@@ -768,8 +772,9 @@ class InventoryController extends Controller
         for ($i=0; $i <sizeof($product) ; $i++) { 
             $productList = DB::table('warehouseproduct')
             ->join('products','products.id','=','warehouseproduct.product_id')
-            ->select('warehouseproduct.*','products.*')
+            ->select('warehouseproduct.*','products.*',DB::raw('SUM(quantity_in_hand) as quantity_in_hand'))
             ->where('warehouseproduct.quantity_in_hand','<=',$product[$i]->reorder_level)
+            ->groupBy('warehouseproduct.id')
             ->get();
         }
         $pdf = PDF::loadView('/inventory/productsatReorderLevelPdf',compact('productList'));
@@ -817,12 +822,15 @@ class InventoryController extends Controller
     }
     public function productDetailPdf(){
         $productDeatil = DB::table('inv_grn_detail')
-        ->join('products','products.id','=','inv_grn_detail.product_id')
-        ->join('units','units.id','=','products.unitId')
         ->join('inv_grn','inv_grn.id','=','inv_grn_detail.grn_id')
         ->join('customers','customers.id','=','inv_grn.vendor_id')
-        ->join('warehouseproduct','warehouseproduct.product_id','=','inv_grn_detail.product_id')
+        ->join('warehouseproduct','warehouseproduct.warehouse_id','=','inv_grn.wareshouse_id')
+        ->join('products','products.id','=','warehouseproduct.product_id')
+        ->join('units','units.id','=','products.unitId')
         ->select('products.name as pName','products.weight','units.name as uName','warehouseproduct.quantity_in_hand','customers.name as cName')
+        // ->groupBy('inv_grn_detail.id')
+        ->groupBy('warehouseproduct.id')
+        
         ->get();
         $pdf = PDF::loadView('/inventory/productDetailPdf',compact('productDeatil'));
         return $pdf->stream();

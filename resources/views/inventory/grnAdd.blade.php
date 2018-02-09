@@ -138,8 +138,8 @@
                                             <td >{{ $grn->purchased_currency}}</td>
                                             <td >{{ $grn->exchange_rate}}</td>
                                             <td >{{ $grn->price_in_pkr}}</td>
-                                            <td ><a onclick="editGrnDetail({{$grn->id}})" data-toggle="modal" data-target="#inventryDetailEditModal"><i class="material-icons">edit</i></a></td>
-                                            <td ><a  onclick="deleteGrnDetail({{$grn->id}})" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td>
+                                            <td ><a onclick="editGrnDetail({{$grn->id}});" data-toggle="modal" data-target="#inventryDetailEditModal"><i class="material-icons">edit</i></a></td>
+                                            <td ><a  onclick="deleteGrnDetail({{$grn->id}});" class="removebutton">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </a></td>
                                         </tr>
                                         @endforeach
                                         <tr>

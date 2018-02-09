@@ -23,11 +23,14 @@ class ProductController extends Controller
             
             ->join('productcategories', 'productcategories.id', '=', 'products.categoryId')
 
-            ->select( 'products.*','warehouseproduct.quantity_in_hand','units.name as unit','productcategories.name as category')
-            
+            ->select( 'products.*','warehouseproduct.quantity_in_hand','units.name as unit','productcategories.name as category',DB::raw('SUM(quantity_in_hand) as quantity_in_hand'))
+            // ->where('product_id','=','products.id')
+            ->groupBy('products.id')
+            // ->sum('warehouseproduct.quantity_in_hand');
+            // return $productList;
             //->distinct()
 
-            //->get();
+            // ->get();
 
             ->get();
             // return $productList;

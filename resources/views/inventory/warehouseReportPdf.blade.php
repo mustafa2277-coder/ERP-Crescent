@@ -6792,9 +6792,7 @@
             
                                     </div>
                                     <div class="body">
-                             			<?php   $i=1;
-                             					$dataFirst=$grnDeatils;
-                								$dataTwo=$products;
+                             			<?php   
                              			  ?>
 			                            <table class="table table-striped table-hover">
 
@@ -6807,12 +6805,12 @@
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
-			                                @for ($i = 0; $i < count($dataFirst); $i++)
+			                                @for ($i = 0; $i < count($products); $i++)
 			                                    <tr>
-			                                        <td class='col-sm-3' style='text-align:center'>{{$dataFirst[$i]->pName}}</td>
-			                                        <td class='col-sm-3' style='text-align:center'>{{$dataTwo[$i]->quantity_in_hand}}</td>
-			                                        <td class="col-sm-3" style="text-align:center">{{$dataFirst[$i]->purchased_price}}</td>
-			                                        <td class="col-sm-3" style="text-align:center">{{$dataFirst[$i]->weight}}{{$dataFirst[$i]->name}}</td>
+			                                        <td class='col-sm-3' style='text-align:center'>{{$products[$i]->pName}}</td>
+			                                        <td class='col-sm-3' style='text-align:center'>{{$products[$i]->quantity_in_hand}}</td>
+			                                        <td class="col-sm-3" style="text-align:center">{{$products[$i]->purchased_price}}</td>
+			                                        <td class="col-sm-3" style="text-align:center">{{$products[$i]->weight}}{{$products[$i]->uName}}</td>
 			                                    </tr>
 			                                  @endfor
 			                                </tbody>
