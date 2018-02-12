@@ -702,6 +702,7 @@ $entry = DB::table('journalentries')
 $projects=Project::all();
 $journals=Journal::all();
 $accounts=AccountHead::where('isTransactional','=',1)->orwhere('isTransactional','=',null)->orderBy('name')->get();
+//return $accounts;
 //return $entry;
 return view('/Journal/journal_entry_add', compact('entry','journals','accounts','projects'));
 }

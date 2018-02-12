@@ -177,3 +177,10 @@ Route::get('/vendorReportPdf/{id}',array('as'=>'vendorReportPdf','uses'=>'Invent
 Route::get('/productSummaryPdf',array('as'=>'productSummaryPdf','uses'=>'InventoryController@productSummaryPdf'));
 Route::get('/productSummaryByCategoryPdf/{id}',array('as'=>'productSummaryByCategoryPdf','uses'=>'InventoryController@productSummaryByCategoryPdf'));
 Route::get('/productDetailPdf',array('as'=>'productDetailPdf','uses'=>'InventoryController@productDetailPdf'));
+
+
+/*-------------------------------------------------------Procurement---------------------------------------------------------------------*/
+
+Route::get('/getAddPurchase' ,'PurchaseController@getAddPurchase')->middleware('auth');
+Route::post('/insertPurchaseOrder' ,'PurchaseController@insertPurchaseOrder')->middleware('auth');
+Route::post('purchase/print' ,'PurchaseController@purchasePrint')->middleware('auth');
