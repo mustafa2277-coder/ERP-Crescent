@@ -1,4 +1,3 @@
-
 <html lang="en">
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -6768,12 +6767,15 @@
           hr{
             border: 1px solid black;
          }
+         td{
+          font-size:12px;
+        }
             </style>
         </head>
         <body >
             @if(isset($journalentries))
                 <center><h3>Journal Voucher</h3></center>
-                <img src="http://localhost/ERP/public/images/logostrongforce.png"  >
+                <img src="http://digitalexpense.com/ERP/public/images/logostrongforce.png"  >
                 
         
                 <div>
@@ -6907,7 +6909,7 @@
                 
             @else
                 <center><h3>Journal Voucher</h3></center>
-                <img src="http://localhost/ERP/public/images/logostrongforce.png"  >
+                <img src="http://digitalexpense.com/ERP/public/images/logostrongforce.png"  >
                 <br>
         
                 <div style="float:right;">
@@ -6919,6 +6921,14 @@
                         
                 </div>  --}}
                 <hr>
+                <strong >Voucher No.  </strong>{{$voucherNo}}
+                <br>
+                <strong>Posted Date: </strong>{{$date}}
+                <br>
+                <strong>Journal: </strong>{{$journal}}
+                <br>
+                <strong>Project: </strong>{{$project}}
+                <br><br>
                 <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
                         <thead>
                             <tr style="background: #f44336;color: #fff;">

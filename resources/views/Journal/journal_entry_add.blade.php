@@ -123,6 +123,7 @@
                                 </div>
                                 <input type="hidden" class="form-control" id="rowTotal" name="rowTotal" value="{{sizeof($entry)}}">
                                 <input type="hidden" class="form-control" id="id" name="id" value="{{$entry[0]->id}}">
+                                <input type="hidden" class="form-control" id="num" name="num" value="">
                                 <!-- <div class="table-responsive"> -->
 
                                     <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
@@ -276,6 +277,7 @@
                                 </div>
                                 <input type="hidden" class="form-control" id="rowTotal" name="rowTotal">
                                 <input type="hidden" class="form-control" id="id" name="id" value="">
+                                <input type="hidden" class="form-control" id="num" name="num" value="">
                                 <!-- <div class="table-responsive"> -->
 
                                     <table id="example"  class="table  table-striped table-hover dataTable js-exportable">

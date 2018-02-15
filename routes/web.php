@@ -181,6 +181,13 @@ Route::get('/productDetailPdf',array('as'=>'productDetailPdf','uses'=>'Inventory
 
 /*-------------------------------------------------------Procurement---------------------------------------------------------------------*/
 
+Route::get('/getPurchaseOrders' ,'PurchaseController@getPurchaseOrders')->middleware('auth');
+Route::get('/getFilterPurchaseOrder' ,'PurchaseController@getFilterPurchaseOrder')->middleware('auth');
 Route::get('/getAddPurchase' ,'PurchaseController@getAddPurchase')->middleware('auth');
+Route::get('/getPurchaseOrder/{id}' ,'PurchaseController@getPurchaseOrder')->middleware('auth');
 Route::post('/insertPurchaseOrder' ,'PurchaseController@insertPurchaseOrder')->middleware('auth');
-Route::post('purchase/print' ,'PurchaseController@purchasePrint')->middleware('auth');
+Route::get('/deletePurchaseOrder/{id}' ,'PurchaseController@deletePurchaseOrder')->middleware('auth');
+    /*-----------------------------------------------------Print Procurment----------------------------*/
+    Route::post('purchase/print' ,'PurchaseController@purchasePrint')->middleware('auth');
+    Route::get('/getOrderDetailPdf','PurchaseController@getOrderDetailPdf')->middleware('auth');
+    Route::get('/getPurchaseOrderPdf','PurchaseController@getPurchaseOrderPdf')->middleware('auth');

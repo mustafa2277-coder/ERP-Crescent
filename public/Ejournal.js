@@ -105,6 +105,7 @@ $(document).on('click', '#submit', function(e) {
             console.log(data);
             if(data.message="inserted"){
                 alert('hello');
+                $("#num").val(data.entryNumber);
                 $("#msg").text('Data Inserted');
                 $("#download").removeClass("download");
                  /* $("#reset").removeClass("download");  */

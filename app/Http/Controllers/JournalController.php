@@ -145,6 +145,7 @@ class JournalController extends Controller
                 ->get(); 
 
             $journalentries = $this->paginate($journalentries)->setPath('journalentries');
+            //return $journalentries; 
 
                ///return  $journalentries;//new Paginator($journalentries, 20);
         }
@@ -552,7 +553,7 @@ public function InsertNJournalEntry(Request $request){
             $journalEntry->journalId = $request->journalId;
             $journalEntry->date_post = date("Y-m-d",strtotime(str_replace('/', '-', $request->datePost))); 
             $journalEntry->reference = $request->reference;
-            $journalEntry->entryNum  = $entryNumber;
+            //$journalEntry->entryNum  = $entryNumber;
             $journalEntry->projectid = $request->projectId;
             $journalEntry->createdBy = $user->name;
             $journalEntry->save();
@@ -607,7 +608,7 @@ public function InsertNJournalEntry(Request $request){
             JournalEntryDetail::insert($dataSet);
          */
 
-        return Response::json(['message'=>'inserted'],201);
+        return Response::json(['message'=>'inserted','entryNumber'=>$journalEntry->entryNum],201);
              
          }
          else{
@@ -678,7 +679,7 @@ public function InsertNJournalEntry(Request $request){
             JournalEntryDetail::insert($dataSet);
          */
 
-        return Response::json(['message'=>'inserted'],201);
+        return Response::json(['message'=>'inserted','entryNumber'=>$journalEntry->entryNum],201);
 
    }
 }
@@ -771,7 +772,7 @@ public function DeletetNJournalEntry($id){
 
     
 
-    protected function paginate($items, $perPage = 12)
+    protected function paginate($items, $perPage = 5)
     {
         //Get current page form url e.g. &page=1
         $currentPage =  LengthAwarePaginator::resolveCurrentPage();
@@ -1196,7 +1197,7 @@ public function jprint(Request $request){
 
     $jour=Journal::find($request->journal_id);
     $journal=$jour->name;
-
+    $voucherNo=$request->num;
     $date=$request->pdate;
     $ref=$request->reference;
     $totalCredit=$request->creditAmt;
@@ -1205,7 +1206,7 @@ public function jprint(Request $request){
     //return $proj;
     //return [$debit,$credit,$acc,$journal,$project,$date,$ref,$totalCredit,$totalDebit];
     //return $rows;
-    $pdf = PDF::loadView('/Journal/printBlade/jEPrint',compact('debit','credit','acc','journal','project','date','ref','totalCredit','totalDebit','rows','accCode','user'));
+    $pdf = PDF::loadView('/Journal/printBlade/jEPrint',compact('voucherNo','debit','credit','acc','journal','project','date','ref','totalCredit','totalDebit','rows','accCode','user'));
                     return $pdf->stream();
     //return view('/Journal/printBlade/jEPrint',compact('debit','credit','acc','journal','project','date','ref','totalCredit','totalDebit','rows','accCode'));
 }

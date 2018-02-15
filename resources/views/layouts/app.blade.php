@@ -442,10 +442,33 @@
     
     
                         </li>
+                        <li>
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">unarchive</i>
+                                <span>Procurement</span>
+    
+                            </a>
+    
+                            <ul class="ml-menu">
+                                    
+                                <li>
+                                            <a href="{{url('/getPurchaseOrders')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Purchase Order</span>
+                    
+                                            </a>
+                                </li>
+                                
+                                
+                                
+                            </ul>
+    
+    
+                        </li>
 
 
 
-
+                        
 
 
 

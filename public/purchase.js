@@ -120,6 +120,7 @@ $(document).on('click', '#submit', function(e) {
             console.log(data);
             if(data.message="inserted"){
                 //alert('hello');
+                $("#num").val(data.poNumber);
                 $("#msg").text('Data have been saved');
                 $("#download").removeClass("download");
                 

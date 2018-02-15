@@ -47,8 +47,9 @@
 @endsection
 
 @section('content')
-
-    {{--  @if(isset($entry))
+   
+    @if(isset($purchaseorders))
+    
         <section class="content">
 
             
@@ -56,8 +57,8 @@
                 <div class="body">
                         <ol class="breadcrumb breadcrumb-bg-red">
                             <li><a href="{{url('/home')}}">Home</a></li>
-                            <li><a href="{{url('/getJournalEntriesListView')}}">Journal Entries</a></li>
-                            <li class="active"><a>Edit Journal Entries</a></li>
+                            <li><a href="{{url('/getPurchaseOrders')}}">Purchase Orders</a></li>
+                            <li class="active"><a>Edit Purchase Order</a></li>
                         </ol>
                 </div>
         
@@ -77,22 +78,22 @@
                                 <div class="header">
                             
                                     <h2>
-                                    Edit Journal Entries
+                                    Edit Purchase Order
                                     </h2>
                             
                                 
                             </div>
                             <div class="body">
-                                <form id="form_validation" name ="form" action="{{ url('/journalEntry/print') }}" target="_blank" method="POST">
+                                <form id="form_validation" name ="form" action="{{ url('/purchase/print') }}" target="_blank" method="POST">
                                     {{ csrf_field() }}
                                 <div class="row clearfix">
                                     <div class="col-sm-6">
-                                        <select  id="journal_id" name="journal_id" class="form-control show-tick" data-live-search="true"  tabindex="1" required>
-                                            <option value="0" selected="selected" disabled="disabled"><strong>Select Journal</strong></option>
-                                            @foreach ($journals as $journal)    
-                                            <option value="{{$journal->id}}" {{ $entry[0]->journalId == $journal->id ? "selected":"" }}>{{$journal->name}}</option>
-                                            @endforeach
-                                        </select>
+                                            <select  id="vendor_id" name="vendor_id" class="form-control show-tick" data-live-search="true"  tabindex="1" required>
+                                                    <option value="0" selected="selected" disabled="disabled"><strong>Select Vendor</strong></option>
+                                                    @foreach ($vendors as $vendor)    
+                                                    <option value="{{$vendor->id}}" {{ $purchaseorders[0]->vendorId == $vendor->id ? "selected":"" }}>{{$vendor->name}}</option>
+                                                    @endforeach
+                                            </select>
                                     </div>
                                     <div class="col-sm-6" id="div_project">
                                         <div class="form-group form-float">
@@ -100,52 +101,74 @@
                                         <select  id="project_id" name="project_id" class="form-control show-tick" data-live-search="true" tabindex="2"  required>
                                             <option value="0" selected="selected" disabled="disabled">Select Project</option>
                                             @foreach ($projects as $project)    
-                                            <option value="{{$project->id}}" {{ $entry[0]->projectId == $project->id ? "selected":"" }}>{{$project->title}}</option>
+                                            <option value="{{$project->id}}" {{ $purchaseorders[0]->projectId == $project->id ? "selected":"" }}>{{$project->title}}</option>
                                             @endforeach
                                         </select>
                                             </div>
                                         </div>
                                     </div>
                                     
+                                    
                                         <div class="col-sm-6">
                                             <div class="form-group form-float">
                                                 <div class="form-line">
-                                                <input type="text"  name="pdate" id="pdate" tabindex="3" class="form-control date" value="{{date("d-m-Y",strtotime($entry[0]->date_post))}}">
-                                                <label class="form-label">Date (dd/mm/yyyy)</label>
+                                                    <input type="text"  name="pdate" id="pdate" tabindex="3" class="form-control date" value="{{date("d-m-Y",strtotime($purchaseorders[0]->poDate))}}">
+                                                    <label class="form-label">Date (dd/mm/yyyy)</label>
                                                 </div>
                                             </div>
                                         </div>
 
-                                    <div class="col-sm-6">
-                                        <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <input type="text" class="form-control" id="reference" tabindex="4" name="reference" value="{{$entry[0]->reference}}" required>
-                                            <label class="form-label">Reference</label>
+                                        <div class="col-sm-6">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text"  name="rdate" id="rdate" tabindex="3" class="form-control date" value="{{date("d-m-Y",strtotime($purchaseorders[0]->requiredDate))}}">
+                                                    <label class="form-label">REQUIRED DATE (dd/mm/yyyy)</label>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                        </div>    
+                                        
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" id="description" tabindex="4" name="description" value="{{$purchaseorders[0]->description}}" required>
+                                                    <label class="form-label">Description</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-sm-12">  
+                                            <div class="form-group form-float">
+                                                <div class="form-line">
+                                                    <input type="checkbox" id="isRFQ" name="isRFQ" {{ $purchaseorders[0]->isRFQ == "on" ? "checked":"" }} >
+                                                    <label for="isRFQ">Is RFQ</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                          
                                 </div>
-                                <input type="hidden" class="form-control" id="rowTotal" name="rowTotal" value="{{sizeof($entry)}}">
-                                <input type="hidden" class="form-control" id="id" name="id" value="{{$entry[0]->id}}">
+                                <input type="hidden" class="form-control" id="rowTotal" name="rowTotal" value="{{sizeof($purchaseorders)}}">
+                                <input type="hidden" class="form-control" id="id" name="id" value="{{$purchaseorders[0]->poId}}">
+                                <input type="hidden" class="form-control" id="num" name="num" value="">
                                 <!-- <div class="table-responsive"> -->
 
                                     <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
                                     <thead>
                                             <tr>
-                                                <th>ACCOUNT</th>
-                                                <th></th>
-                                                <th style='text-align:center'>DEBIT</th>
-                                                <th style='text-align:center'>CREDIT</th>
+                                                <th>Product</th>
+                                                <th style='text-align:center'>Product Quantity</th>
+                                                <th style='text-align:center'>Unit Price</th>
+                                                <th style='text-align:center'>Tax %</th>
+                                                <th style='text-align:center'>Sub Total</th>
                                                 
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr id="total">
                                                 <th colspan="2" style="text-align:center">Total</th>
-                                            <th></th>
-                                            <th></th>
                                                 <th></th>
-                                                
+                                                <th></th>
+                                                <th></th>
+                                                        
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -160,26 +183,19 @@
                                                 </td>
                                             
                                             </tr>
-                                            @foreach($entry as $i=>$ent)
+                                            @foreach($purchaseorders as $i=>$purchaseorder)
                                             <tr>
                                                 <td>
-                                                    <select id='acc{{$i}}' name='acc[{{$i+1}}]' class='form-control'   required>
-                                                            @foreach ($accounts as $account)    
-                                                                <option value="{{$account->id}}" {{ $ent->head == $account->id}} ? "selected":"" }}>{{$account->name}}</option>
+                                                    <select id='product{{$i+1}}' name='product[{{$i+1}}]' class='form-control'   required>
+                                                            @foreach ($products as $product)    
+                                                                <option value="{{$product->id}}" {{ $purchaseorder->productId == $product->id ? "selected":"" }}>{{$product->name}}</option>
                                                             @endforeach       
                                                     </select> 
                                                 </td>
-                                                <td></td>
-                                                @if($ent->isDebit=="1")
-                                                <td><input type='number' name='debit[{{$i+1}}]' id='debit{{$i+1}}' class='form-control debit key' value='{{$ent->amount}}' ></td>
-                                                @else
-                                                <td><input type='number' name='debit[{{$i+1}}]' id='debit{{$i+1}}' class='form-control debit key' value='0' ></td>
-                                                @endif
-                                                @if($ent->isDebit=="0")
-                                                <td><input type='number' name='credit[{{$i+1}}]' id='credit{{$i+1}}' class='form-control credit key' value='{{$ent->amount}}' ></td></td>
-                                                @else
-                                                <td><input type='number' name='credit[{{$i+1}}]' id='credit{{$i+1}}' class='form-control credit key' value='0' ></td></td>
-                                                @endif
+                                                <td><input type='number' data-id='{{$i+1}}' name='quantity[{{$i+1}}]' id='quantity{{$i+1}}' class='form-control quantity' value='{{$purchaseorder->productQuantity}}' ></td>
+                                                <td><input type='number' data-id='{{$i+1}}' name='unit[{{$i+1}}]' id='unit{{$i+1}}' class='form-control unit' value='{{$purchaseorder->unitPrice}}' ></td>
+                                                <td><input type='number' data-id='{{$i+1}}' name='tax[{{$i+1}}]' id='tax{{$i+1}}' class='form-control tax' value='{{$purchaseorder->tax}}' ></td>
+                                                <td><input type='number' data-id='{{$i+1}}' name='sub[{{$i+1}}]' id='sub{{$i+1}}' class='form-control sub' value='{{$purchaseorder->subTotal}}' readonly ></td>
                                                 <td style='text-align:center'><a id='icon-toggle-delete2' class='removebutton'>  <span class='glyphicon glyphicon-trash' aria-hidden='true'></span> </a></td>
                                             </tr>
                                                 
@@ -201,7 +217,7 @@
                 <!-- #END# Exportable Table -->
             </div>
         </section>
-    @else  --}}
+    @else
         <section class="content">
 
         
@@ -209,7 +225,7 @@
                 <div class="body">
                         <ol class="breadcrumb breadcrumb-bg-red">
                             <li><a href="{{url('/home')}}">Home</a></li>
-                            <li><a href="{{url('/getPurchaseOrder')}}">Purchase Orders</a></li>
+                            <li><a href="{{url('/getPurchaseOrders')}}">Purchase Orders</a></li>
                             <li class="active"><a>New Purchase Order</a></li>
                         </ol>
                 </div>
@@ -297,6 +313,7 @@
                                 
                                 <input type="hidden" class="form-control" id="rowTotal" name="rowTotal">
                                 <input type="hidden" class="form-control" id="id" name="id" value="">
+                                <input type="hidden" class="form-control" id="num" name="num" value="">
                                 <!-- <div class="table-responsive"> -->
 
                                     <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
@@ -353,8 +370,8 @@
                 <!-- #END# Exportable Table -->
             </div>
         </section>
-    {{--  @endif
-  --}}
+    @endif
+
 @endsection
 
 @section('js')
@@ -401,7 +418,7 @@
   
     <script type="text/javascript">
         var selectOpt = ""; 
-        @if(isset($entry))
+        @if(isset($purchaseorders))
           var ndata=$('#rowTotal').val();
         @else
         var ndata=0;
@@ -422,7 +439,7 @@
         
         $('#appendRow').on('click', function () {
             var table = $("table tbody");
-            var j = $('#example tbody tr').length;
+            var i = $('#example tbody tr').length;
             rdata=$('#rowTotal').val();
            /* prod=[];
             //console.log(rowCount);
@@ -446,7 +463,7 @@
                     return false;
                 }
             }*/
-            if(j>1){
+            if(i>1){
                 var product=$("#product"+rdata).val();
                 var quantity=$("#quantity"+rdata).val();
                 var unit=$("#unit"+rdata).val();
@@ -469,7 +486,7 @@
 
         row = "<tr><td> <select  id='product"+ndata+"' name='product["+ndata+"]' class='form-control show-tick' data-live-search='true'  required>"
                                    +selectOpt+
-                                    "</select></td><td><input type='number' data-id='"+ndata+"' name='quantity["+ndata+"]' id='quantity"+ndata+"' class='form-control quantity' value='0' ></td><td style='text-align:center'><input type='number' data-id='"+ndata+"' name='unit["+ndata+"]' id='unit"+ndata+"' class='form-control unit' value='0' ></td><td style='text-align:center'><input type='number'  data-id='"+ndata+"' name='tax["+ndata+"]' id='tax"+ndata+"' class='form-control tax' value='0'></td><td style='text-align:center'><input type='number'  data-id='"+ndata+"' name='sub["+ndata+"]' id='sub"+ndata+"' class='form-control sub' value='0' disabled></td><td style='text-align:center'><a id='icon-toggle-delete2' class='removebutton'>  <span class='glyphicon glyphicon-trash' aria-hidden='true'></span> </a></td></tr>";
+                                    "</select></td><td><input type='number' data-id='"+ndata+"' name='quantity["+ndata+"]' id='quantity"+ndata+"' class='form-control quantity' value='0' ></td><td style='text-align:center'><input type='number' data-id='"+ndata+"' name='unit["+ndata+"]' id='unit"+ndata+"' class='form-control unit' value='0' ></td><td style='text-align:center'><input type='number'  data-id='"+ndata+"' name='tax["+ndata+"]' id='tax"+ndata+"' class='form-control tax' value='0'></td><td style='text-align:center'><input type='number'  data-id='"+ndata+"' name='sub["+ndata+"]' id='sub"+ndata+"' class='form-control sub' value='0' readonly></td><td style='text-align:center'><a id='icon-toggle-delete2' class='removebutton'>  <span class='glyphicon glyphicon-trash' aria-hidden='true'></span> </a></td></tr>";
                             $('#example tbody').append(row);
 
                             $('#rowTotal').val(ndata);
@@ -567,7 +584,7 @@
             });
             $('#total').closest('tr').remove();
             var tbody = $("#example tfoot");
-            var row = "<tr id='total'><th colspan='4' style='text-align:center'>Total</th><th style='text-align:center' id='creditAmt'>" + total +"</th></tr>";
+            var row = "<tr id='total'><th colspan='4' style='text-align:center'>Total</th><th style='text-align:center' id='total'>" + total +"</th></tr><input type='hidden' name='total' class='form-control ' value='" +  total  +"' >";
              tbody.append(row);
             //debitTotal=$('#debitAmt').text();
             //creditTotal=$('#creditAmt').text();
