@@ -459,7 +459,13 @@
                                             </a>
                                 </li>
                                 
-                                
+                                <li>
+                                    <a href="{{url('/getRequestPurchase')}}">
+                                        <i class="material-icons">text_fields</i>
+                                        <span>Purchase Requests</span>
+            
+                                    </a>
+                                </li>
                                 
                             </ul>
     

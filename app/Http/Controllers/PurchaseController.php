@@ -37,7 +37,7 @@ class PurchaseController extends Controller
         //return $request->datePost;
         $user=Auth::user();
 
-        $vendor = DB::table('journal')->where('id',$request->journalId)->first();
+        //$vendor = DB::table('journal')->where('id',$request->journalId)->first();
         $currentMonth  = date('m');
         $currentYear   = date('Y');
         $currentPrefix = 'PO/';

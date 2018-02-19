@@ -180,7 +180,7 @@ Route::get('/productDetailPdf',array('as'=>'productDetailPdf','uses'=>'Inventory
 
 
 /*-------------------------------------------------------Procurement---------------------------------------------------------------------*/
-
+//Purchase Order--------------------------------------------------------------------------------------
 Route::get('/getPurchaseOrders' ,'PurchaseController@getPurchaseOrders')->middleware('auth');
 Route::get('/getFilterPurchaseOrder' ,'PurchaseController@getFilterPurchaseOrder')->middleware('auth');
 Route::get('/getAddPurchase' ,'PurchaseController@getAddPurchase')->middleware('auth');
@@ -191,3 +191,17 @@ Route::get('/deletePurchaseOrder/{id}' ,'PurchaseController@deletePurchaseOrder'
     Route::post('purchase/print' ,'PurchaseController@purchasePrint')->middleware('auth');
     Route::get('/getOrderDetailPdf','PurchaseController@getOrderDetailPdf')->middleware('auth');
     Route::get('/getPurchaseOrderPdf','PurchaseController@getPurchaseOrderPdf')->middleware('auth');
+
+
+//Request For Purchase-------------------------------------------------------------------------------
+
+Route::get('/getRequestPurchase' ,'RequestPurchaseController@getRequests')->middleware('auth');
+Route::get('/getFilterRequestPurchase' ,'RequestPurchaseController@getFilterRequestPurchase')->middleware('auth');
+Route::get('/getAddRequestPurchase' ,'RequestPurchaseController@getAddRequestPurchase')->middleware('auth');
+Route::get('/getRequestPurchase/{id}' ,'RequestPurchaseController@getRequestPurchase')->middleware('auth');
+Route::post('/insertRequestPurchase' ,'RequestPurchaseController@insertRequestPurchase')->middleware('auth');
+Route::get('/deleteRequestPurchase/{id}' ,'RequestPurchaseController@deletePurchaseRequest')->middleware('auth');
+    /*-----------------------------------------------------Print Procurment----------------------------*/
+    Route::post('requestPurchase/print' ,'RequestPurchaseController@requestPurchasePrint')->middleware('auth');
+    /* Route::get('/getOrderDetailPdf','RequestPurchaseController@getOrderDetailPdf')->middleware('auth');
+    Route::get('/getPurchaseOrderPdf','RequestPurchaseController@getPurchaseOrderPdf')->middleware('auth'); */
