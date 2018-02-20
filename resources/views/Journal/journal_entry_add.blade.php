@@ -162,7 +162,7 @@
                                                 <td>
                                                     <select id='acc{{$i}}' name='acc[{{$i+1}}]' class='form-control'   required>
                                                             @foreach ($accounts as $account)    
-                                                                <option value="{{$account->id}}" {{ $ent->head == $account->id}} ? "selected":"" }}>{{$account->name}}</option>
+                                                                <option value="{{$account->id}}" {{ $ent->head == $account->id ? "selected":""}}>{{$account->name}}</option>
                                                             @endforeach       
                                                     </select> 
                                                 </td>

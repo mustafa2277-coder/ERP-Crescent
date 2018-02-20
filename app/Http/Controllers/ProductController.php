@@ -19,7 +19,7 @@ class ProductController extends Controller
         
             ->join('units', 'products.unitId', '=', 'units.id')
 
-            ->leftJoin('warehouseproduct', 'warehouseproduct.product_id', '=', 'products.id')
+            ->leftJoin('warehouseProduct as warehouseproduct', 'warehouseproduct.product_id', '=', 'products.id')
             
             ->join('productcategories', 'productcategories.id', '=', 'products.categoryId')
 
@@ -69,7 +69,7 @@ class ProductController extends Controller
         $product->manfLeadTime=$request->mlt;
         $product->custLeadTime=$request->clt;
         
-        $product->save();
+        $product->save();;
        
         //return redirect('getAddProduct');
         return redirect('productList');

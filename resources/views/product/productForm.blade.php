@@ -87,7 +87,7 @@
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="text" class="form-control" name="weight" maxlength="20" value="{{$products->weight}}" >
-                                        <label class="form-label">Weight</label>
+                                        <label class="form-label">Size</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
@@ -187,7 +187,7 @@
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="text" value="{{ old('weight') }}"  class="form-control" maxlength="20" name="weight"  >
-                                        <label class="form-label">Weight</label>
+                                        <label class="form-label">Size</label>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">

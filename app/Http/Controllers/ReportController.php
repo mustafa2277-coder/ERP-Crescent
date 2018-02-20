@@ -122,7 +122,7 @@ class ReportController extends Controller
                                     Where acch2.isTransactional=1 OR acch2.isTransactional is Null  
                                     GROUP BY acch2.name,acch2.id,acch2.code
                                     ORDER BY acch2.code
-                                    limit 3")
+                                ")
                                     );
 
                

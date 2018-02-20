@@ -6,7 +6,7 @@
             <th style="text-align:center">NUMBER</th>
             <th>PROJECT</th>
             <th>JOURNAL</th>
-            <th style="text-align:center">AMOUNT</th>
+            <th style="text-align:center">ACTION</th>
 
         </tr>
     </thead>

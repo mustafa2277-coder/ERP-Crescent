@@ -53,6 +53,7 @@
                                         <th>Weight</th>
                                         <th>Category</th>
                                         <th>Quantity in Hand</th>
+                                        <th>Type</th>
                                 
                                         <th>Action</th>
                                     </tr>
@@ -66,6 +67,7 @@
                                         <td>{{$product->weight}} {{$product->unit}}</td>
                                         <td>{{$product->category}}</td>
                                         <td>{{$product->quantity_in_hand}}</td>
+                                        <td>{{$product->type}}</td>
                                         
                                         <td>
                                             <a href="{{ url('/getEditProduct') }}/{{$product->id}}" ><i class="material-icons">edit</i></a>
