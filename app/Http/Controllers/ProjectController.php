@@ -39,7 +39,7 @@ class ProjectController extends Controller
     public function addProject(Request $request)
     {
 
-        $tt =$request->cost;
+        $tt =$request->code;
         $res1 = trim($tt,'_');
 
         $this->validate($request, [
@@ -54,7 +54,7 @@ class ProjectController extends Controller
         $project->title=$request->title;
         $project->creditAccHeadId=$request->credit;
         $project->debitAccHeadId=$request->debit;
-        $project->code=$res1;
+        $project->code=$request->code;
         $project->description=$request->description;
         $project->start=date("Y-m-d",strtotime(str_replace('/', '-', $request->start)));
         $project->end=date("Y-m-d",strtotime(str_replace('/', '-', $request->end)));

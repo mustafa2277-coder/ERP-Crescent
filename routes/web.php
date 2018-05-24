@@ -205,3 +205,56 @@ Route::get('/deleteRequestPurchase/{id}' ,'RequestPurchaseController@deletePurch
     Route::post('requestPurchase/print' ,'RequestPurchaseController@requestPurchasePrint')->middleware('auth');
     /* Route::get('/getOrderDetailPdf','RequestPurchaseController@getOrderDetailPdf')->middleware('auth');
     Route::get('/getPurchaseOrderPdf','RequestPurchaseController@getPurchaseOrderPdf')->middleware('auth'); */
+
+/*----------------------------------------------------------Pay Roll---------------------------------------------------------------------*/
+//Employee------------------------------------------------------------------------------------------------
+
+Route::get('/employeeList', 'EmployeeController@employeeList')->middleware('auth');
+Route::get('/getAddEmployee', 'EmployeeController@getAddEmployee')->middleware('auth');
+Route::get('/getEditEmployee/{id}', 'EmployeeController@getEditEmployee')->middleware('auth');
+Route::post('/addEmployee', 'EmployeeController@addEmployee')->middleware('auth');
+Route::post('/editEmployee', 'EmployeeController@editEmployee')->middleware('auth');
+
+//Employee Advance------------------------------------------------------------------------------------------------
+
+Route::get('/employeeAdvanceList', 'EmployeeAdvanceController@employeeAdvanceList')->middleware('auth');
+Route::get('/getAddEmployeeAdvance', 'EmployeeAdvanceController@getAddEmployeeAdvance')->middleware('auth');
+Route::get('/getEditEmployeeAdvance/{id}', 'EmployeeAdvanceController@getEditEmployeeAdvance')->middleware('auth');
+Route::post('/addEmployeeAdvance', 'EmployeeAdvanceController@addEmployeeAdvance')->middleware('auth');
+Route::post('/editEmployeeAdvance', 'EmployeeAdvanceController@editEmployeeAdvance')->middleware('auth');
+
+//Employee Allowance------------------------------------------------------------------------------------------------
+
+Route::get('/employeeAllowanceList', 'EmployeeAllowanceController@employeeAllowanceList')->middleware('auth');
+Route::get('/getAddEmployeeAllowance', 'EmployeeAllowanceController@getAddEmployeeAllowance')->middleware('auth');
+Route::get('/getEditEmployeeAllowance/{id}', 'EmployeeAllowanceController@getEditEmployeeAllowance')->middleware('auth');
+Route::post('/addEmployeeAllowance', 'EmployeeAllowanceController@addEmployeeAllowance')->middleware('auth');
+Route::post('/editEmployeeAllowance', 'EmployeeAllowanceController@editEmployeeAllowance')->middleware('auth');
+
+//Employee Deduction------------------------------------------------------------------------------------------------
+
+Route::get('/employeeDeductionList', 'EmployeeDeductionController@employeeDeductionList')->middleware('auth');
+Route::get('/getAddEmployeeDeduction', 'EmployeeDeductionController@getAddEmployeeDeduction')->middleware('auth');
+Route::get('/getEditEmployeeDeduction/{id}', 'EmployeeDeductionController@getEditEmployeeDeduction')->middleware('auth');
+Route::post('/addEmployeeDeduction', 'EmployeeDeductionController@addEmployeeDeduction')->middleware('auth');
+Route::post('/editEmployeeDeduction', 'EmployeeDeductionController@editEmployeeDeduction')->middleware('auth');
+
+//Employee Salary------------------------------------------------------------------------------------------------
+
+Route::get('/employeeSalaryList', 'EmployeeSalaryController@employeeSalaryList')->middleware('auth');
+Route::get('/getAddEmployeeSalary', 'EmployeeSalaryController@getAddEmployeeSalary')->middleware('auth');
+Route::get('/getEditEmployeeSalary/{id}', 'EmployeeSalaryController@getEditEmployeeSalary')->middleware('auth');
+Route::post('/addEmployeeSalary', 'EmployeeSalaryController@addEmployeeSalary')->middleware('auth');
+Route::post('/editEmployeeSalary', 'EmployeeSalaryController@editEmployeeSalary')->middleware('auth');
+
+//Employee Payroll------------------------------------------------------------------------------------------------
+
+Route::get('/employeePayrollList', 'PayrollController@employeePayrollList')->middleware('auth');
+Route::get('/getAddEmployeePayroll', 'PayrollController@getAddEmployeePayroll')->middleware('auth');
+Route::post('/addPayrollMonth', 'PayrollController@addPayrollMonth')->middleware('auth');
+Route::post('/editPayrollMonth', 'PayrollController@editPayrollMonth')->middleware('auth');
+Route::get('/getEditEmployeePayroll/{id}', 'PayrollController@getEditEmployeePayroll')->middleware('auth');
+Route::get('/deletePayrollEntry/{id}', 'PayrollController@deletePayrollEntry')->middleware('auth');
+Route::post('/addEmployeePayroll', 'PayrollController@addEmployeePayroll')->middleware('auth');
+    /*Print Payroll */
+    Route::get('/printPayroll/{id}', 'PayrollController@printPayroll')->middleware('auth');

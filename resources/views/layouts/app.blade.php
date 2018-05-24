@@ -576,6 +576,70 @@
     
     
                     </li>
+                    <li>
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">account_box</i>
+                                <span>Employee Management</span>
+    
+                            </a>
+    
+                            <ul class="ml-menu">
+                                    
+                                <li>
+                                            <a href="{{url('/employeeList')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Employees</span>
+                    
+                                            </a>
+                                </li>
+                                <li>
+                                            <a href="{{url('/employeeAdvanceList')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Advances</span>
+                    
+                                            </a>
+                                </li>
+                                <li>
+                                            <a href="{{url('/employeeAllowanceList')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Allowances</span>
+                    
+                                            </a>
+                                </li>
+                                <li>
+                                            <a href="{{url('/employeeDeductionList')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Deductions</span>
+                    
+                                            </a>
+                                </li>
+                                <li>
+                                            <a href="{{url('/employeeSalaryList')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Salary</span>
+                    
+                                            </a>
+                                </li>
+                                <li>
+                                            <a href="{{url('/employeePayrollList')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Payroll</span>
+                    
+                                            </a>
+                                </li>
+                                {{-- <li>
+                                        <a href="{{url('/categoryList')}}">
+                                            <i class="material-icons">border_left</i>
+                                            <span>Product Categories</span>
+                
+                                        </a>
+                                </li> --}}
+                                
+                                
+                            </ul>
+    
+    
+                    </li>
 
                 </ul>
             </div>
