@@ -13,7 +13,12 @@ use Response;
 
 class ProductCategoryController extends Controller
 {
-    
+    public function __construct()
+    {
+        
+        $this->middleware('role:inv-manage|admin');
+       //$this->middleware('role:admin');
+    } 
     public function categoryList()
     {
         /* $customer=Customer::all(); */

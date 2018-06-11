@@ -16,6 +16,12 @@ use App\Deduction;
 
 class EmployeeDeductionController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:payroll-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function employeeDeductionList()
     {
          $employeeList = DB::table('employee_deduction')

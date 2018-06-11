@@ -16,6 +16,12 @@ use App\Salary;
 
 class EmployeeSalaryController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:payroll-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function employeeSalaryList()
     {
          $employeeList = DB::table('salary')

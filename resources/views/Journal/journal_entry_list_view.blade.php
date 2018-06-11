@@ -395,7 +395,7 @@ $('#filter_project').html('');
 
    $.ajax({
         
-        url: "http://localhost/ERP/getProjectsByCustomerId",
+        url: "http://localhost/ERP1/getProjectsByCustomerId",
         type: "post",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

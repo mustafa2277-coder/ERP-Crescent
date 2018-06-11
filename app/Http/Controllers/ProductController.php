@@ -13,6 +13,12 @@ use App\Contact;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:inv-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function productList()
     {
          $productList = DB::table('products')

@@ -11,6 +11,13 @@ use App\Contact;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:inv-manage|admin');
+       //$this->middleware('role:admin');
+    }
+    
     public function customerList()
     {
         $customerList = Customer::where('isVendor',null)->paginate(6);

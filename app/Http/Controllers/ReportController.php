@@ -17,6 +17,12 @@ use Redirect;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:proc-manage|admin');
+       //$this->middleware('role:admin');
+    }
 
     // for getting all journals
 

@@ -13,6 +13,12 @@ use App\Advance;
 use App\Allowance;
 class EmployeeAllowanceController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:payroll-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function employeeAllowanceList()
     {
          $employeeList = DB::table('employee_allowance')

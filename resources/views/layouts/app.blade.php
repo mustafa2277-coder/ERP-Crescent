@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
+    <!--Start of Zendesk Chat Script-->
+<script type="text/javascript">
+window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+$.src="https://v2.zopim.com/?5lQIuBuP5WbOu6ZYtv87DG8QeMcTkR6A";z.t=+new Date;$.
+type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+</script>
+<!--End of Zendesk Chat Script-->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -355,7 +364,7 @@
                             <span>Home</span>
                         </a>
                     </li>
-                    
+                    @role(['acc-manage','admin'])
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">account_balance_wallet</i>
@@ -364,7 +373,7 @@
                         </a>
 
                         <ul class="ml-menu">
-
+                            
                             <li>
                                 <a href="{{url('/getAccountHeads')}}">Account Heads</a>
                             <li>
@@ -402,46 +411,27 @@
 
 
                             </li>
+                            <li>
+                                <a href="{{url('/projectList')}}" accesskey="p">
+                                    <i class="material-icons">view_quilt</i>
+                                    <span>Projects</span>
+        
+                                </a>
+                            </li>
+                            
                             
                         </ul>
 
 
                     </li>
+                    @endrole
 
 
 
 
 
 
-                        <li>
-                            <a href="javascript:void(0);" class="menu-toggle">
-                                <i class="material-icons">unarchive</i>
-                                <span>Product Management</span>
-    
-                            </a>
-    
-                            <ul class="ml-menu">
-                                    
-                                <li>
-                                            <a href="{{url('/productList')}}">
-                                                <i class="material-icons">text_fields</i>
-                                                <span>Products</span>
-                    
-                                            </a>
-                                </li>
-                                <li>
-                                        <a href="{{url('/categoryList')}}">
-                                            <i class="material-icons">border_left</i>
-                                            <span>Product Categories</span>
-                
-                                        </a>
-                                </li>
-                                
-                                
-                            </ul>
-    
-    
-                        </li>
+                        @role(['proc-manage','admin'])    
                         <li>
                             <a href="javascript:void(0);" class="menu-toggle">
                                 <i class="material-icons">unarchive</i>
@@ -467,41 +457,14 @@
                                     </a>
                                 </li>
                                 
+                                
                             </ul>
     
     
                         </li>
+                        @endrole
 
-
-
-                        
-
-
-
-                    <li>
-                        <a href="{{url('/customerList')}}" accesskey="c">
-                            <i class="material-icons">account_box</i>
-                            <span>Customers</span>
-
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{url('/vendorList')}}" accesskey="v">
-                            <i class="material-icons">text_fields</i>
-                            <span>Vendors</span>
-
-                        </a>
-                    </li>
-                    
-                    <li>
-                        <a href="{{url('/projectList')}}" accesskey="p">
-                            <i class="material-icons">view_quilt</i>
-                            <span>Projects</span>
-
-                        </a>
-                    </li>
-
-
+                    @role(['inv-manage','admin','ware1-manage','ware2-manage','ware3-manage','ware4-manage','ware5-manage'])
                     <li>
                             <a href="javascript:void(0);" class="menu-toggle">
                                 <i class="material-icons">store</i>
@@ -510,7 +473,50 @@
                             </a>
     
                             <ul class="ml-menu">
-                                    
+                                @role(['inv-manage','admin'])
+                                <li>
+                                    <a href="javascript:void(0);" class="menu-toggle">
+                                        <i class="material-icons">unarchive</i>
+                                        <span>Product Management</span>
+            
+                                    </a>
+            
+                                    <ul class="ml-menu">
+                                            
+                                        <li>
+                                                    <a href="{{url('/productList')}}">
+                                                        <i class="material-icons">text_fields</i>
+                                                        <span>Products</span>
+                            
+                                                    </a>
+                                        </li>
+                                        <li>
+                                                <a href="{{url('/categoryList')}}">
+                                                    <i class="material-icons">border_left</i>
+                                                    <span>Product Categories</span>
+                        
+                                                </a>
+                                        </li>
+                                        
+                                        
+                                    </ul>
+            
+            
+                                </li>
+                                <li>
+                                    <a href="{{url('/customerList')}}" accesskey="c">
+                                        <i class="material-icons">account_box</i>
+                                        <span>Customers</span>
+            
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('/vendorList')}}" accesskey="v">
+                                        <i class="material-icons">text_fields</i>
+                                        <span>Vendors</span>
+            
+                                    </a>
+                                </li>    
                                 <li>
                                             <a href="{{url('/warehouse')}}">
                                                 <i class="material-icons">text_fields</i>
@@ -518,6 +524,7 @@
                     
                                             </a>
                                 </li>
+                                @endrole
                                 <li>
                                         <a href="{{url('/grn')}}">
                                             <i class="material-icons">border_left</i>
@@ -539,7 +546,8 @@
                 
                                         </a>
                                 </li>
-                                <li>
+                            @role(['inv-manage','admin'])
+                            <li>
                                 
                                 <a href="javascript:void(0);" class="menu-toggle">
                                     <i class="material-icons">insert_chart</i>
@@ -570,12 +578,15 @@
 
 
                             </li>
+                            @endrole
                                 
                                 
                             </ul>
     
     
                     </li>
+                    @endrole
+                    @role(['payroll-manage','admin'])
                     <li>
                             <a href="javascript:void(0);" class="menu-toggle">
                                 <i class="material-icons">account_box</i>
@@ -640,6 +651,7 @@
     
     
                     </li>
+                    @endrole
 
                 </ul>
             </div>

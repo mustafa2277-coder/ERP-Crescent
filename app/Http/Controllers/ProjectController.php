@@ -13,6 +13,12 @@ use Response;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:acc-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function projectList()
     {
         $projectList = DB::table('project')

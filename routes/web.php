@@ -118,67 +118,68 @@ Route::get('/getFilterGeneralLedgerList2' ,'ReportController@GetFilterGeneralLed
 
 
 /*----------------------------------Inventory---------------------------------------*/
-Route::get('/warehouse' ,'InventoryController@warehouse_list')->middleware('auth');
-Route::get('/warehouseAdd' ,'InventoryController@warehouse_add')->middleware('auth');
-Route::post('/addWarehouse', 'InventoryController@addWarehouse')->middleware('auth');
-Route::get('/getEditWarehouse/{id}', 'InventoryController@getEditWarehouse')->middleware('auth');
-Route::post('/editWarehouse', 'InventoryController@editWarehouse')->middleware('auth');
+Route::group([ 'middleware' => ['role:inv-manage|admin|ware1-manage|ware2-manage|ware3-manage|ware4-manage|ware5-manage']], function() {
+
+    Route::get('/warehouse' ,'InventoryController@warehouse_list')->middleware('role:inv-manage|admin');
+    Route::get('/warehouseAdd' ,'InventoryController@warehouse_add')->middleware('role:inv-manage|admin');
+    Route::post('/addWarehouse', 'InventoryController@addWarehouse')->middleware('role:inv-manage|admin');
+    Route::get('/getEditWarehouse/{id}', 'InventoryController@getEditWarehouse')->middleware('role:inv-manage|admin');
+    Route::post('/editWarehouse', 'InventoryController@editWarehouse')->middleware('role:inv-manage|admin');
 
 
-Route::get('/grn', 'InventoryController@grn_list')->middleware('auth');
-Route::get('/grnAdd' ,'InventoryController@grn_add')->middleware('auth');
-Route::post('/insertGrn','InventoryController@insertGrn')->middleware('auth');
-Route::get('/getEditGrn/{id}', 'InventoryController@getEditGrn')->middleware('auth');
-Route::get('/editGrnDetail', 'InventoryController@editGrnDetail')->middleware('auth');
-Route::post('/updateGrn','InventoryController@updateGrn')->middleware('auth');
-Route::get('/deleteGrnDetail', 'InventoryController@deleteGrnDetail')->middleware('auth');
-Route::get('/getGrnDetailBeforeDelete', 'InventoryController@getGrnDetailBeforeDelete')->middleware('auth');
+    Route::get('/grn', 'InventoryController@grn_list');
+    Route::get('/grnAdd' ,'InventoryController@grn_add');
+    Route::post('/insertGrn','InventoryController@insertGrn');
+    Route::get('/getEditGrn/{id}', 'InventoryController@getEditGrn');
+    Route::get('/editGrnDetail', 'InventoryController@editGrnDetail');
+    Route::post('/updateGrn','InventoryController@updateGrn');
+    Route::get('/deleteGrnDetail', 'InventoryController@deleteGrnDetail');
+    Route::get('/getGrnDetailBeforeDelete', 'InventoryController@getGrnDetailBeforeDelete');
 
 
-Route::get('/challan', 'InventoryController@challan_list')->middleware('auth');
-Route::get('/challanAdd' ,'InventoryController@challan_add')->middleware('auth');
-Route::post('/insertChallan','InventoryController@insertChallan')->middleware('auth');
-Route::get('/getEditChallan/{id}', 'InventoryController@getEditChallan')->middleware('auth');
-Route::get('/editChallanDetail', 'InventoryController@editChallanDetail')->middleware('auth');
-Route::get('/deleteChallanDetail', 'InventoryController@deleteChallanDetail')->middleware('auth');
-Route::post('/updateChallan','InventoryController@updateChallan')->middleware('auth');
-Route::get('/getChallanDetailBeforeDelete', 'InventoryController@getChallanDetailBeforeDelete')->middleware('auth');
+    Route::get('/challan', 'InventoryController@challan_list');
+    Route::get('/challanAdd' ,'InventoryController@challan_add');
+    Route::post('/insertChallan','InventoryController@insertChallan');
+    Route::get('/getEditChallan/{id}', 'InventoryController@getEditChallan');
+    Route::get('/editChallanDetail', 'InventoryController@editChallanDetail');
+    Route::get('/deleteChallanDetail', 'InventoryController@deleteChallanDetail');
+    Route::post('/updateChallan','InventoryController@updateChallan');
+    Route::get('/getChallanDetailBeforeDelete', 'InventoryController@getChallanDetailBeforeDelete');
 
 
 
 
+    Route::get('/editStockDetail', 'InventoryController@editStockDetail')->middleware('auth');
+    Route::get('/deleteStockDetail', 'InventoryController@deleteStockDetail')->middleware('auth');
+    Route::post('/updateStock','InventoryController@updateStock')->middleware('auth');
 
-Route::get('/editStockDetail', 'InventoryController@editStockDetail')->middleware('auth');
-Route::get('/deleteStockDetail', 'InventoryController@deleteStockDetail')->middleware('auth');
-Route::post('/updateStock','InventoryController@updateStock')->middleware('auth');
-
-Route::get('/getEditStock/{id}', 'InventoryController@getEditStock')->middleware('auth');
-Route::get('/stockAdd' ,'InventoryController@stock_add')->middleware('auth');
-Route::get('/stock', 'InventoryController@stock_list')->middleware('auth');
-Route::get('/getStockDetail', 'InventoryController@getStockDetail')->middleware('auth');
-Route::post('/insertStock','InventoryController@insertStock')->middleware('auth');
-
-
-        /*----------------------------Inventory Reports-------------------------------*/
+    Route::get('/getEditStock/{id}', 'InventoryController@getEditStock')->middleware('auth');
+    Route::get('/stockAdd' ,'InventoryController@stock_add')->middleware('auth');
+    Route::get('/stock', 'InventoryController@stock_list')->middleware('auth');
+    Route::get('/getStockDetail', 'InventoryController@getStockDetail')->middleware('auth');
+    Route::post('/insertStock','InventoryController@insertStock')->middleware('auth');
 
 
-Route::get('/warehouseReport' ,'InventoryController@warehouseReport')->middleware('auth');
-Route::get('/getWarehouseReport' ,'InventoryController@getWarehouseReport')->middleware('auth');
-Route::get('/ProductsatReorderLevel' ,'InventoryController@ProductsatReorderLevel')->middleware('auth');
-Route::get('/vendorsReport' ,'InventoryController@vendorsReport')->middleware('auth');
-Route::get('/getVendorReport' ,'InventoryController@getVendorReport')->middleware('auth');
-Route::get('/productSummary' ,'InventoryController@productSummary')->middleware('auth');
-Route::get('/productDeatil' ,'InventoryController@productDeatil')->middleware('auth');
-Route::get('/getProductSummaryByCategory' ,'InventoryController@getProductSummaryByCategory')->middleware('auth');
-
-Route::get('/warehouseReportPdf/{id}',array('as'=>'warehouseReportPdf','uses'=>'InventoryController@warehouseReportPdf'));
-Route::get('/productsatReorderLevelPdf',array('as'=>'productsatReorderLevelPdf','uses'=>'InventoryController@productsatReorderLevelPdf'));
-Route::get('/vendorReportPdf/{id}',array('as'=>'vendorReportPdf','uses'=>'InventoryController@vendorReportPdf'));
-Route::get('/productSummaryPdf',array('as'=>'productSummaryPdf','uses'=>'InventoryController@productSummaryPdf'));
-Route::get('/productSummaryByCategoryPdf/{id}',array('as'=>'productSummaryByCategoryPdf','uses'=>'InventoryController@productSummaryByCategoryPdf'));
-Route::get('/productDetailPdf',array('as'=>'productDetailPdf','uses'=>'InventoryController@productDetailPdf'));
+            /*----------------------------Inventory Reports-------------------------------*/
 
 
+    Route::get('/warehouseReport' ,'InventoryController@warehouseReport')->middleware('role:inv-manage|admin');
+    Route::get('/getWarehouseReport' ,'InventoryController@getWarehouseReport')->middleware('role:inv-manage|admin');
+    Route::get('/ProductsatReorderLevel' ,'InventoryController@ProductsatReorderLevel')->middleware('role:inv-manage|admin');
+    Route::get('/vendorsReport' ,'InventoryController@vendorsReport')->middleware('role:inv-manage|admin');
+    Route::get('/getVendorReport' ,'InventoryController@getVendorReport')->middleware('role:inv-manage|admin');
+    Route::get('/productSummary' ,'InventoryController@productSummary')->middleware('role:inv-manage|admin');
+    Route::get('/productDeatil' ,'InventoryController@productDeatil')->middleware('role:inv-manage|admin');
+    Route::get('/getProductSummaryByCategory' ,'InventoryController@getProductSummaryByCategory')->middleware('role:inv-manage|admin');
+
+    Route::get('/warehouseReportPdf/{id}',array('as'=>'warehouseReportPdf','uses'=>'InventoryController@warehouseReportPdf'));
+    Route::get('/productsatReorderLevelPdf',array('as'=>'productsatReorderLevelPdf','uses'=>'InventoryController@productsatReorderLevelPdf'));
+    Route::get('/vendorReportPdf/{id}',array('as'=>'vendorReportPdf','uses'=>'InventoryController@vendorReportPdf'));
+    Route::get('/productSummaryPdf',array('as'=>'productSummaryPdf','uses'=>'InventoryController@productSummaryPdf'));
+    Route::get('/productSummaryByCategoryPdf/{id}',array('as'=>'productSummaryByCategoryPdf','uses'=>'InventoryController@productSummaryByCategoryPdf'));
+    Route::get('/productDetailPdf',array('as'=>'productDetailPdf','uses'=>'InventoryController@productDetailPdf'));
+
+});
 /*-------------------------------------------------------Procurement---------------------------------------------------------------------*/
 //Purchase Order--------------------------------------------------------------------------------------
 Route::get('/getPurchaseOrders' ,'PurchaseController@getPurchaseOrders')->middleware('auth');

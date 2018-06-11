@@ -12,6 +12,12 @@ use App\Advance;
 
 class EmployeeAdvanceController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:payroll-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function employeeAdvanceList()
     {
          $employeeList = DB::table('employee_advance')

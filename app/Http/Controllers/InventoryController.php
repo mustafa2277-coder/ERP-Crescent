@@ -24,6 +24,14 @@ use Auth;
 use PDF;
 class InventoryController extends Controller
 {
+    public function __construct()
+    {
+        
+        //$this->middleware('role:inv-manage|admin');
+        $this->middleware('auth');
+            
+       //$this->middleware('role:admin');
+    }
     public function warehouse_list(){
     	$warehouseList = InvWarehouse::all();
             
@@ -103,11 +111,31 @@ class InventoryController extends Controller
         return view('/inventory/grnList',compact('grnList'));
     }
     public function grn_add(){
+        $user=Auth::user();
+        $chkroles = DB::table('role_user')
+                ->join('users', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->where('users.id','=',$user->id)
+                ->select('roles.id','roles.name')
+                ->get();
+        //return $chkroles;
+        if($chkroles[0]->name=="admin"||$chkroles[0]->name=="inv-manage"){
+            $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        }else{
+           
+            $warehouses = DB::table('user_warehouse')
+            ->join('users', 'users.id', '=', 'user_warehouse.user_id')
+            ->join('inv_warehouse', 'inv_warehouse.id', '=', 'user_warehouse.warehouse_id')
+            ->where('users.id','=',$user->id)
+            ->select('inv_warehouse.id','inv_warehouse.warehouse_name')
+            ->get();
+        }
+       // return $warehouses;
         $vendors=Customer::where("isVendor","on")
-        ->select( 'customers.id','customers.name')
-        ->get();
+                ->select( 'customers.id','customers.name')
+                ->get();
         $projects=Project::select('project.id','project.title')->get();
-        $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        
         $products=Product::select('products.id','products.name')->get();
 
         return view('/inventory/grnAdd',compact('vendors','projects','warehouses','products'));
@@ -302,7 +330,25 @@ class InventoryController extends Controller
     public function challan_add(){
        
         $projects=Project::select('project.id','project.title')->get();
-        $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        $user=Auth::user();
+        $chkroles = DB::table('role_user')
+                ->join('users', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->where('users.id','=',$user->id)
+                ->select('roles.id','roles.name')
+                ->get();
+        //return $chkroles;
+        if($chkroles[0]->name=="admin"||$chkroles[0]->name=="inv-manage"){
+            $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        }else{
+           
+            $warehouses = DB::table('user_warehouse')
+            ->join('users', 'users.id', '=', 'user_warehouse.user_id')
+            ->join('inv_warehouse', 'inv_warehouse.id', '=', 'user_warehouse.warehouse_id')
+            ->where('users.id','=',$user->id)
+            ->select('inv_warehouse.id','inv_warehouse.warehouse_name')
+            ->get();
+        }
         $products=Product::select('products.id','products.name')->get();
 
         return view('/inventory/challanAdd',compact('projects','warehouses','products'));
@@ -397,7 +443,25 @@ class InventoryController extends Controller
         ->get();
 
         $projects=Project::select('project.id','project.title')->get();
-        $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        $user=Auth::user();
+        $chkroles = DB::table('role_user')
+                ->join('users', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->where('users.id','=',$user->id)
+                ->select('roles.id','roles.name')
+                ->get();
+        //return $chkroles;
+        if($chkroles[0]->name=="admin"||$chkroles[0]->name=="inv-manage"){
+            $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        }else{
+           
+            $warehouses = DB::table('user_warehouse')
+            ->join('users', 'users.id', '=', 'user_warehouse.user_id')
+            ->join('inv_warehouse', 'inv_warehouse.id', '=', 'user_warehouse.warehouse_id')
+            ->where('users.id','=',$user->id)
+            ->select('inv_warehouse.id','inv_warehouse.warehouse_name')
+            ->get();
+        }
         $products=Product::select('products.id','products.name')->get();
         // return $challan;
         return view('inventory/challanAdd',compact('challan','projects','warehouses','products'));
@@ -530,7 +594,25 @@ class InventoryController extends Controller
     }
     public function stock_add(){
 
-        $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        $user=Auth::user();
+        $chkroles = DB::table('role_user')
+                ->join('users', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->where('users.id','=',$user->id)
+                ->select('roles.id','roles.name')
+                ->get();
+        //return $chkroles;
+        if($chkroles[0]->name=="admin"||$chkroles[0]->name=="inv-manage"){
+            $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        }else{
+           
+            $warehouses = DB::table('user_warehouse')
+            ->join('users', 'users.id', '=', 'user_warehouse.user_id')
+            ->join('inv_warehouse', 'inv_warehouse.id', '=', 'user_warehouse.warehouse_id')
+            ->where('users.id','=',$user->id)
+            ->select('inv_warehouse.id','inv_warehouse.warehouse_name')
+            ->get();
+        }
         $products=Product::select('products.id','products.name')->get();
 
         return view('/inventory/stockAdd',compact('warehouses','products'));
@@ -570,7 +652,25 @@ class InventoryController extends Controller
         ->get();
 
         
-        $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        $user=Auth::user();
+        $chkroles = DB::table('role_user')
+                ->join('users', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'roles.id', '=', 'role_user.role_id')
+                ->where('users.id','=',$user->id)
+                ->select('roles.id','roles.name')
+                ->get();
+        //return $chkroles;
+        if($chkroles[0]->name=="admin"||$chkroles[0]->name=="inv-manage"){
+            $warehouses=InvWarehouse::select('inv_warehouse.id','inv_warehouse.warehouse_name')->get();
+        }else{
+           
+            $warehouses = DB::table('user_warehouse')
+            ->join('users', 'users.id', '=', 'user_warehouse.user_id')
+            ->join('inv_warehouse', 'inv_warehouse.id', '=', 'user_warehouse.warehouse_id')
+            ->where('users.id','=',$user->id)
+            ->select('inv_warehouse.id','inv_warehouse.warehouse_name')
+            ->get();
+        }
         $products=Product::select('products.id','products.name')->get();
         // return $challan;
         return view('inventory/stockAdd',compact('stock','warehouses','products'));

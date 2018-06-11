@@ -170,6 +170,7 @@ return [
         Jimmyjs\ReportGenerator\ServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Zizaco\Entrust\EntrustServiceProvider::class,
        
 
         /*
@@ -232,6 +233,7 @@ return [
         'PdfReport'=>Jimmyjs\ReportGenerator\Facades\PdfReportFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         
 
     ],

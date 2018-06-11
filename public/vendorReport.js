@@ -6,7 +6,7 @@ var totalValues=[];
 $('select[name="report_vendor"]').change(function(){
     var mainId=$(this).val();
         $.ajax({
-        url: "http://localhost/ERP/getVendorReport?id="+$(this).val(),
+        url: "http://localhost/ERP1/getVendorReport?id="+$(this).val(),
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -24,7 +24,7 @@ $('select[name="report_vendor"]').change(function(){
                 }
                 
                 tbody.prepend(rows);
-                $('#vendorReportPrint').attr('href', "http://localhost/ERP/vendorReportPdf/"+mainId);
+                $('#vendorReportPrint').attr('href', "http://localhost/ERP1/vendorReportPdf/"+mainId);
             }
             else{
                     var tbody = $("#listofProductsByVendor tbody");

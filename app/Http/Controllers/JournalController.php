@@ -20,6 +20,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class JournalController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:acc-manage|admin');
+       //$this->middleware('role:admin');
+    }
 
     // for getting all journals
 

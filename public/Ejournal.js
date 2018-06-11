@@ -92,7 +92,7 @@ $(document).on('click', '#submit', function(e) {
         console.log(submitEntry);
         e.preventDefault();
         $.ajax({
-            url: "http://localhost/ERP/insertNJournalEntry",
+            url: "http://localhost/ERP1/insertNJournalEntry",
             type: "POST",
             headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -393,7 +393,7 @@
                                     </table>
                                             <center><b id="msg" style="color:red; font-size:16px;"></b></center>
                                 <!-- </div> -->
-                                <a href="" id="print" class="btn btn-primary waves-effect  target="_blank" download">Print</a>
+                                <a href="" id="print" class="btn btn-primary waves-effect download" target="_blank" >Print</a>
                                 
 
                                 </form>

@@ -105,7 +105,7 @@ $(document).on('click', '#submit', function(e) {
         e.preventDefault();
         var newURL = window.location.protocol + "//" + window.location.host;
         //alert(newURL);
-        var urllink=newURL+'/ERP/insertPurchaseOrder';
+        var urllink=newURL+'/ERP1/insertPurchaseOrder';
         $.ajax({
             url: urllink,
             type: "POST",

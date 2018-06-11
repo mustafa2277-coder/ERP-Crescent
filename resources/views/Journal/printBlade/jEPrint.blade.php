@@ -6775,7 +6775,7 @@
         <body >
             @if(isset($journalentries))
                 <center><h3>Journal Voucher</h3></center>
-                <img src="http://digitalexpense.com/ERP/public/images/logostrongforce.png"  >
+                <img src="http://digitalexpense.com/ERP1/public/images/logostrongforce.png"  >
                 
         
                 <div>

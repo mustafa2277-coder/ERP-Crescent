@@ -11,6 +11,12 @@ use App\Department;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:payroll-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function employeeList()
     {
          $employeeList = DB::table('employee')

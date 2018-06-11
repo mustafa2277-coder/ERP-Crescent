@@ -11,7 +11,12 @@ use App\Providers\fpdf;
 use Illuminate\Support\Facades\Route;
 class AccountHeadController extends Controller
 {
-
+    public function __construct()
+    {
+        
+        $this->middleware('role:acc-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function GetAccountHeads(Request $request){
         
         $arr=null;

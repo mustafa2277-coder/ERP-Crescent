@@ -25,6 +25,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PurchaseController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:proc-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function getAddPurchase(){
         $products=Product::all();
         $projects=Project::all();

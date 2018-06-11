@@ -22,6 +22,12 @@ use PDF;
 
 class PayrollController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:payroll-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function employeePayrollList()
     {
         $payrollMonths = PayrollMonth::all();

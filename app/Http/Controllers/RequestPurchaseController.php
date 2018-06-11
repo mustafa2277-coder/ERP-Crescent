@@ -26,6 +26,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class RequestPurchaseController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('role:proc-manage|admin');
+       //$this->middleware('role:admin');
+    }
     public function getRequests(){
 
         //$vendors=Customer::where('isVendor','on')->get();

@@ -84,7 +84,7 @@ $(document).on('click', '#submit', function(e) {
         e.preventDefault();
         var newURL = window.location.protocol + "//" + window.location.host;
         //alert(newURL);
-        var urllink=newURL+'/ERP/insertRequestPurchase';
+        var urllink=newURL+'/ERP1/insertRequestPurchase';
         $.ajax({
             url: urllink,
             type: "POST",
