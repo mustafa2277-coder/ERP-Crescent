@@ -1,3 +1,4 @@
+var newURL = window.location.protocol + "//" + window.location.host; 
 $('#stock_date_edit').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
 $('#stock_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
 
@@ -5,7 +6,7 @@ $('#stock_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,form
 
 $('select[name="stock_warehouse"]').change(function(){
         $.ajax({
-        url: "http://localhost/ERP1/getStockDetail?id="+$(this).val(),
+        url: newURL+"/ERP1/getStockDetail?id="+$(this).val(),
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -147,7 +148,7 @@ function addStock(){
     //console.log(tableData);
    
         $.ajax({
-        url: "http://localhost/ERP1/insertStock",
+        url: newURL+"/ERP1/insertStock",
         type: "POST",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -159,7 +160,7 @@ function addStock(){
         success: function(data) {
             if (data.success=="inserted") {
                 tableDataStock = []; 
-                window.location = "http://localhost/ERP1/stock";
+                window.location = newURL+"/ERP1/stock";
             }
             
         }
@@ -379,7 +380,7 @@ function updateStock(id){
     //console.log(tableData);
    
         $.ajax({
-        url: "http://localhost/ERP1/updateStock",
+        url: newURL+"/ERP1/updateStock",
         type: "POST",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -391,7 +392,7 @@ function updateStock(id){
         success: function(data) {
             if (data.success=="inserted") {
                 tableDataStock = [];
-                window.location = "http://localhost/ERP1/stock";
+                window.location = newURL+"/ERP1/stock";
             }
             
         }

@@ -1,6 +1,6 @@
 var rowindex=1; // commont for row index
 var tableDataInv = [];
-
+var newURL = window.location.protocol + "//" + window.location.host;
 $('#grn_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
 $('#grn_date_edit').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
 
@@ -76,7 +76,7 @@ $(document).on('click', 'form button[type=submit]', function(e) {
     //console.log(tableData);
     e.preventDefault();
         $.ajax({
-        url: "http://localhost/ERP1/insertGrn",
+        url: newURL+"/ERP1/insertGrn",
         type: "POST",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -89,7 +89,7 @@ $(document).on('click', 'form button[type=submit]', function(e) {
             if (data.success=="inserted") {
                 tableDataInv = [];
                 rowindex=1; 
-                window.location = "http://localhost/ERP1/grn";
+                window.location = newURL+"/ERP1/grn";
             }
             
         }
@@ -187,7 +187,7 @@ function addGrnDetail(){
 function editGrnDetail(id){
     //alert (id);
     $.ajax({
-        url: "http://localhost/ERP1/editGrnDetail?id="+id,
+        url: newURL+"/ERP1/editGrnDetail?id="+id,
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -217,7 +217,7 @@ function editGrnDetail(id){
 
 function deleteGrnDetail(id){
     $.ajax({
-        url: "http://localhost/ERP1/getGrnDetailBeforeDelete?id="+id,
+        url: newURL+"/ERP1/getGrnDetailBeforeDelete?id="+id,
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -229,7 +229,7 @@ function deleteGrnDetail(id){
         success: function(data) {
             if (data.success=="true") {
                 $.ajax({
-                    url: "http://localhost/ERP1/deleteGrnDetail?id="+id,
+                    url: newURL+"/ERP1/deleteGrnDetail?id="+id,
                     type: "GET",
                     headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -259,7 +259,7 @@ function deleteGrnDetail(id){
 
 function deleteGrnDetailPlus(id){
     $.ajax({
-                    url: "http://localhost/ERP1/deleteGrnDetail?id="+id,
+                    url: newURL+"/ERP1/deleteGrnDetail?id="+id,
                     type: "GET",
                     headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -351,7 +351,7 @@ function updateGrnDetail(id){
     var tbody = $("#exampleInvEdit tbody");
     tbody.prepend(rows);
     $.ajax({
-        url: "http://localhost/ERP1/getGrnDetailBeforeDelete?id="+id,
+        url: newURL+"/ERP1/getGrnDetailBeforeDelete?id="+id,
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -526,7 +526,7 @@ function updateGrn(id){
     //console.log(tableData);
     // e.preventDefault();
         $.ajax({
-        url: "http://localhost/ERP1/updateGrn",
+        url: newURL+"/ERP1/updateGrn",
         type: "POST",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -539,7 +539,7 @@ function updateGrn(id){
             if (data.success=="inserted") {
                 tableDataInv = [];
                 rowindex=1; 
-                window.location = "http://localhost/ERP1/grn";
+                window.location = newURL+"/ERP1/grn";
             }
             
         }

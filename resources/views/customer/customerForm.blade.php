@@ -27,16 +27,37 @@
 @endsection
 
 @section('content')
+
     <section class="content">
             <div class="body">
                     <ol class="breadcrumb breadcrumb-bg-red">
                         <li><a href="{{url('/home')}}">Home</a></li>
-                        <li><a href="{{url('/customerList')}}">List</a></li>
+                        @if(isset($customer))
+                           @if($customer[0]->isVendor=="on")
+                                <li><a href="{{url('/vendorList')}}">Vendors</a></li>
+                            @else
+                                <li><a href="{{url('/customerList')}}">Customers</a></li>
+                            @endif 
+                        @else
+                            @if($chk=="1")
+                                <li><a href="{{url('/vendorList')}}">Vendors</a></li>
+                            @else
+                                <li><a href="{{url('/customerList')}}">Customers</a></li>
+                            @endif
+                        @endif
                         <li class="active">                
                             @if(isset($customer))
-                                <a>Edit</a>
+                                @if($customer[0]->isVendor=="on")
+                                    <a>Edit vendor</a>
+                                @else
+                                    <a>Edit vendor</a>
+                                @endif
                             @else
-                                <a>Add New</a>
+                                @if($chk=="1")
+                                    <a>Add Vendor</a>
+                                @else
+                                    <a>Add Customer</a>
+                                @endif
                             @endif 
                         </li>
                     </ol>
@@ -53,7 +74,11 @@
                         @if(isset($customer))
                             <h2>Edit Customer</h2>
                         @else
-                            <h2>Add Customer</h2>
+                            @if($chk=="1")
+                                <h2>Add Vendor</h2>
+                            @else
+                                <h2>Add Customer</h2>
+                            @endif
                         @endif
                         </div>
                         <div class="body">
@@ -178,7 +203,7 @@
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                    <input type="checkbox" id="isVendor" name="isVendor"  >
+                                    <input type="checkbox" id="isVendor" name="isVendor" {{ $chk == '1' ? "checked":"" }}  >
                                     <label for="isVendor">Is Vendor</label>
                                     </div>
                                 </div>

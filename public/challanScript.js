@@ -1,6 +1,6 @@
 var rowindexcha=1; // commont for row index
 var tableDataChallan = [];
-
+var newURL = window.location.protocol + "//" + window.location.host;
 $('#delivery_challan_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
 $('#challan_date_edit').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
 
@@ -72,9 +72,9 @@ function addChallan(){
     submitEntry.isValidated =  $('#challan_isValidated').val();
 
     //console.log(tableData);
-   
+        
         $.ajax({
-        url: "http://localhost/ERP1/insertChallan",
+        url: newURL+"/ERP1/insertChallan",
         type: "POST",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -87,7 +87,7 @@ function addChallan(){
             if (data.success=="inserted") {
                 tableDataChallan = [];
                 rowindexcha=1; 
-                window.location = "http://localhost/ERP1/challan";
+                window.location = newURL+"/ERP1/challan";
             }
             else if (data[0]==1) {
                 swal("You do not have much quantity of "+ data[1] +" in hand !!!");
@@ -219,7 +219,7 @@ function addChallanDetailEditTime(){
 function editChallanDetail(id){
     //alert (id);
     $.ajax({
-        url: "http://localhost/ERP1/editChallanDetail?id="+id,
+        url: newURL+"/ERP1/editChallanDetail?id="+id,
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -246,7 +246,7 @@ function editChallanDetail(id){
 function deleteChallanDetail(id){
 
     $.ajax({
-        url: "http://localhost/ERP1/getChallanDetailBeforeDelete?id="+id,
+        url: newURL+"/ERP1/getChallanDetailBeforeDelete?id="+id,
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -258,7 +258,7 @@ function deleteChallanDetail(id){
         success: function(data) {
             if (data.success=="true") {
                 $.ajax({
-                    url: "http://localhost/ERP1/deleteChallanDetail?id="+id,
+                    url: newURL+"/ERP1/deleteChallanDetail?id="+id,
                     type: "GET",
                     headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -290,7 +290,7 @@ function deleteChallanDetail(id){
 
 function deleteChallanDetailPlus(id){
      $.ajax({
-                    url: "http://localhost/ERP1/deleteChallanDetail?id="+id,
+                    url: newURL+"/ERP1/deleteChallanDetail?id="+id,
                     type: "GET",
                     headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -358,7 +358,7 @@ function updateChallanDetail(id){
     });
     
     $.ajax({
-        url: "http://localhost/ERP1/getChallanDetailBeforeDelete?id="+id,
+        url: newURL+"/ERP1/getChallanDetailBeforeDelete?id="+id,
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -438,7 +438,7 @@ function updateChallan(id){
     //console.log(tableData);
    
         $.ajax({
-        url: "http://localhost/ERP1/updateChallan",
+        url: newURL+"/ERP1/updateChallan",
         type: "POST",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -451,7 +451,7 @@ function updateChallan(id){
             if (data.success=="inserted") {
                 tableDataChallan = [];
                 rowindexcha=1; 
-                window.location = "http://localhost/ERP1/challan";
+                window.location = newURL+"/ERP1/challan";
             }
             else if (data[0]==1) {
                 swal("You do not have much quantity of "+ data[1] +" in hand !!!");

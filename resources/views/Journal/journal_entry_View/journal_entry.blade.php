@@ -356,10 +356,10 @@ $("#filter_customer").change(function () {
 
 $('#div_project .dropdown-menu ul').html('');
 $('#filter_project').html('');
-
+var newURL = window.location.protocol + "//" + window.location.host; 
    $.ajax({
         
-        url: "http://localhost/ERP1/getProjectsByCustomerId",
+        url: newURL+"/ERP1/getProjectsByCustomerId",
         type: "post",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

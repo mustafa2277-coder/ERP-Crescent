@@ -1,3 +1,4 @@
+var newURL = window.location.protocol + "//" + window.location.host;
 $(document).on('click', '#submit', function(e) {
 
     e.preventDefault();
@@ -92,7 +93,7 @@ $(document).on('click', '#submit', function(e) {
         console.log(submitEntry);
         e.preventDefault();
         $.ajax({
-            url: "http://localhost/ERP1/insertNJournalEntry",
+            url: newURL+"/ERP1/insertNJournalEntry",
             type: "POST",
             headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

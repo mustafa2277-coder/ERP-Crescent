@@ -1,4 +1,4 @@
-    
+var newURL = window.location.protocol + "//" + window.location.host; 
     var rowi=1; // commont for row index
     var tableData = [];
     // $('#date_post').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
@@ -130,7 +130,7 @@
         //console.log(tableData);
           e.preventDefault();
           $.ajax({
-            url: "http://localhost/ERP1/insertJournalEntry",
+            url: newURL+"/ERP1/insertJournalEntry",
             type: "POST",
             headers: {
                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -140,7 +140,7 @@
             dataType: "json",
            
             success: function(data) {
-             window.location = "http://localhost/ERP1/getJournalEntriesListView";
+             window.location = newURL+"/ERP1/getJournalEntriesListView";
            
 
             }

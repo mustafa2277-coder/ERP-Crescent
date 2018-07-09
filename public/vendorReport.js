@@ -2,11 +2,11 @@ var dataFirst=[];
 var dataTwo=[];
 var tableDataRecord=[];
 var totalValues=[];
-
+var newURL = window.location.protocol + "//" + window.location.host; 
 $('select[name="report_vendor"]').change(function(){
     var mainId=$(this).val();
         $.ajax({
-        url: "http://localhost/ERP1/getVendorReport?id="+$(this).val(),
+        url: newURL+"/ERP1/getVendorReport?id="+$(this).val(),
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -24,7 +24,7 @@ $('select[name="report_vendor"]').change(function(){
                 }
                 
                 tbody.prepend(rows);
-                $('#vendorReportPrint').attr('href', "http://localhost/ERP1/vendorReportPdf/"+mainId);
+                $('#vendorReportPrint').attr('href', newURL+"/ERP1/vendorReportPdf/"+mainId);
             }
             else{
                     var tbody = $("#listofProductsByVendor tbody");
