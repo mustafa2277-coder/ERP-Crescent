@@ -652,6 +652,29 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
     
                     </li>
                     @endrole
+                    @role('admin')
+                    <li>
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">account_box</i>
+                                <span>User Management</span>
+    
+                            </a>
+    
+                            <ul class="ml-menu">
+                                    
+                                <li>
+                                            <a href="{{url('/userList')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Users</span>
+                    
+                                            </a>
+                                </li>
+                                
+                            </ul>
+    
+    
+                    </li>
+                    @endrole
 
                 </ul>
             </div>

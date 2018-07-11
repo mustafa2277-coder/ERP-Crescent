@@ -26,6 +26,13 @@ use PDF;
 
 class UserRegistrationController extends Controller
 {
+    public function __construct()
+    {
+        
+        //$this->middleware('role:inv-manage|admin');
+        $this->middleware('auth');    
+        $this->middleware('role:admin');
+    }
     public function userList (){
        
        //$users=User::join()->where('users.id','<>','3')->get();
@@ -63,21 +70,33 @@ class UserRegistrationController extends Controller
 
     public function addUser(Request $request){
         if($request->id){
-            $userDel=User::find($request->id);
-            $userDel->delete();
+            if(User::where('email','=',$request->email)->where('id','<>',$request->id) ->exists()){
+
+                $this->validate($request, [
+                    
+                    'email' => 'unique:users',
+                    ]
+                );
+
+            }
             $this->validate($request, [
                 'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|email|max:255',
                 'role'=> 'required',
                 'password' => 'required|string|min:6|confirmed',
                 ]
             );
-            $user= User::create([
-                'name' => $request['name'],
-                'email' => $request['email'],
-                'password' => bcrypt($request['password']),
-            ]);
+            $userDel=User::find($request->id);
+            $userDel->delete();
+
+            $user= new User;
+            $user->id=$request->id;
+            $user->name=$request->name;
+            $user->email=$request->email;
+            $user->password=bcrypt($request->password);
+            $user->save();   
             $user->attachRole(Role::where('id',$request->role)->first());
+            
         }
         else
         {

@@ -124,7 +124,7 @@
     
 </div>
 
-<script src="{{asset('public/plugins/print/jQuery.PrintArea.js')}}"></script> 
+<script src="{{asset('public/plugins/print/jquery.PrintArea.js')}}"></script> 
 <script>
     $(document).ready(function(){
 

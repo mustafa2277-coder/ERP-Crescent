@@ -268,12 +268,12 @@ Route::post('/addEmployeePayroll', 'PayrollController@addEmployeePayroll')->midd
 
 //User Registration-----------------------------------------------------------------------------------------------
 
-Route::get('/userList', 'UserManagement\UserRegistrationController@userList')->middleware('auth');
-Route::get('/getAddUser', 'UserManagement\UserRegistrationController@getAddUser')->middleware('auth');
-Route::get('/getEditUser/{userId}/{roleId}', 'UserManagement\UserRegistrationController@getEditUser')->middleware('auth');
-Route::post('/addUser', 'UserManagement\UserRegistrationController@addUser')->middleware('auth');
-Route::post('/editUser', 'UserManagement\UserRegistrationController@editUser')->middleware('auth');
-Route::get('/deleteUser/{id}', 'UserManagement\UserRegistrationController@deleteUser')->middleware('auth');
+Route::get('/userList', 'UserManagement\UserRegistrationController@userList');
+Route::get('/getAddUser', 'UserManagement\UserRegistrationController@getAddUser');
+Route::get('/getEditUser/{userId}/{roleId}', 'UserManagement\UserRegistrationController@getEditUser');
+Route::post('/addUser', 'UserManagement\UserRegistrationController@addUser');
+Route::post('/editUser', 'UserManagement\UserRegistrationController@editUser');
+Route::get('/deleteUser/{id}', 'UserManagement\UserRegistrationController@deleteUser');
 
 //Warehouse Assignment---------------------------------------------------------------------------------------------
 

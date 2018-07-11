@@ -50,7 +50,7 @@
                                 @if($customer[0]->isVendor=="on")
                                     <a>Edit vendor</a>
                                 @else
-                                    <a>Edit vendor</a>
+                                    <a>Edit Customer</a>
                                 @endif
                             @else
                                 @if($chk=="1")

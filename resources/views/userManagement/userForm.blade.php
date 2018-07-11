@@ -151,7 +151,7 @@
                             {{--  ADD Form  --}}
                             <form id="form_validation" class="form-horizontal" action = "{{ url('/addUser') }}" method = "POST">
                                 {{ csrf_field() }}
-                                <input id="id" type="hidden" class="form-control" name="id" value="{{$userDetail[0]->id}}" required>
+                                <input id="id" type="hidden" class="form-control" name="id" value="" required>
                                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                     <label for="name" class="col-md-4 control-label">Name</label>
         

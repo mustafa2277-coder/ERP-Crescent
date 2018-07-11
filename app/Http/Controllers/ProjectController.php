@@ -38,14 +38,15 @@ class ProjectController extends Controller
     
     public function getAddProject()
     {
-        $customers=Customer::all();
+        $customers=Customer::where('isVendor','<>','on')->get();
+        return $customers;
         $accountHeads=AccountHead::where('isTransactional','=','1')->get();
         return view('project/projectForm',compact('customers','accountHeads'));
     }
     public function addProject(Request $request)
     {
 
-        $tt =$request->code;
+        $tt =$request->cost;
         $res1 = trim($tt,'_');
 
         $this->validate($request, [
