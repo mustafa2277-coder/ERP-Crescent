@@ -59,6 +59,9 @@ class Kernel extends HttpKernel
         'role' => \Zizaco\Entrust\Middleware\EntrustRole::class,
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
-
+        'jwt.auth' => 'Tymon\JWTAuth\Middleware\GetUserFromToken',
+        'jwt.refresh' => 'Tymon\JWTAuth\Middleware\RefreshToken',
+        'assign.guard' => \App\Http\Middleware\AssignGuard::class,
+        'poscustomer.auth' => \App\Http\Middleware\PoscustomerTokenAuthenticate::class,
     ];
 }

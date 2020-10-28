@@ -55,6 +55,7 @@
                             <h2>Add GRN</h2>
                         </div>
                         <div class="body">
+                            
                             {{--  Edit Form  --}}
                             @if(isset($grn))
                             <form id="form_validation" action="javasctipt:0;">
@@ -173,7 +174,7 @@
                                                                     <select  id="product_id" name="product_id" class="form-control show-tick" data-live-search="true" required>
                                                                         <option value="0" selected="selected" disabled="disabled">Select Product</option>
                                                                         @foreach ($products as $product)    
-                                                                        <option value="{{$product->id}}" {{ $grn->product_id == "$product->id" ? "selected":"" }}>{{$product->name}}</option>
+                                                                        <option value="{{$product->id}}" {{ $grn->product_id == "$product->id" ? "selected":"" }}>{{$product->code}} - {{$product->name}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                  </div>
@@ -266,7 +267,7 @@
                                                                     <select  id="product_id_edit" name="product_id_edit" class="form-control show-tick" data-live-search="true" required>
                                                                         <option value="0" selected="selected" disabled="disabled">Select Product</option>
                                                                         @foreach ($products as $product)    
-                                                                        <option value="{{$product->id}}" {{ $grn->product_id == "$product->id" ? "selected":"" }}>{{$product->name}}</option>
+                                                                        <option value="{{$product->id}}" {{ $grn->product_id == "$product->id" ? "selected":"" }}>{{$product->code}} - {{$product->name}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                  </div>
@@ -437,13 +438,17 @@
                                                             <div class="form-group form-float">
                                                                 <div class="form-line">
                                                                     <!-- <label class="form-label">Product*</label> -->
-                                                                    <select  id="product_id" name="product_id" class="form-control show-tick" data-live-search="true" required>
+                                                                    {{-- <select  id="product_id" name="product_id" class="form-control show-tick" data-live-search="true" required>
                                                                         <option value="0" selected="selected" disabled="disabled">Select Product</option>
                                                                         @foreach ($products as $product)    
-                                                                        <option value="{{$product->id}}">{{$product->name}}</option>
+                                                                        <option value="{{$product->id}}">{{$product->code}}-{{$product->name}}</option>
                                                                         @endforeach
-                                                                    </select>
-                                                                 </div>
+                                                                    </select> --}}
+                                                                    <label><i class="material-icons">search</i> Search</label>
+                                                                    <input type="text" class="typeahead form-control" placeholder="Search Products...">
+                                                                    <input type="hidden" class="productName" name="productName">
+                                                                    <input type="hidden" class="productId" name="productId">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                        <!--  <div class="col-sm-6" id="div_project">
@@ -561,8 +566,117 @@
 
     <script src="{{asset('public/js/pages/forms/basic-form-elements.js')}}"></script>
     
+    <!--Typeahead -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> 
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
     <script src="{{asset('public/invScript.js')}}"></script>
+    <script>
+        $('#modal_product_quantity,#modal_product_price').change(function(){
+            //alert('hello');
+            total=$('#modal_product_quantity').val()*$('#modal_product_price').val();
+            
+            //alert(total);
+            $('#modal_price_in_pkr').val(total);
+            $('#modal_price_in_pkr').focus();
+            $('#modal_purchased_currency').val('pkr');
+            $('#modal_purchased_currency').focus();
+            $('#modal_exchange_rate').val('0');
+            $('#modal_exchange_rate').focus();
+            $('#modal_product_price').focus();
+            
+
+        });
+        $('input.typeahead').typeahead({
+                minLength: 3,
+                items: 1000,
+                
+            source:function (query, process) {
+                            //alert(query);
+                            return $.ajax({
+                                url: "{{url('/getSearchProduct')}}",
+                                type: 'get',
+                                data: { name: query },
+                                headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                dataType: 'json',
+                                success: function (result) {
+                                    // console.log(result);
+
+                                    //  var resultList = result.map(function (item) {
+                                    //      var aItem = { id: item.id, code: item.code, name: item.name+" _____RS "+item.salePrice};
+                                    //      return aItem;
+                                    //  });
+                                    var resultList = result.map(function (item) {
+                                        var aItem = { id: item.id, name: item.code+' '+item.name };
+                                        return aItem;
+                                    });
+
+                                    // console.log(resultList);
+
+                                    return process(resultList);
+
+                                }
+                            });
+                        }
+
+        });
+        $('.form-line').on("click","ul.typeahead li", function() {
+            var data = $('ul.typeahead li.active').data().value;
+            //id=data.id;
+            //alert(data);
+            console.log(data);
+            $('.productId').val(data.id);
+            $('.productName').val(data.name);
+            //window.location.replace("{{url('/getSearchProductList')}}?id="+id);
+        });
+
+         $(".typeahead").on('keyup', function(e){
+
+            if(e.which == 13) {
+                
+            //onsole.log($('.input-group > ul.dropdown-menu').css('display'));
+
+            $('ul.typeahead li.active').on().trigger('click'); // for treiggering of click evetn of typhead for selec an item
+
+            }
+
+        });
+        // $('ul.typeahead li').live("click", function() {
+        //     var data = $('ul.typeahead li.active').data().value;
+        //     //id=data.id;
+        //     //console.log(data);
+        //     $('.productId').val(data.id);
+        //     $('.productName').val(data.name);
+        //     //window.location.replace("{{url('/getSearchProductList')}}?id="+id);
+        // });
+
+        // $(".typeahead").on('keyup', function(e){
+
+        //     if(e.which == 13) {
+                
+        //     //onsole.log($('.input-group > ul.dropdown-menu').css('display'));
+
+        //     $('ul.typeahead li.active').live().trigger('click'); // for treiggering of click evetn of typhead for selec an item
+
+        //     }
+
+        // });
+        
+        // $('.form-line').keypress(function (e) {
+        //     //alert(e.which);
+        //     if (e.which == '13') {
+        //         alert('hello');
+        //         var data = $('ul.typeahead li.active').data();
+        //         alert(data);
+        //         //id=data.id;
+        //         //console.log(data);
+        //         $('.productId').val(data.id);
+        //         $('.productName').val(data.name);
+        //     }
+        // });
+
+    </script>
 @endsection

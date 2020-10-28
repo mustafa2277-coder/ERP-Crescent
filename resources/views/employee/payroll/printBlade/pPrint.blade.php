@@ -6769,17 +6769,17 @@
         border: 1px solid black;
      }
      td{
-       font-size:8px;
+       font-size:10px;
      }
      th{
-       font-size:8px;
+       font-size:12px;
      }
         </style>
     </head>
     <body >
 
-            <img src="{{url('/public/images/logostrongforce.png')}}"  >
-            <center><h3>Payroll Summary</h3></center>
+            <img src="{{url('/public/images/tbcerp.PNG')}}"  >
+            <center><h3>Salary Sheet</h3></center>
             <br>
     
             <div style="float:right;">
@@ -6799,13 +6799,13 @@
             <hr>--}}
             
             <br><br>
-            <table id="example"  class="table  table-striped table-hover dataTable js-exportable">
+            <table id="example"  class="table  table-striped table-hover">
                     <thead>
                         <tr style="background: #f44336;color: #fff;">
                             <th >Sr.No</th>
                             <th style="text-align:center">Name</th>
                             <th style="text-align:center">Desigantion</th>
-                            <th style="text-align:center">Pjt No.</th>
+                           
                             <th style="text-align:center">Salary Rate/day</th>
                             <th style="text-align:center">Normal Days</th>
                             <th style="text-align:center">Sundays</th>
@@ -6818,6 +6818,7 @@
                             <th style="text-align:center">Advances</th>
                             <th style="text-align:center">Deductions</th>
                             <th style="text-align:center">Net Amount Payable</th>
+                            <th style="text-align:center">Sign</th>
                         </tr>
                     </thead>
                     
@@ -6831,7 +6832,7 @@
                                         <th scope="row">{{$i++}}</th>
                                         <td>{{$payroll->name}}</td>
                                         <td>{{$payroll->desg}}</td>
-                                        <td>{{$payroll->code}}</td>
+                                       
                                         <td>{{$payroll->salaryRate}}</td>
                                         <td>{{$payroll->normalDays}}</td>
                                         <td>{{$payroll->sundays}}</td>
@@ -6844,6 +6845,7 @@
                                         <td>{{$payroll->advAmount}}</td>
                                         <td>{{$payroll->deductAmount}}</td>
                                         <td>{{$payroll->netAmount}}</td>
+                                        <td>__________</td>
                                     </tr>
                             <?php 
                               $net=$net+$payroll->netAmount;
@@ -6860,7 +6862,29 @@
                 </table>
 
                 <br>
+                <div style="width: 32.5%;float: left;">
+                    <div>
+                      <b>Prepared By:</b> ERP admin 
+                      <br><br>
+                      __________________
+                    </div>
+                </div>
+                <div style="width: 32.5%;float: left;">
+                    <div>
+                      <center><b>Admin Office:</b> </center>
+                      <br>
+                     <center> __________________</center>
+                    </div>
+                </div>
+                <div style="width: 32.5%;float: right;">
+                    <div style="float: right;">
+                          <b>GM Finance:</b> 
+                          <br><br>
+                          __________________
+                    </div>
+                </div>
                 
-                <b>Prepared By:</b> {{ Auth::user()->name }}
+                
+                
     </body>
     </html>

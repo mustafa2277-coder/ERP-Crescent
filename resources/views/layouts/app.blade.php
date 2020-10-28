@@ -1,15 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-    <!--Start of Zendesk Chat Script-->
-<script type="text/javascript">
-window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
-d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
-_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
-$.src="https://v2.zopim.com/?5lQIuBuP5WbOu6ZYtv87DG8QeMcTkR6A";z.t=+new Date;$.
-type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
-</script>
-<!--End of Zendesk Chat Script-->
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -402,6 +394,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                                     <li>
                                         <a href="{{url('/getBalanceSheet')}}">Balance Sheet</a>
                                     </li>
+                                    
                                     <li>
                                         <a href="{{url('/getProfitLoss')}}">Profit and Loss</a>
                                     </li>
@@ -463,6 +456,31 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
     
                         </li>
                         @endrole
+                        @role('admin')    
+                        <li>
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">unarchive</i>
+                                <span>Package Mangemment</span>
+    
+                            </a>
+    
+                            <ul class="ml-menu">
+                                    
+                                <li>
+                                            <a href="{{url('/packageList')}}">
+                                                <i class="material-icons">text_fields</i>
+                                                <span>Product Package</span>
+                    
+                                            </a>
+                                </li>
+                                
+                                
+                                
+                            </ul>
+    
+    
+                        </li>
+                        @endrole
 
                     @role(['inv-manage','admin','ware1-manage','ware2-manage','ware3-manage','ware4-manage','ware5-manage'])
                     <li>
@@ -503,13 +521,13 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
             
             
                                 </li>
-                                <li>
+                                <!--<li>
                                     <a href="{{url('/customerList')}}" accesskey="c">
                                         <i class="material-icons">account_box</i>
                                         <span>Customers</span>
             
                                     </a>
-                                </li>
+                                </li>-->
                                 <li>
                                     <a href="{{url('/vendorList')}}" accesskey="v">
                                         <i class="material-icons">text_fields</i>
@@ -532,13 +550,20 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                 
                                         </a>
                                 </li>
+
                                 <li>
+                                        <a href="{{ url('/transfernotes') }}">
+                                            <i class="material-icons">border_left</i>
+                                            <span>Transfer Notes</span>
+                                        </a>
+                                </li>
+                                <!--<li>
                                         <a href="{{url('/challan')}}">
                                             <i class="material-icons">border_left</i>
                                             <span>Delivery Challan</span>
                 
                                         </a>
-                                </li>
+                                </li>-->
                                 <li>
                                         <a href="{{url('/stock')}}">
                                             <i class="material-icons">border_left</i>
@@ -570,9 +595,14 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                                         <a href="{{url('/productSummary')}}">Products summary</a>
                                     </li>
                                     <li>
+                                            <a href="{{url('/productSaleReport')}}">Product Sale Quantity</a>
+                                    </li>
+                                    <li>
                                         <a href="{{url('/productDeatil')}}">Products details</a>
                                     </li>
-                                   
+                                    <li>
+                                        <a href="{{url('/productGRNReport')}}">Product GRN Report</a>
+                                    </li>
                                     
                                 </ul>
 
@@ -597,9 +627,53 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                             <ul class="ml-menu">
                                     
                                 <li>
-                                            <a href="{{url('/employeeList')}}">
+                                    <a href="javascript:void(0);"  class="menu-toggle">
+                                        <i class="material-icons">person</i>
+                                        <span>Employees</span>
+            
+                                    </a>
+                                    <ul class="ml-menu">
+                                    
+                                        <li>
+                                                    <a href="{{url('/employeeList')}}?data=info">
+                                                        <i class="material-icons">text_fields</i>
+                                                        <span>Employee Info</span>
+                            
+                                                    </a>
+                                        </li>
+                                        <li>
+                                                <a href="{{url('/employeeList')}}?data=edu">
+                                                    <i class="material-icons">text_fields</i>
+                                                    <span>Employee Education Info</span>
+                        
+                                                </a>
+
+                                        </li>
+                                        <li>
+                                                <a href="{{url('/employeeList')}}?data=exp">
+                                                    <i class="material-icons">text_fields</i>
+                                                    <span>Employee Experience Info</span>
+                        
+                                                </a>
+                                                
+                                        </li>
+                                        <li>
+                                                <a href="{{url('/employee/permotion-demotion')}}?data=exp">
+                                                    <i class="material-icons">text_fields</i>
+                                                    <span>Permotion / Demotion</span>
+                        
+                                                </a>
+                                                
+                                        </li>
+                                        
+                                        
+                                    </ul>
+                                            
+                                </li>
+                                <li>
+                                            <a href="{{url('/designation')}}">
                                                 <i class="material-icons">text_fields</i>
-                                                <span>Employees</span>
+                                                <span>Define Designation</span>
                     
                                             </a>
                                 </li>
@@ -674,6 +748,24 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
     
     
                     </li>
+                    <li>
+                        <a href="{{url('/customer_list')}}">
+                            <i class="material-icons">attach_money</i>
+                            <span>Customer Ledger</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url('/getTodaySales')}}">
+                            <i class="material-icons">attach_money</i>
+                            <span>Sales</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{url('/getTodayReturnSales')}}">
+                            <i class="material-icons">attach_money</i>
+                            <span>Return Sales</span>
+                        </a>
+                    </li>
                     @endrole
 
                 </ul>
@@ -714,6 +806,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
     @yield('content')
     <!-- Scripts -->
     @yield('js')
+ 
 
 </body>
 </html>

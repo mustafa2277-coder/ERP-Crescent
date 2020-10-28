@@ -3,6 +3,8 @@
 @section('css')
     <!-- Bootstrap Core Css -->
     <link href="{{ asset('public/plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+     <!-- JQuery DataTable Css -->
+     <link href="{{ asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}"rel="stylesheet"/>
 
     <!-- Waves Effect Css -->
     <link href="{{ asset('public/plugins/node-waves/waves.css') }}" rel="stylesheet" />
@@ -44,7 +46,7 @@
                         </div>
                         <div class="body table-responsive">
                         <?php   $i=1;  ?>
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover js-exportable">
                                 <thead>
                                     <tr style="background: #f44336;color: #fff;">
                                         <th>#</th>
@@ -87,6 +89,17 @@
 
     <!-- Bootstrap Core Js -->
     <script src="{{asset('public/plugins/bootstrap/js/bootstrap.js')}}"></script>
+        <!-- Select Plugin Js -->
+    <script src="{{asset('public/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/jszip.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/pdfmake.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/vfs_fonts.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script> 
 
     <!-- Select Plugin Js -->
     <script src="{{asset('public/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
@@ -108,4 +121,6 @@
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
+
+    <script src="{{asset('public/js/pages/tables/jquery-datatable.js')}}"></script>
 @endsection

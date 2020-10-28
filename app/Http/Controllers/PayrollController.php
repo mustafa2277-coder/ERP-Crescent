@@ -223,9 +223,10 @@ class PayrollController extends Controller
                 ->get();
         //return $payrolls;
         //$employees=Employee::all();
-       // $deduct=Deduction::all();       
+       // $deduct=Deduction::all();
+      // return view('employee/payroll/printBlade/pPrint',compact('payrolls','employees','payrollMonth'));
        $pdf = PDF::loadView('employee/payroll/printBlade/pPrint',compact('payrolls','employees','payrollMonth'));
-       return $pdf->stream();
+       return $pdf->setPaper('a4', 'landscape')->stream();
     }    
 
 

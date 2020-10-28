@@ -46,7 +46,7 @@ class ProductCategoryController extends Controller
                 
                 $edit = '<a style="float:  right;" href="'.URL('/getEditCategory').'/'.$category->id.'"><i class="material-icons" title="Edit Head">mode_edit</i></a>';    
                         
-                $arr .= '<ol class="dd-list"><li class="dd-item" data-id="'.$category->id.'"><div class="dd-handle">'.$category->name. $addNew.$edit.'</div>'.$this->GetTreeCategory($category).'</li></ol>';
+                $arr .= '<ol class="dd-list"><li class="dd-item" data-id="'.$category->id.'"><div class="dd-handle">'.$category->name.$edit.'</div>'.$this->GetTreeCategory($category).'</li></ol>';
             }
             return $arr;
         }

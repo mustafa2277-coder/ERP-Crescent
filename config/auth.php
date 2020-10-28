@@ -1,5 +1,7 @@
 <?php
 
+//set('auth.providers.users.model', \App\User::class);
+
 return [
 
     /*
@@ -42,9 +44,17 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
+            'driver' => 'session',
+            'provider' => 'poscustomers',
         ],
+        
+        
+        'poscustomer' => [
+            'driver' => 'jwt',
+            'provider' => 'poscustomers'
+
+        ],
+        
     ],
 
     /*
@@ -68,6 +78,19 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        /*
+        'poscustomers' => [
+            'driver' => 'eloquent',
+            'model' => App\Poscustomer::class,
+        ],
+       */
+
+       
+      'poscustomers' => [
+        'driver' => 'eloquent',
+        'model' => App\Poscustomer::class,
         ],
 
         // 'users' => [
@@ -95,7 +118,7 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 600,
+            'expire' => 1200000000,
         ],
     ],
 

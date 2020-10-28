@@ -16,6 +16,7 @@ trait AuthenticatesUsers
      */
     public function showLoginForm()
     {
+        \Config::set('auth.providers.users.model', \App\User::class);
         return view('auth.login');
     }
 
@@ -27,7 +28,11 @@ trait AuthenticatesUsers
      */
     public function login(Request $request)
     {
+        /*var_dump($request->username);
+        exit();*/
+        //\Config::set('auth.providers.users.model', \App\User::class);
         $this->validateLogin($request);
+        
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -62,6 +67,7 @@ trait AuthenticatesUsers
             $this->username() => 'required|string',
             'password' => 'required|string',
         ]);
+        
     }
 
     /**
@@ -142,6 +148,7 @@ trait AuthenticatesUsers
      */
     public function username()
     {
+        
         return 'email';
     }
 

@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Karachi',
 
     /*
     |--------------------------------------------------------------------------
@@ -162,10 +162,11 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
         /*
          * Package Service Providers...
          */
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+
         Laravel\Tinker\TinkerServiceProvider::class,
         Jimmyjs\ReportGenerator\ServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
@@ -234,7 +235,8 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
-        
+        'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
+        'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
 
     ],
 

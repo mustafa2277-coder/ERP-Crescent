@@ -50,52 +50,65 @@
             </div>
 
             <!-- Widgets -->
-            <div class="row clearfix">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-pink hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">playlist_add_check</i>
+            @role('admin')   
+                <div class="row clearfix">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-pink hover-expand-effect">
+                            <div class="icon">
+                                <i class="material-icons">playlist_add_check</i>
+                            </div>
+                            <div class="content">
+                                <div class="text">Total Sale</div>
+                                <div class="number count-to" data-from="0" data-to="{{$total[0]->todayTotal}}" data-speed="15" data-fresh-interval="20"></div>
+                            </div>
                         </div>
-                        <div class="content">
-                            <div class="text">Today Enteries</div>
-                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                    </div>
+                    {{-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-cyan hover-expand-effect">
+                            <div class="icon">
+                                <i class="material-icons">dns</i>
+                            </div>
+                            <div class="content">
+                                <div class="text">Montessori Sale</div>
+                                <div class="number count-to" data-from="0" data-to="{{$total1}}" data-speed="5000" data-fresh-interval="20"></div>
+                            </div>
+                        </div>
+                    </div> --}}
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-light-green hover-expand-effect">
+                            <div class="icon">
+                                <i class="material-icons">folder_shared</i>
+                            </div>
+                            <div class="content">
+                                <div class="text">Boys Sale</div>
+                                <div class="number count-to" data-from="0" data-to="{{$total1[0]->todayTotal}}" data-speed="5000" data-fresh-interval="20"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-orange hover-expand-effect">
+                            <div class="icon">
+                                <i class="material-icons">list</i>
+                            </div>
+                            <div class="content">
+                                <div class="text">Girls Sale</div>
+                                <div class="number count-to" data-from="0" data-to="{{$total2[0]->todayTotal}}" data-speed="5000" data-fresh-interval="20"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-orange hover-expand-effect">
+                            <div class="icon">
+                                <i class="material-icons">list</i>
+                            </div>
+                            <div class="content">
+                                <div class="text">Johar Town Sale</div>
+                                <div class="number count-to" data-from="0" data-to="{{$total3[0]->todayTotal}}" data-speed="5000" data-fresh-interval="20"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-cyan hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">dns</i>
-                        </div>
-                        <div class="content">
-                            <div class="text">Chart of Accounts</div>
-                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-light-green hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">folder_shared</i>
-                        </div>
-                        <div class="content">
-                            <div class="text">CUSTOMERS</div>
-                            <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-orange hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">list</i>
-                        </div>
-                        <div class="content">
-                            <div class="text">Projects</div>
-                            <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endrole
             <!-- #END# Widgets -->
             <!-- CPU Usage -->
             <div class="row clearfix">

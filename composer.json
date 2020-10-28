@@ -8,10 +8,12 @@
         "php": ">=5.6.4",
         "barryvdh/laravel-dompdf": "^0.8.1",
         "barryvdh/laravel-snappy": "^0.4.0",
+        "guzzlehttp/guzzle": "^6.5",
         "jimmyjs/laravel-report-generator": "^1.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "setasign/fpdf": "1.8.1",
+        "tymon/jwt-auth": "^0.5.12",
         "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {

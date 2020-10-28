@@ -348,7 +348,7 @@
                                                 <td colspan="6" >
                                                     <a class="btn btn-default waves-effect" id ="appendRow" accesskey="a" style="float: left;"> 
                                                     <i class="material-icons">add</i>
-                                                </a>    
+                                                    </a>    
                                                 
                                                 </td>
                                             

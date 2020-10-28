@@ -16,8 +16,8 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
-
+    'driver' => env('MAIL_DRIVER', 'mailgun'),
+    //'driver' => env('MAIL_DRIVER', 'sendmail'),
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Address
@@ -29,8 +29,9 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-
+    //'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+        //'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
+        'host' => env('MAIL_HOST', 'smtp.googlemail.com'),
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Port
@@ -42,8 +43,8 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
-
+    //'port' => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 465),
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -60,6 +61,13 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+
+    
+    'from' => [
+        'address' => env('MAIL_FROM_ADDRESS', 'mustafa.omer431@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'Mustafa omer'),
+        ],
+    
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol
@@ -71,8 +79,8 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-
+    //'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Username

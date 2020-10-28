@@ -8,7 +8,7 @@ class warehouseProduct extends Model
 {
     protected $connection = 'mysql';
     protected $primaryKey = 'id';
-    protected $table = 'warehouseProduct';
+    protected $table = 'warehouseproduct';
     protected $fillable = array(
         'id',
         'warehouse_id',

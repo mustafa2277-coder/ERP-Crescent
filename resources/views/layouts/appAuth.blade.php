@@ -17,7 +17,28 @@
 
         @yield('content')
         @yield('js')
+<script>
+    
+    /*setInterval(function(){ 
+            var csrfToken = $('[name="csrf_token"]').attr('content');
+            $.ajax({
+                      url: "http://crescent.cherryberry.website/pos/public/index.php/refreshToken",
+                      type: "GET",
+                      headers: {
+                                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                   },
+                     
+                      //beforeSend: function() {  $('#payModal').modal('hide'); $('#loading').show();},
+                      
+                      success: function(data) {
+                         console.log('data:'+data);
+                         $('input[name="_token"]').val(data);
+                      }
 
+                    });
+            }, 5000);*/
+   
+</script> 
     
 </body>
 </html>

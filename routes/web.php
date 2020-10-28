@@ -14,7 +14,7 @@
 /* Route::get('/', function () {
     return view('welcome');
 }); */
-
+//\Config::set('auth.providers.users.model', \App\User::class);
 Auth::routes();
 Route::match(['get', 'post'], 'register', function(){
     return redirect('/');
@@ -30,6 +30,11 @@ Route::get('/getAddCustomer/{chk}', 'CustomerController@getAddCustomer')->middle
 Route::get('/getEditCustomer/{id}', 'CustomerController@getEditCustomer')->middleware('auth');
 Route::post('/addCustomer', 'CustomerController@addCustomer')->middleware('auth');
 Route::post('/editCustomer', 'CustomerController@editCustomer')->middleware('auth');
+
+/* -----------------------------------POS Customer-------------------------------------- */
+
+Route::get('/customer_list', 'CustomerController@customer_list')->middleware('auth');
+Route::get('/getCustomerDetail/{id}', 'CustomerController@getCustomerDetail')->middleware('auth');
 
 /*-----------------------------------Project---------------------------------------*/
 
@@ -48,14 +53,52 @@ Route::get('/getAddSubCategory/{id}', 'ProductCategoryController@getAddSubCatego
 Route::post('/addCategory', 'ProductCategoryController@addCategory')->middleware('auth');
 Route::post('/editCategory', 'ProductCategoryController@editCategory')->middleware('auth');
 
+/*-----------------------------------Packages---------------------------------------*/
+
+Route::get('/packageList', 'PackageController@packageList')->middleware('auth');
+Route::get('/getAddProductPackage', 'PackageController@getAddProductPackage')->middleware('auth');
+Route::post('/insertProductPakcage', 'PackageController@insertProductPakcage')->middleware('auth');  
+Route::get('/getEditProductPackage/{id}', 'PackageController@getEditProductPackage')->middleware('auth');  
+/* Route::get('/getEditCategory/{id}', 'PackageController@getEditCategory')->middleware('auth');
+Route::get('/getAddSubCategory/{id}', 'PackageController@getAddSubCategory')->middleware('auth');
+Route::post('/addCategory', 'PackageController@addCategory')->middleware('auth');
+Route::post('/editCategory', 'PackageController@editCategory')->middleware('auth'); */
+
+
 /*---------------------------------------Product--------------------------------------------*/
 
+Route::get('/getSearchProduct', 'ProductController@getSearchProduct')->middleware('auth');
+Route::get('/getSearchProductList', 'ProductController@getSearchProductList')->middleware('auth');
 Route::get('/productList', 'ProductController@productList')->middleware('auth');
+Route::get('/showModalData/{id}','ProductController@showModalData');
+
+Route::get('/getWarehouseProduct', 'ProductController@getWarehouseProduct')->middleware('auth');
+
+Route::get('/allProductList', 'ProductController@allProductList')->middleware('auth');
 Route::get('/getAddProduct', 'ProductController@getAddProduct')->middleware('auth');
 Route::get('/getEditProduct/{id}', 'ProductController@getEditProduct')->middleware('auth');
 Route::post('/addProduct', 'ProductController@addProduct')->middleware('auth');
 Route::post('/editProduct', 'ProductController@editProduct')->middleware('auth');
 
+Route::get('/getProductSubCategory/{id}', 'ProductController@getProductSubCategory')->middleware('auth');
+/*---------------------------------------Sales--------------------------------------------*/
+
+Route::get('/getTodaySales', 'SaleController@getTodaySales')->middleware('auth');
+Route::get('/getFilterDateSales', 'SaleController@getFilterDateSales')->middleware('auth');
+Route::get('/getAllSales', 'SaleController@getAllSales')->middleware('auth');
+Route::get('/printInvoice', 'SaleController@printInvoice')->middleware('auth');
+Route::get('/printA4/{id}', 'SaleController@printA4')->middleware('auth');
+Route::get('/printA4Word/{id}', 'SaleController@printA4Word')->middleware('auth');
+/*-------------------------Sale Product Wise Report------------------------------------*/
+    Route::get('/productSaleReport', 'SaleController@productSaleReport')->middleware('auth');
+    Route::post('/productSaleReport', 'SaleController@getFilterProductWiseSaleReport')->middleware('auth');
+
+/*---------------------------------------Return Sales--------------------------------------------*/
+
+Route::get('/getTodayReturnSales', 'SaleController@getTodayReturnSales')->middleware('auth');
+Route::get('/getFilterDateReturnSales', 'SaleController@getFilterDateReturnSales')->middleware('auth');
+Route::get('/getAllReturnSales', 'SaleController@getAllReturnSales')->middleware('auth');
+Route::get('/printReturnInvoice', 'SaleController@printReturnInvoice')->middleware('auth');
 
 /*----------------------------------Account Heads---------------------------------------*/
 Route::get('/getAccountHeads','AccountHeadController@GetAccountHeads')->middleware('auth');
@@ -130,6 +173,16 @@ Route::group([ 'middleware' => ['role:inv-manage|admin|ware1-manage|ware2-manage
     Route::post('/editWarehouse', 'InventoryController@editWarehouse')->middleware('role:inv-manage|admin');
 
 
+/*-------------------------------------By Mustafa Omer---------------------*/    
+    Route::get('/transfernotes','InventoryController@transfer_list');
+    Route::get('/transfernotesadd','InventoryController@transfer_add');
+    Route::post('/transfernotescreated',"InventoryController@transfer_store");
+    Route::get('/gettransfernotescredentials','InventoryController@transfer_credentials');
+    Route::get('/transfer_credentials_append','InventoryController@transfer_credentials_append');
+    Route::get('/filtertransfernotes','InventoryController@filter_transfer_notes');
+    Route::get('/viewtodaytransferedproducts/{id}','InventoryController@viewtodaytransferedproducts');
+
+
     Route::get('/grn', 'InventoryController@grn_list');
     Route::get('/grnAdd' ,'InventoryController@grn_add');
     Route::post('/insertGrn','InventoryController@insertGrn');
@@ -139,6 +192,7 @@ Route::group([ 'middleware' => ['role:inv-manage|admin|ware1-manage|ware2-manage
     Route::get('/deleteGrnDetail', 'InventoryController@deleteGrnDetail');
     Route::get('/getGrnDetailBeforeDelete', 'InventoryController@getGrnDetailBeforeDelete');
 
+    Route::post('/getFilterGrn','InventoryController@getFilterGrn');
 
     Route::get('/challan', 'InventoryController@challan_list');
     Route::get('/challanAdd' ,'InventoryController@challan_add');
@@ -156,13 +210,13 @@ Route::group([ 'middleware' => ['role:inv-manage|admin|ware1-manage|ware2-manage
     Route::get('/deleteStockDetail', 'InventoryController@deleteStockDetail')->middleware('auth');
     Route::post('/updateStock','InventoryController@updateStock')->middleware('auth');
 
-    Route::get('/getEditStock/{id}', 'InventoryController@getEditStock')->middleware('auth');
+    Route::get('/viewStock/{id}', 'InventoryController@getEditStock')->middleware('auth');
     Route::get('/stockAdd' ,'InventoryController@stock_add')->middleware('auth');
     Route::get('/stock', 'InventoryController@stock_list')->middleware('auth');
     Route::get('/getStockDetail', 'InventoryController@getStockDetail')->middleware('auth');
     Route::post('/insertStock','InventoryController@insertStock')->middleware('auth');
 
-
+    Route::get('/getStockDetailPdf', 'InventoryController@getStockDetailPdf')->middleware('auth');
             /*----------------------------Inventory Reports-------------------------------*/
 
 
@@ -173,6 +227,7 @@ Route::group([ 'middleware' => ['role:inv-manage|admin|ware1-manage|ware2-manage
     Route::get('/getVendorReport' ,'InventoryController@getVendorReport')->middleware('role:inv-manage|admin');
     Route::get('/productSummary' ,'InventoryController@productSummary')->middleware('role:inv-manage|admin');
     Route::get('/productDeatil' ,'InventoryController@productDeatil')->middleware('role:inv-manage|admin');
+    Route::post('/productDeatil' ,'InventoryController@productDeatilFilter')->middleware('role:inv-manage|admin');
     Route::get('/getProductSummaryByCategory' ,'InventoryController@getProductSummaryByCategory')->middleware('role:inv-manage|admin');
 
     Route::get('/warehouseReportPdf/{id}',array('as'=>'warehouseReportPdf','uses'=>'InventoryController@warehouseReportPdf'));
@@ -181,6 +236,9 @@ Route::group([ 'middleware' => ['role:inv-manage|admin|ware1-manage|ware2-manage
     Route::get('/productSummaryPdf',array('as'=>'productSummaryPdf','uses'=>'InventoryController@productSummaryPdf'));
     Route::get('/productSummaryByCategoryPdf/{id}',array('as'=>'productSummaryByCategoryPdf','uses'=>'InventoryController@productSummaryByCategoryPdf'));
     Route::get('/productDetailPdf',array('as'=>'productDetailPdf','uses'=>'InventoryController@productDetailPdf'));
+    
+    Route::get('/productGRNReport' ,'InventoryController@productGRNReport')->middleware('role:inv-manage|admin');
+    Route::post('/productGRNReport' ,'InventoryController@getFilterProductWiseGRNReport')->middleware('role:inv-manage|admin');
 
 });
 /*-------------------------------------------------------Procurement---------------------------------------------------------------------*/
@@ -219,6 +277,21 @@ Route::get('/getAddEmployee', 'EmployeeController@getAddEmployee')->middleware('
 Route::get('/getEditEmployee/{id}', 'EmployeeController@getEditEmployee')->middleware('auth');
 Route::post('/addEmployee', 'EmployeeController@addEmployee')->middleware('auth');
 Route::post('/editEmployee', 'EmployeeController@editEmployee')->middleware('auth');
+
+//Employee New Interfaces------------------------------------------------------------------------------------------------
+
+Route::get('/employee/add', 'EmployeeController@getAddEmployee')->middleware('auth');
+Route::get('/employee/education/add', 'EmployeeController@getAddEmployeeEducation')->middleware('auth');
+Route::get('/employee/experience/add', 'EmployeeController@getAddEmployeeExperience')->middleware('auth');
+    /* ------------------------------Designation------------------------------- */
+
+    Route::get('/designation', 'DesignationController@getDesignation')->middleware('auth');
+    Route::get('/designation/add', 'DesignationController@getAddDesignation')->middleware('auth');
+
+    /* ------------------------------Permotion/Demotion------------------------------- */
+
+    Route::get('/employee/permotion-demotion', 'EmployeeController@getPermotionDemotion')->middleware('auth');
+
 
 //Employee Advance------------------------------------------------------------------------------------------------
 
@@ -282,3 +355,18 @@ Route::get('/getAddUserWarehouse', 'UserManagement/UserRegistrationController@ge
 Route::get('/getEditUserWarehouse/{id}', 'UserManagement/UserRegistrationController@getEditUserWarehouse')->middleware('auth');
 Route::post('/addUserWarehouse', 'UserManagement/UserRegistrationController@addUserWarehouse')->middleware('auth');
 Route::post('/editUserWarehouse', 'UserManagement/UserRegistrationController@editUserWarehouse')->middleware('auth');
+
+
+
+//Route for Rest API'S
+
+
+//End Route for Rest API's
+
+
+//Refresh Token
+/*
+Route::get('/refreshToken',function(){
+     return csrf_token();
+});
+*/

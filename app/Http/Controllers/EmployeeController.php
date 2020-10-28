@@ -17,31 +17,51 @@ class EmployeeController extends Controller
         $this->middleware('role:payroll-manage|admin');
        //$this->middleware('role:admin');
     }
-    public function employeeList()
+    public function employeeList(Request $request)
     {
-         $employeeList = DB::table('employee')
+         $employees = DB::table('employee')
         
-            ->join('project', 'project.id', '=', 'employee.projId')
             
             ->join('designation', 'designation.id', '=', 'employee.desgId')
 
             ->join('department', 'department.id', '=', 'employee.dptId')
 
-            ->select('employee.*','designation.desg','project.title','department.dpt')
+            ->select('employee.*','designation.desg','department.dpt')
 
             ->get();
+
+        $chk=$request->data;
             
-        return view('employee/employee_list')->with('employees',$employeeList);
+        return view('employee/employee_list',compact('employees','chk'));
     }
+
     
     public function getAddEmployee()
     {
         //$accountHeads=AccountHead::all();
-        $projects=Project::all();
+        //$projects=Project::all();
         $designations=Designation::all();
         $departments=Department::all();
        
-        return view('employee/employeeForm',compact('projects','designations','departments'));
+        return view('employee/employeeInformationForm',compact('designations','departments'));
+    }
+    public function getAddEmployeeEducation()
+    {
+        //$accountHeads=AccountHead::all();
+        //$projects=Project::all();
+        // $designations=Designation::all();
+        // $departments=Department::all();
+       
+        return view('employee/employeeEducationFrom');
+    }
+    public function getAddEmployeeExperience()
+    {
+        //$accountHeads=AccountHead::all();
+        //$projects=Project::all();
+        // $designations=Designation::all();
+        // $departments=Department::all();
+       
+        return view('employee/employeeExperienceFrom');
     }
     public function addEmployee(Request $request)
     {
@@ -64,8 +84,7 @@ class EmployeeController extends Controller
         $employee->dptId=$request->department;
         $employee->desgId=$request->designation;
         $employee->projId=$request->project;
-        
-        
+
         
         $employee->save();
        
@@ -75,11 +94,11 @@ class EmployeeController extends Controller
     public function getEditEmployee($id)
     {
         $employees=Employee::find($id);
-        $projects=Project::all();
+     
         $designations=Designation::all();
         $departments=Department::all();
        
-        return view('employee/employeeForm',compact('employees','projects','designations','departments'));
+        return view('employee/employeeForm',compact('employees','designations','departments'));
     }
     public function editEmployee(Request $request){
 
@@ -110,4 +129,10 @@ class EmployeeController extends Controller
                 ]);
        return redirect('employeeList');
     } 
+
+    public function getPermotionDemotion(){
+
+        return view('employee/employeePermotionForm');
+
+    }
 }

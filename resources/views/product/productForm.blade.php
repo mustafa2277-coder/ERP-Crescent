@@ -63,7 +63,7 @@
                                 <input type="hidden" name="id" value="{{$products->id}}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" maxlength="20" accesskey="c" name="code" value="{{$products->code}}" autofocus required>
+                                        <input type="text" class="form-control" maxlength="20" accesskey="c" name="code" value="{{$products->code}}" autofocus >
                                         <label class="form-label">Code</label>
                                     </div>
                                      @if ($errors->has('code'))
@@ -91,6 +91,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="salePrice" maxlength="20" value="{{$products->salePrice}}" required>
+                                        <label class="form-label">Sale Price</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
                                     <div class="col-sm-12">
                                         <label class="form-label">Unit</label>
                                         <select  id="type_id" name="unit" class="form-control show-tick" data-live-search="true">
@@ -104,12 +110,23 @@
                                 <div class="form-group form-float">
                                     <div class="col-sm-12">
                                         <label class="form-label">Category</label>
-                                        <select  id="type_id" name="categoryId" class="form-control show-tick" data-live-search="true" required>
-                                        <option value="" selected="selected" disabled="disabled">Select Category</option>
-                                        @foreach ($category as $category)    
-                                            <option value="{{$category->id}}" {{ $products->categoryId == $category->id ? "selected":"" }}>{{$category->name}}</option>
-                                        @endforeach
-                                    </select>
+                                        <select  id="categoryId" name="categoryId" class="form-control show-tick" data-live-search="true" required>
+                                            <option value="" selected="selected" disabled="disabled">Select Category</option>
+                                            @foreach ($category as $category)    
+                                                <option value="{{$category->id}}" {{ $products->categoryId == $category->id ? "selected":"" }}>{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-12">
+                                        <label class="form-label">Sub Category</label>
+                                        <select  id="subCategoryId" name="subCategoryId" class="form-control show-tick" data-live-search="true" >
+                                            <option value="" selected="selected" disabled="disabled">Select Category</option>
+                                            @foreach ($subcategory as $subcategory)    
+                                                <option value="{{$subcategory->id}}" {{ $products->categoryId == $subcategory->id ? "selected":"" }}>{{$subcategory->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
@@ -162,7 +179,7 @@
                                 {{ csrf_field() }}
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="code"  value="{{ old('code') }}" maxlength="20" autofocus required>
+                                        <input type="text" class="form-control" name="code"  value="{{ old('code') }}" maxlength="20" autofocus>
                                         <label class="form-label">Code*</label>
                                     </div>
                                     @if ($errors->has('code'))
@@ -191,6 +208,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="salePrice" maxlength="20" value="" required >
+                                        <label class="form-label">Sale Price</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
                                     <div class="col-sm-12">
                                         <label class="form-label">Unit</label>
                                         <select  id="type_id" name="unit" class="form-control show-tick" data-live-search="true" required>
@@ -204,23 +227,32 @@
                                 <div class="form-group form-float">
                                     <div class="col-sm-12">
                                         <label class="form-label">Category*</label>
-                                        <select  id="type_id" name="categoryId" class="form-control show-tick" data-live-search="true" required>
-                                        <option value="" selected="selected" disabled="disabled">Select Category</option>
-                                        @foreach ($category as $category)    
-                                            <option value="{{$category->id}}" >{{$category->name}}</option>
-                                        @endforeach
-                                    </select>
+                                        <select  id="categoryId" name="categoryId" class="form-control show-tick" data-live-search="false" required>
+                                            <option value="" selected="selected" disabled="disabled">Select Category</option>
+                                            @foreach ($category as $category)    
+                                                <option value="{{$category->id}}" >{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="col-sm-12" id="subcat">
+                                        <label class="form-label">Sub Category*</label>
+                                        <select  id="subCategoryId" name="subCategoryId" class="form-control show-tick" data-live-search="false" required>
+                                            <option value="" selected="selected" disabled="disabled">Select Sub Category</option>
+                                           
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group form-float">
                                     <div class="col-sm-12">
                                         <label class="form-label">Product Type*</label>
-                                        <select  id="type_id" name="type" class="form-control show-tick" data-live-search="true" required>
+                                    <select  id="type_id" name="type" class="form-control show-tick" data-live-search="true" required>
                                         <option value="" selected="selected" disabled="disabled">Select Product Type</option>
                                             
-                                            <option value="Consumable" >Consumable</option>
-                                            <option value="Service" >Service</option>
-                                            <option value="Stockable Product" >Stockable Product</option>
+                                        <option value="Consumable" >Consumable</option>
+                                        <option value="Service" >Service</option>
+                                        <option value="Stockable Product" >Stockable Product</option>
                                     </select>
                                     </div>
                                 </div>
@@ -271,7 +303,23 @@
 @section('js')
      <!-- Jquery Core Js -->
     <script src="{{asset('public/plugins/jquery/jquery.min.js')}}"></script>
-
+    <script>
+           /*  $('#categoryId').change(function(){
+                val=$(this).val();
+                if(val){
+                    $(this).attr('required',true);
+                    $('#subCategoryId').attr('required',false);
+                }
+             });
+             $('#subCategoryId').change(function(){
+                val=$(this).val();
+                if(val){
+                    $('#categoryId').attr('required',true);
+                    $(this).attr('required',false);
+                }
+                
+             }); */
+            </script>
     <!-- Bootstrap Core Js -->
     <script src="{{asset('public/plugins/bootstrap/js/bootstrap.js')}}"></script>
 
@@ -303,12 +351,35 @@
     
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
-    <script src="{{asset('public/js/pages/forms/form-validation.js')}}"></script>
+   {{--  <script src="{{asset('public/js/pages/forms/form-validation.js')}}"></script> --}}
 
     <script src="{{asset('public/js/pages/forms/basic-form-elements.js')}}"></script>
     
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
-    <script src="{{asset('public/myscript.js')}}"></script>
+{{--     <script src="{{asset('public/myscript.js')}}"></script> --}}
+    <script>
+        $(document).ready(function(){
+            $('#categoryId').change(function(){
+                var catid=$(this).val();
+                //alert(catid);
+                $.ajax({
+                    url: "{{url('/getProductSubCategory')}}/"+catid,
+                         type: 'get',
+                        
+                         headers: {
+                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                         },
+                         dataType: 'html',
+                        success: function (result) {
+                            $('#subCategoryId').html(result);
+                            $('#subCategoryId').selectpicker('refresh');
+                        }
+                            
+                });
+            });
+        });
+    </script>
+    
 @endsection

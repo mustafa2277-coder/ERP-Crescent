@@ -24,9 +24,21 @@ class CustomerController extends Controller
         $chkVendor='0';
         return view('customer/customer_list',compact('customerList','chkVendor'));
     }
+    public function customer_list(Request $request){
+        if(isset($request->search)){
+            $customerList=DB::table('poscustomers')->select('*')
+                        ->where('firstName','LIKE','%'.$request->search.'%')
+                        ->orWhere('contactNo','LIKE','%'.$request->search.'%')
+                        ->paginate('20');
+            return view('customer_ledger/posCustomerList',compact('customerList'));
+        }else{
+            $customerList=DB::table('poscustomers')->select('*')->paginate('21');
+            return view('customer_ledger/posCustomerList',compact('customerList'));
+        }
+    }
     public function vendorList()
     {
-        $customerList = Customer::where('isVendor','on')->paginate(2);
+        $customerList = Customer::where('isVendor','on')->paginate(6);
         $chkVendor='1';
         return view('customer/customer_list',compact('customerList','chkVendor'));
     }
@@ -65,6 +77,27 @@ class CustomerController extends Controller
         $customer = Customer::where('id','=',$id)->get();
         
         return view('customer/customerForm',compact('accountHeads','customer'));
+    }
+    public function getCustomerDetail($id){
+
+        $sales = DB::table('sales')
+
+        ->join('poscustomers', 'sales.customerId', '=', 'poscustomers.id')
+        
+        ->join('user_warehouse', 'user_warehouse.user_id', '=', 'sales.employId')
+
+        ->join('inv_warehouse', 'inv_warehouse.id', '=', 'user_warehouse.warehouse_id')
+
+        ->join('users', 'users.id', '=', 'sales.employId')
+        
+        ->select( /* 'products.name', */'sales.*','users.name as empName','poscustomers.firstName','poscustomers.lastName','poscustomers.contactNo', 'inv_warehouse.warehouse_name')
+        
+        ->where('sales.customerId',$id)
+        
+        ->get();
+        //return $sales;
+        return view('customer_ledger/customerDetail',compact('sales'));
+        
     }
     public function editCustomer(Request $request){
         $isVendor=Null;

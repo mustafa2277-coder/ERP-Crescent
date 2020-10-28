@@ -10,6 +10,9 @@
     <!-- Animation Css -->
     <link href="{{ asset('public/plugins/animate-css/animate.css') }}" rel="stylesheet" />
 
+    <!-- JQuery DataTable Css -->
+    <link href="{{asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet" />
+
     <!-- Sweet Alert Css -->
     <link href="{{ asset('public/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
 
@@ -52,12 +55,12 @@
                         </div>
                         <div class="body">
                             {{--  ADD Form  --}}
-                            <form id="challan_form_validation" action="javasctipt:0;">
+                            <form id="challan_form_validation" action="{{url('getWarehouseReport')}}" >
                                 {{ csrf_field() }}
                                 <div class="row clearfix">
                                     
                                     
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4">
                                         <label class="form-label">Warehouse*</label>
                                         <select id="report_warehouse" name="report_warehouse" class="form-control show-tick" data-live-search="true" required>
                                             <option value="" selected="selected" disabled="disabled">Select Warehouse</option>
@@ -66,27 +69,67 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="col-sm-4 disp" >
+                                        <label class="form-label">Category*</label>
+                                        <select  id="cat" name="cat" class="form-control show-tick" data-live-search="true" required>
+                                            <option value="" selected="selected" disabled="disabled">Products By Category</option>
+                                            @foreach ($cats as $cat)    
+                                                <option value="{{$cat->id}}"  >{{$cat->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4 disp" >
+                                        <label class="form-label">Subcategory*</label>
+                                        <select  id="sub" name="sub" class="form-control show-tick" data-live-search="true" >
+                                            <option value="" selected="selected" disabled="disabled">Products By sub category</option>
+                                            @foreach ($subs as $sub)    
+                                                <option value="{{$sub->id}}" >{{$sub->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     
-                               
-                                <table id="listofProductsByWarehouse"  class="table  table-striped table-hover dataTable js-exportable">
-                                   <thead>
-                                        <tr>
-                                            <th class="col-sm-3" style="text-align:center">Product Name</th>
-                                            <th class="col-sm-3" style="text-align:center">Quantity</th>
-                                            <th class="col-sm-3" style="text-align:center">Purchased Price</th>
-                                            <th class="col-sm-3" style="text-align:center">Units of measure</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                       
-                                      
-                                    </tbody>
-                                </table>
-                                <a id="wareHouseReportPrint" class="btn btn-primary waves-effect" >Print</a>
+                                    <center><input type="submit" name="submit" class="btn btn-primary" style=""></center>
+                                    <br>
+                                
+                                
                             </form>
                             
                             
                         </div>
+                        <table id="listofProductsByWarehouse"  class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <thead>
+                                     <tr>
+                                        <th class="col-sm-3" style="text-align:center">Code</th>
+                                         <th class="col-sm-3" style="text-align:center">Product Name</th>
+                                         <th class="col-sm-3" style="text-align:center">Category</th>
+                                         <th class="col-sm-3" style="text-align:center">Quantity</th>
+                                         <th class="col-sm-3" style="text-align:center">Purchased Price</th>
+                                         
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                    
+                                    @foreach($products as $product)
+                                        <tr>
+                                            <td>{{$product->pCode}}</td>
+                                            <td>{{$product->pName}}</td>
+                                            <td>{{$product->category}}</td>
+                                            <td>{{$product->quantity_in_hand}}</td>
+                                            <td>{{$product->purchased_price}}</td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach($products1 as $product)
+                                        <tr>
+                                            <td>{{$product->pCode}}</td>
+                                            <td>{{$product->pName}}</td>
+                                            <td>{{$product->category}}</td>
+                                            <td>{{$product->quantity_in_hand}}</td>
+                                            <td>{{$product->purchased_price}}</td>
+                                        </tr>
+                                    @endforeach
+                              
+                                 </tbody>
+                             </table>
                     </div>
                 </div>
             </div>
@@ -104,6 +147,15 @@
 
     <!-- Select Plugin Js -->
     <script src="{{asset('public/plugins/bootstrap-select/js/bootstrap-select.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/jszip.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/pdfmake.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/vfs_fonts.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script> 
 
     <!-- Slimscroll Plugin Js -->
     <script src="{{asset('public/plugins/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
@@ -130,12 +182,27 @@
     
     <!-- Custom Js -->
     <script src="{{asset('public/js/admin.js')}}"></script>
-    <script src="{{asset('public/js/pages/forms/form-validation.js')}}"></script>
+    {{-- <script src="{{asset('public/js/pages/forms/form-validation.js')}}"></script> --}}
 
     <script src="{{asset('public/js/pages/forms/basic-form-elements.js')}}"></script>
     
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
-    <script src="{{asset('public/warehouseReport.js')}}"></script>
+    <script>
+            $(document).ready(function(){
+                $('#listofProductsByWarehouse').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'pdfHtml5',
+                            orientation: 'landscape',
+                            pageSize: 'LEGAL'
+                        }
+                    ]
+                });
+            });
+            </script>
+    {{-- <script src="{{asset('public/warehouseReport.js')}}"></script> --}}
+    
 @endsection

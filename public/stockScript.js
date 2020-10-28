@@ -2,16 +2,38 @@ var newURL = window.location.protocol + "//" + window.location.host;
 $('#stock_date_edit').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
 $('#stock_date').bootstrapMaterialDatePicker({  weekStart : 0, time: false ,format : 'DD/MM/YYYY'});
 
+$('.js-exportable').DataTable({
+    dom: 'lBfrtip',
+    responsive: true,
+    buttons: [
+        'excel', 'pdf', 'print'
+    ]
+});
 
+$('#n_submit').click(function(){
+        if($('#stock_warehouse').find(":selected").val() == 0) {
+            swal("Please select warehouse!");
+        
+            return false;
+        }else{
+            $('#stock_n_warehouse').val($('#stock_warehouse').find(":selected").val());
+        }
 
-$('select[name="stock_warehouse"]').change(function(){
+        if($('#stock_date').val() == "") {
+            swal("Please select Date!");
+        
+            return false;
+        }else{
+            $('#stock_n_date').val($('#stock_date').val());
+        }
         $.ajax({
-        url: newURL+"/ERP1/getStockDetail?id="+$(this).val(),
+        url: newURL+"/ERP1/getStockDetail?id="+$('#stock_warehouse').find(":selected").val()+"&cat="+$('#cat').val()+"&sub="+$('#sub').val(),
         type: "GET",
         headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-        
+        beforeSend: function() { $('.page-loader-wrapper').show();},
+        complete: function() { $('.page-loader-wrapper').hide();}, 
         success: function(data) {
             if(data==1){
                     var tbody = $("#exampleStock tbody");
@@ -19,15 +41,27 @@ $('select[name="stock_warehouse"]').change(function(){
                 }
             else {
                 console.log(data);
-                
+                $("#printPdf").attr("href","getStockDetailPdf?id="+$('#stock_warehouse').find(":selected").val()+"&cat="+$('#cat').val()+"&sub="+$('#sub').val());
                 var rows = "";
                 for (var i = 0; i < data.length; i++) {
 
-                    rows += "<tr id="+data[i].id+"><td style='display:none'><input type='hidden' value="+data[i].product_id+" name='productId'></td><td class='col-sm-3' style='text-align:center'>" +data[i].pName + "</td><td class='col-sm-3' style='text-align:center'>" + data[i].quantity_in_hand + '</td><td class="col-sm-3" style="text-align:center"><input type="text" name="fname" class="form-control"></td><td class="col-sm-3" style="text-align:center"><input type="text" name="fname" class="form-control"></td></tr>' ;
+                    rows += "<tr id="+data[i].id+"><td style='display:none;'><input type='hidden' value="+data[i].product_id+" name='productId'></td><td class='col-sm-3' style='text-align:center'>" +data[i].pName + "</td><td class='col-sm-3' style='text-align:center'>" + data[i].quantity_in_hand + '</td><td class="col-sm-3" style="text-align:center"><input type="text" name="fname" class="form-control"></td><td class="col-sm-3" style="text-align:center"><input type="text" name="fname" class="form-control"></td><td class="col-sm-3" style="text-align:center">'+data[i].price+'</td><td class="col-sm-3" style="text-align:center">'+data[i].pCode+'</td></tr>' ;
                 };
                 var tbody = $("#exampleStock tbody");
                 tbody.empty();
-                tbody.prepend(rows);
+                tbody.html(rows);
+
+                $("#exampleStock").DataTable().destroy();
+                $("#exampleStock tbody").empty();
+                $("#exampleStock tbody").html(rows);
+               // $("#exampleStock").DataTable();
+                $('.js-exportable').DataTable({
+                    dom: 'lBfrtip',
+                    responsive: true,
+                    buttons: [
+                        'excel', 'pdf', 'print'
+                    ]
+                });
                 }
                 
         }
@@ -142,8 +176,8 @@ function addStock(){
     // console.log(tableDataStock);
     var submitEntry = {};
     submitEntry.stockDetail = tableDataStock;
-    submitEntry.warehouse =  $('#stock_warehouse').find(":selected").val();
-    submitEntry.stock_date=  $('#stock_date').val();
+    submitEntry.warehouse =  $('#stock_n_warehouse').val();
+    submitEntry.stock_date=  $('#stock_n_date').val();
 
     //console.log(tableData);
    
@@ -156,7 +190,8 @@ function addStock(){
         data: submitEntry,
         //crossDomain: true,
         dataType: "json",
-           
+        beforeSend: function() { $('.page-loader-wrapper').show();},
+        complete: function() { $('.page-loader-wrapper').hide();},   
         success: function(data) {
             if (data.success=="inserted") {
                 tableDataStock = []; 
@@ -373,8 +408,8 @@ function updateStock(id){
     // console.log(tableDataStock);
     var submitEntry = {};
     submitEntry.stockDetail = tableDataStock;
-    submitEntry.warehouse =  $('#stock_warehouse_edit').find(":selected").val();
-    submitEntry.stock_date=  $('#stock_date_edit').val();
+    submitEntry.warehouse =  $('#stock_n_warehouse').val();
+    submitEntry.stock_date=  $('#stock_n_date').val();
     submitEntry.StockId = id;
 
     //console.log(tableData);
@@ -388,7 +423,8 @@ function updateStock(id){
         data: submitEntry,
         //crossDomain: true,
         dataType: "json",
-           
+        beforeSend: function() { $('.page-loader-wrapper').show();},
+        complete: function() { $('.page-loader-wrapper').hide();},  
         success: function(data) {
             if (data.success=="inserted") {
                 tableDataStock = [];

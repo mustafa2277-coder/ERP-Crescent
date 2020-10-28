@@ -34,10 +34,22 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Employee List
-                                <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" accesskey="+" href="{{ url('/getAddEmployee')}}"> 
-                                    <i class="material-icons" title="Create New">add</i>
-                                </a>
+                                @if($chk=='info')
+                                    Employee List
+                                    <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" accesskey="+" href="{{ url('/employee/add')}}"> 
+                                        <i class="material-icons" title="Create New">add</i>
+                                    </a>
+                                @elseif($chk=='edu')
+                                    Employee List
+                                    <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" accesskey="+" href="{{ url('/employee/education/add')}}"> 
+                                        <i class="material-icons" title="Create New">add</i>
+                                    </a>
+                                @elseif($chk=='exp')
+                                    Employee List
+                                    <a class="btn btn-primary btn-circle waves-effect waves-circle waves-float" style="margin-bottom: 14px;float:right;" id="add_new" accesskey="+" href="{{ url('/employee/experience/add')}}"> 
+                                        <i class="material-icons" title="Create New">add</i>
+                                    </a>
+                                @endif
                             </h2>
                             
                            
@@ -68,7 +80,9 @@
                                         
                                     
                                         <td>
-                                            <a href="{{ url('/getEditEmployee') }}/{{$employee->id}}" ><i class="material-icons">edit</i></a>
+                                            {{--  <a href="{{ url('/getEditEmployee') }}/{{$employee->id}}" ><i class="material-icons">edit</i></a>  --}}
+                                            <a href="#" ><i class="material-icons">edit</i></a>
+                                            
                                         </td>
                                     </tr>
                                 @endforeach  

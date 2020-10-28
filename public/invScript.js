@@ -84,7 +84,8 @@ $(document).on('click', 'form button[type=submit]', function(e) {
         data: submitEntry,
         //crossDomain: true,
         dataType: "json",
-           
+        beforeSend: function() { $('.page-loader-wrapper').show();},
+        complete: function() { $('.page-loader-wrapper').hide();}, 
         success: function(data) {
             if (data.success=="inserted") {
                 tableDataInv = [];
@@ -102,7 +103,7 @@ $(document).on('click', 'form button[type=submit]', function(e) {
 
 
 function addGrnDetail(){
-	if($('#product_id').find(":selected").val() == 0) {
+	if($('.productId').val() == "") {
 
         swal("Product is not selected!");
        
@@ -144,7 +145,7 @@ function addGrnDetail(){
 
 
     $.each(tableDataInv,function(e,val){
-        if(val.productId == $('#product_id').find(":selected").val()){
+        if(val.productId == $('.productId').val()){
             swal("Product is already added !");
             e.preventDefault();
             return false;
@@ -155,7 +156,7 @@ function addGrnDetail(){
 
     var rows = "";
     rowindex=1+rowindex;
-    var productName=$('#product_id option:selected').text();
+    var productName=$('.productName').val();
     var modalProductQuantity = $('#modal_product_quantity').val();
     var modalProductPrice = $('#modal_product_price').val();
     var modalPurchasedCurrency = $('#modal_purchased_currency').val();
@@ -169,8 +170,8 @@ function addGrnDetail(){
      
     tableDataInv.push({
         tableindex : rowindex,    
-        productId : $('#product_id option:selected').val() ,
-        productName : $('#product_id option:selected').text() ,
+        productId :$('.productId').val() ,
+        productName : $('.productName').val(),
         ProductQuantity: modalProductQuantity,
         ProductPrice: modalProductPrice,
         PurchasedCurrency: modalPurchasedCurrency,
@@ -284,7 +285,7 @@ function deleteGrnDetailPlus(id){
 
 function updateGrnDetail(id){
 
-    if($('#product_id_edit').find(":selected").val() == 0) {
+    if($('.productId').val() == "")  {
 
         swal("Product is not selected!");
        
@@ -326,7 +327,7 @@ function updateGrnDetail(id){
 
     var rows = "";
     rowindex=1+rowindex;
-    var productName=$('#product_id_edit option:selected').text();
+    var productName=$('.productName').val();
     var modalProductQuantity = $('#modal_product_quantity_edit').val();
     var modalProductPrice = $('#modal_product_price_edit').val();
     var modalPurchasedCurrency = $('#modal_purchased_currency_edit').val();
@@ -339,7 +340,7 @@ function updateGrnDetail(id){
      
     tableDataInv.push({
         tableindex : rowindex,    
-        productId : $('#product_id_edit option:selected').val() ,
+        productId : $('.productId').val() ,
         ProductQuantity: modalProductQuantity,
         ProductPrice: modalProductPrice,
         PurchasedCurrency: modalPurchasedCurrency,
@@ -380,7 +381,7 @@ function updateGrnDetail(id){
 
 
 function addGrnDetailEditTime(){
-    if($('#product_id').find(":selected").val() == 0) {
+    if($('.productId').val() == "") {
 
         swal("Product is not selected!");
        
@@ -436,7 +437,7 @@ function addGrnDetailEditTime(){
 
     var rows = "";
     rowindex=1+rowindex;
-    var productName=$('#product_id option:selected').text();
+    var productName=$('.productName').val();
     var modalProductQuantity = $('#modal_product_quantity').val();
     var modalProductPrice = $('#modal_product_price').val();
     var modalPurchasedCurrency = $('#modal_purchased_currency').val();
@@ -450,8 +451,8 @@ function addGrnDetailEditTime(){
      
     tableDataInv.push({
         tableindex : rowindex,    
-        productId : $('#product_id option:selected').val() ,
-        productName : $('#product_id option:selected').text() ,
+        productId : $('.productId').val(),
+        productName : $('.productName').val() ,
         ProductQuantity: modalProductQuantity,
         ProductPrice: modalProductPrice,
         PurchasedCurrency: modalPurchasedCurrency,

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
+use Auth;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +25,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        /*
+        Auth::extend('poscustomer', function ($app, $name, array $config) {
+            return new PosCustomer(Auth::createUserProvider($config['poscustomers']));
+        });
+        */
         //
     }
 }

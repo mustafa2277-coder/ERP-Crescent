@@ -9,6 +9,9 @@
 
     <!-- Animation Css -->
     <link href="{{ asset('public/plugins/animate-css/animate.css') }}" rel="stylesheet" />
+    
+     <!-- JQuery DataTable Css -->
+    <link href="{{asset('public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css')}}" rel="stylesheet" />
 
      <!--WaitMe Css-->
     <link href="{{asset('public/plugins/waitme/waitMe.css')}}" rel="stylesheet" />
@@ -44,7 +47,7 @@
                         </div>
                         <div class="body table-responsive">
                             <?php   $i=1;  ?>
-                            <table class="table table-striped table-hover">
+                            <table class="table table-bordered table-striped table-hover js-exportable">
                                 <thead>
                                     <tr style="background: #f44336;color: #fff;">
                                         <th>#</th>
@@ -62,7 +65,7 @@
                                         <td>{{$stock->warehouse_name}}</td>
                                         
                                         <td>
-                                            <a href="{{ url('/getEditStock') }}/{{$stock->id}}" ><i class="material-icons">edit</i></a>
+                                            <a href="{{ url('/viewStock') }}/{{$stock->id}}" ><i class="material-icons">remove_red_eye</i></a>
                                         </td>
                                     </tr>
                                    @endforeach
@@ -92,8 +95,23 @@
     <!-- Waves Effect Plugin Js -->
     <script src="{{asset('public/plugins/node-waves/waves.js')}}"></script>
 
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="{{asset('public/plugins/jquery-datatable/jquery.dataTables.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/jszip.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/pdfmake.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/vfs_fonts.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('public/plugins/jquery-datatable/extensions/export/buttons.print.min.js')}}"></script>
+
     <!-- Wait Me Plugin Js -->
     <script src="{{asset('public/plugins/waitme/waitMe.js')}}"></script>
+    
+      
+    <!-- Bootstrap Material Datetime Picker Plugin Js -->
+    <script src="{{asset('public/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
 
     
     <!-- Custom Js -->
@@ -103,4 +121,14 @@
 
     <!-- Demo Js -->
     <script src="{{asset('public/js/demo.js')}}"></script>
+    <script>
+        
+        $('.js-exportable').DataTable(/*{
+            dom: 'lBfrtip',
+            responsive: true,
+            buttons: [
+                'excel', 'pdf', 'print'
+            ]
+        }*/);
+    </script>
 @endsection
